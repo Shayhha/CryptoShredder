@@ -71,8 +71,11 @@ void FileShredder::checkThreads() {
     this->GUIMutex.lock();  //lock the GUI mutex to prevent race conditions with threads
     if (this->shredder) { //check only if shredder object is initialized
         this->shredder->setNumOfThreads(this->shredder->getNumOfThreads() - 1); //we decrease the amount of runnning threads with getter and setter methods
+        int incrementAmount = 100 / this->filePathList.size(); //increment the progress bar with an amount that represents the dividion of num of files
+        ui.progressBar->setValue(ui.progressBar->value() + incrementAmount); //increment progress bar
         if (this->shredder->getNumOfThreads() == 0) { //means that all threads finished their work 
             this->shredder->setThreadsRunning(false); //set threadsRunning flag to false indicating all threads finished work
+            ui.progressBar->setValue(100); //we set the progrss bar to 100 when we finish the wipe
         }
         if (!(this->shredder->areThreadsRunning())) { //if true the wipe finished so we clear the necessary elements
             this->filePathList.clear(); //clear filePathList
@@ -85,6 +88,7 @@ void FileShredder::checkThreads() {
             }
             else //else we finished the wipe
                 this->showMessageBox("Wipe Finished", "Secure wiping for selected files completed successfully.", "information"); //show messagebox with success message
+            ui.progressBar->setValue(0); //set the progress bar back to zero
         }
     }
     this->GUIMutex.unlock(); //unlock mutex
