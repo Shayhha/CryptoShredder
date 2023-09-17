@@ -432,7 +432,7 @@ padding: 4px;</string>
     <widget class="QPushButton" name="CancelWipeButton">
      <property name="geometry">
       <rect>
-       <x>315</x>
+       <x>318</x>
        <y>90</y>
        <width>141</width>
        <height>51</height>
