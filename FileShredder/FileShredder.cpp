@@ -88,6 +88,7 @@ void FileShredder::checkThreads() {
             }
             else //else we finished the wipe
                 this->showMessageBox("Wipe Finished", "Secure wiping for selected files completed successfully.", "information"); //show messagebox with success message
+            ui.progressBar->setTextVisible(false); //set the progressBar text to false not showing the text
             ui.progressBar->setValue(0); //set the progress bar back to zero
         }
     }
@@ -149,6 +150,7 @@ void FileShredder::wipeFiles() {
         bool toRemove = ui.RemoveFilesCheckBox->isChecked(); //check if user wants to delete files after wipe
         this->shredder = new Shredder(this->filePathList, numOfPasses, toRemove, this->signal); //initialize the shreader with the requiered parameters
         if (this->shredder) //check if we successfully initialized the shreader
+            ui.progressBar->setTextVisible(true); //set the progressBar text to be visible
             this->setListViewTags(" - Processing.."); //set tags to the items in listView indicating that wiping started
             this->shredder->initShred(); //start the shreader and create the threads
     }
