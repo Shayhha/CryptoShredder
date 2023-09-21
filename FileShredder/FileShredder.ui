@@ -73,7 +73,7 @@ QScrollBar:vertical {
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>14</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -176,7 +176,7 @@ border: none</string>
      <property name="styleSheet">
       <string notr="true">QPushButton {
     background-color: rgba(32,33,35,255);
-	color: white;
+	color: rgb(245,245,245);
 	border-radius: 15px;
 	border-style: outset;
 	border-width: 2px;
@@ -244,7 +244,7 @@ QPushButton:pressed {
      <property name="styleSheet">
       <string notr="true">QPushButton {
     background-color: rgba(32,33,35,255);
-	color: white;
+	color: rgb(245,245,245);
 	border-radius: 15px;
 	border-style: outset;
 	border-width: 2px;
@@ -310,7 +310,7 @@ QPushButton:pressed {
      <property name="styleSheet">
       <string notr="true">QPushButton {
     background-color: rgba(32,33,35,255);
-	color: white;
+	color: rgb(245,245,245);
 	border-radius: 15px;
 	border-style: outset;
 	border-width: 2px;
@@ -365,7 +365,7 @@ QPushButton:pressed {
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
-color: white;
+color: rgb(245,245,245);
 border-radius: 15px;
 border-style: outset;
 border-width: 2px;
@@ -399,7 +399,7 @@ padding: 4px;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: none;
-color: white;
+color: rgb(245,245,245);
 border: none</string>
      </property>
      <property name="text">
@@ -464,7 +464,7 @@ padding: 4px;</string>
      <property name="styleSheet">
       <string notr="true">QPushButton {
     background-color: rgba(32,33,35,255);
-	color: white;
+	color: rgb(245,245,245);
 	border-radius: 15px;
 	border-style: outset;
 	border-width: 2px;
@@ -520,7 +520,7 @@ QPushButton:pressed {
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgba(32,33,35,255);
-color: white;
+color: rgb(245,245,245);
 border-radius: 15px;
 border-style: outset;
 border-width: 2px;
@@ -572,6 +572,9 @@ color: white;</string>
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(245,245,245);</string>
+     </property>
      <property name="text">
       <string>File Shredder</string>
      </property>
@@ -595,7 +598,8 @@ color: white;</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: white;
+     <string notr="true">background-color: none;
+color: rgb(245,245,245);
 </string>
     </property>
     <property name="text">
