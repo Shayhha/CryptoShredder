@@ -27,7 +27,7 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
 
 
 /// <summary>
-/// Destroctor of GUI
+/// Destructor of GUI
 /// </summary>
 FileShredder::~FileShredder() {
     if (this->shredder) //if there's an object of shredder initialized
@@ -58,7 +58,7 @@ void FileShredder::updateListView(const QString& item, const QString& tag) {
         int fileIndex = this->fileDictionary[item.toStdString()]; //get the index of the file we need to update in fileDictionary
         QModelIndex index = this->listViewModel->index(fileIndex, 0); //convert the integer index to QModelIndex for Qt list model
         this->listViewModel->setData(index, item + tag, Qt::EditRole); //set the tag in the specific file to indicate that its finished
-        this->checkThreads(); //call checkThreads method to determine if we can delete allocated memeory
+        this->checkThreads(); //call checkThreads method to determine if we can delete allocated memory
     }
     this->GUIMutex.unlock(); //unlock mutex
 }
@@ -71,11 +71,11 @@ void FileShredder::checkThreads() {
     this->GUIMutex.lock();  //lock the GUI mutex to prevent race conditions with threads
     if (this->shredder) { //check only if shredder object is initialized
         this->shredder->setNumOfThreads(this->shredder->getNumOfThreads() - 1); //we decrease the amount of runnning threads with getter and setter methods
-        int incrementAmount = 100 / this->filePathList.size(); //increment the progress bar with an amount that represents the dividion of num of files
+        int incrementAmount = 100 / this->filePathList.size(); //increment the progress bar with an amount that represents the division of num of files
         ui.progressBar->setValue(ui.progressBar->value() + incrementAmount); //increment progress bar
         if (this->shredder->getNumOfThreads() == 0) { //means that all threads finished their work 
             this->shredder->setThreadsRunning(false); //set threadsRunning flag to false indicating all threads finished work
-            ui.progressBar->setValue(100); //we set the progrss bar to 100 when we finish the wipe
+            ui.progressBar->setValue(100); //we set the progress bar to 100 when we finish the wipe
         }
         if (!(this->shredder->areThreadsRunning())) { //if true the wipe finished so we clear the necessary elements
             this->filePathList.clear(); //clear filePathList
@@ -148,11 +148,11 @@ void FileShredder::wipeFiles() {
     if (this->shredder == NULL && !(this->fileDictionary.empty())) { //if true we can start the wipe
         int numOfPasses = ui.PassesSpinBox->value(); //get number of passes from GUI
         bool toRemove = ui.RemoveFilesCheckBox->isChecked(); //check if user wants to delete files after wipe
-        this->shredder = new Shredder(this->filePathList, numOfPasses, toRemove, this->signal); //initialize the shreader with the requiered parameters
-        if (this->shredder) //check if we successfully initialized the shreader
+        this->shredder = new Shredder(this->filePathList, numOfPasses, toRemove, this->signal); //initialize the shredder with the required parameters
+        if (this->shredder) //check if we successfully initialized the shredder
             ui.progressBar->setTextVisible(true); //set the progressBar text to be visible
             this->setListViewTags(" - Processing.."); //set tags to the items in listView indicating that wiping started
-            this->shredder->initShred(); //start the shreader and create the threads
+            this->shredder->initShred(); //start the shredder and create the threads
     }
     else if (this->shredder == NULL && this->fileDictionary.empty()){ //if user didn't choose files we show messagebox with error
         this->showMessageBox("No Files Chosen Error", "Error, Please choose files before starting wipe.", "critical");
@@ -172,7 +172,7 @@ void FileShredder::wipeFiles() {
 void FileShredder::openFileDialog() {
     if (this->shredder == NULL) {
         QString desktopPath = QDir::homePath() + "/Desktop"; //we set a QString to point to the desktop directory 
-        //set the file dialog with apropriate settings for our wiping
+        //set the file dialog with appropriate settings for our wiping
         QStringList selectedFiles = QFileDialog::getOpenFileNames(nullptr, "Select Files", desktopPath, "All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg)");
 
         // Check if files were selected
@@ -200,7 +200,7 @@ void FileShredder::openFileDialog() {
             if(isMaxSize) //if isMaxSize flag is set we show messagebox that notifies the user for a file that exceeded allowed file size
                 this->showMessageBox("Max File Size", "Files larger then 600MB detected, files that exceed the limit were not added.", "information");
         }
-        else { //else we show messagebox indicating that user didnt choose files
+        else { //else we show messagebox indicating that user didn't choose files
             this->showMessageBox("No Files Chosen Error", "Error, please choose files for wiping.", "critical");
         }
     }
