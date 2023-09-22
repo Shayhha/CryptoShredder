@@ -389,6 +389,9 @@ QPushButton:pressed {
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum 10 passes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
