@@ -37,28 +37,43 @@
 }
 
 QScrollBar:vertical {
-            border: 0px solid #999999;
-            background:  rgba(247, 247, 247,150);
-            width:10px;    
-            margin: 0px 0px 0px 0px;
-        }
-        QScrollBar::handle:vertical {         
-       
-            min-height: 100px;
-          	border: 0px solid red;
-			border-radius: 4px;
-			background-color: black;
-        }
-        QScrollBar::add-line:vertical {       
-            height: 0px;
-            subcontrol-position: bottom;
-            subcontrol-origin: margin;
-        }
-        QScrollBar::sub-line:vertical {
-            height: 0 px;
-            subcontrol-position: top;
-            subcontrol-origin: margin;
-        }</string>
+    background-color: rgba(247, 247, 247,150);
+    border: 1px solid rgb(153, 153, 153);
+    width:10px;    
+    margin: 0px 0px 0px 0px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {          
+    background-color: black;   
+    min-height: 100px;
+    border: 0px solid black;
+    border-radius: 4px;
+}
+
+QScrollBar::add-line:vertical {       
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+    height: 0px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QListView::item:hover { 
+   background-color: rgb(173, 174, 184); 
+   color:black;
+   border: 1px solid black;
+}
+
+QListView::item:selected { 
+   background-color: rgb(187, 188, 196);
+   color:black;
+   border: 1px solid black;
+}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QListView" name="FileListView">
