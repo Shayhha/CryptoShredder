@@ -149,6 +149,9 @@ padding: 4px;
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: none;
 color: white;
@@ -189,6 +192,9 @@ border: none</string>
      </property>
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -254,6 +260,9 @@ QPushButton:pressed {
      </property>
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum 20 files for wipe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -323,6 +332,9 @@ QPushButton:pressed {
      </property>
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -477,6 +489,9 @@ padding: 4px;</string>
      </property>
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
