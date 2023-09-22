@@ -15,7 +15,7 @@ using namespace std;
 class SignalProxy : public QObject {
 	Q_OBJECT
 
-signals: //here we declate the signals for GUI
+signals: //here we declare the signals for GUI
 	void signalUpdateListView(const QString& item, const QString& tag); //signal to update GUI listView 
 	void signalMessageBox(const QString& title, const QString& text, const QString& type); //signal to show GUI messagebox
 	void signalSetListViewTags(const QString& tag, const QString& currentTag); //signal for set tags in GUI listView
@@ -44,7 +44,7 @@ public slots: //here we declare the slot methods
 	}
 
 	/// <summary>
-	/// Method to emit signnal to GUI to set tags in listView
+	/// Method to emit signal to GUI to set tags in listView
 	/// </summary>
 	/// <param name="string tag"></param>
 	/// <param name="string currentTag"></param>

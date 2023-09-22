@@ -2,7 +2,7 @@
 
 
 Shredder::Shredder(const vector<string> filePathList, int passes, bool toRemove, SignalProxy* signal) : Observer() {
-	const int fileDictionarySize = filePathList.size(); //get size of filePathList and save it in constant integer for mememory safety
+	const int fileDictionarySize = filePathList.size(); //get size of filePathList and save it in constant integer for memory safety
 	this->signal = signal; //set the signal object for GUI updates
 	this->fileDictionarySize = fileDictionarySize; //set the size of the fileDictionaryList
 	this->passes = passes; //set how many passes we need for shredding
@@ -21,7 +21,7 @@ Shredder::Shredder(const vector<string> filePathList, int passes, bool toRemove,
 
 
 Shredder::~Shredder() {
-	for (const auto& [fileName, file] : this->fileDictionary) { //we iterate over fileDictionnary 
+	for (const auto& [fileName, file] : this->fileDictionary) { //we iterate over fileDictionary 
 		delete file; //delete each file that we finished wiping
 	}
 }

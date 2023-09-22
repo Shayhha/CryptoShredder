@@ -29,7 +29,7 @@ protected:
 
 public:
     /// <summary>
-    /// Method to add obervers to observers list
+    /// Method to add observers to observers list
     /// </summary>
     /// <param name="observer"></param>
     void addObserver(Observer* observer) { 
@@ -49,7 +49,7 @@ public:
     }
 
     /// <summary>
-    /// Method for notifing the observers when needed
+    /// Method for notifying the observers when needed
     /// </summary>
     void notify() const {
         for (Observer* observer : observersList) {

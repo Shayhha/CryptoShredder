@@ -4,7 +4,7 @@
 bool File::isCanceled = false; //initialization of static flag 
 
 
-File::File(const string& filePath, Observer& observer): Observable() { //remember that the ctor throws exeptions!
+File::File(const string& filePath, Observer& observer): Observable() { //remember that the ctor throws exceptions!
     filesystem::path p(filePath); //create path object to get info from filePath
     if (!exists(p)) { //check if the path exists
         throw runtime_error("Error, the path: " + filePath + " does not exist."); //if not we throw runtime error
@@ -30,7 +30,7 @@ void File::removeFile(const File& file) {
 
 
 /// <summary>
-/// Function that handles wiping the file contents securly using crypto methods
+/// Function that handles wiping the file contents securely using crypto methods
 /// </summary>
 /// <param name="File file, int passes"></param>
 void File::secureWipeFile(const File& file, int passes, bool toRemove) {
@@ -46,9 +46,9 @@ void File::secureWipeFile(const File& file, int passes, bool toRemove) {
 
     //we iterate in a loop each pass and wipe the file's contents
     for (int pass = 0; pass < passes; pass++) { 
-        outputFile.seekp(0); //we start from the begining of the file each pass
+        outputFile.seekp(0); //we start from the beginning of the file each pass
         size_t fileSize = file.length; //set the fileSize to be file size in bytes for wipe
-        size_t currentSize = 0; //set currentSize to be zero to indicate the begining of file
+        size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of file
         const size_t bufferSize = fileSize / 4; //set a bufferSize to be a quarter of original file size for memory efficiency
         vector<char> buffer(bufferSize); //create a vector that uses the bufferSize
 
@@ -68,7 +68,7 @@ void File::secureWipeFile(const File& file, int passes, bool toRemove) {
             outputFile.write(buffer.data(), chunkSize); //write buffer data to the file
             outputFile.flush(); //flush the file 
             currentSize += chunkSize; //add chunkSize to currentSize for indication and for the point where we need to write more data in next iteration
-            fileSize -= chunkSize; //substract chunkSize we wrote to file from the total fileSize
+            fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
         }
     }
     outputFile.close(); //after we finish we close the file

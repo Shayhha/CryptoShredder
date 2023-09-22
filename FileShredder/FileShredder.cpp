@@ -229,6 +229,7 @@ void FileShredder::clearContents() {
  //Method to stop the wiping process
  //</summary>
 void FileShredder::cancelWipe() {
+    QMessageBox::NoIcon(nullptr, "the woo", "this is the woo");
     if(this->shredder)
         this->shredder->cancelWipe();
 }
