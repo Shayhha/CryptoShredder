@@ -230,5 +230,5 @@ void FileShredder::clearContents() {
  //</summary>
 void FileShredder::cancelWipe() {
     if(this->shredder)
-        this->shredder->cancelWipe();
+        this->shredder->cancelWipe(); //call cancelWipe method to indicate for cancelation
 }
