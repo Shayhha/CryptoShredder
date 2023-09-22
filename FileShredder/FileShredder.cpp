@@ -14,6 +14,7 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
     this->signal = new SignalProxy(); //initialize the signal proxy for the foreigner classes
     ui.FileListView->setModel(listViewModel); //set the list model for listView in GUI to add elements
     ui.FileListView->setEditTriggers(QAbstractItemView::NoEditTriggers); //set the listView to be uneditable
+    ui.FileListView->setFocusPolicy(Qt::NoFocus);
 
     //slots for ui elements//
     connect(ui.WipeButton, &QPushButton::clicked, this, &FileShredder::wipeFiles);

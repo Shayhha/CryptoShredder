@@ -63,17 +63,16 @@ QScrollBar::sub-line:vertical {
     subcontrol-origin: margin;
 }
 
-QListView::item:hover { 
-   background-color: rgb(173, 174, 184); 
-   color:black;
-   border: 1px solid black;
+QListView::item:hover {
+   background-color: transparent;
+   color: black;
 }
 
 QListView::item:selected { 
-   background-color: rgb(187, 188, 196);
-   color:black;
-   border: 1px solid black;
-}</string>
+   background-color: transparent;
+   color: black;
+}
+</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QListView" name="FileListView">
