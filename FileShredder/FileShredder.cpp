@@ -127,17 +127,17 @@ void FileShredder::setListViewTags(const QString& tag, const QString& currentTag
 /// <param name="QString title"></param>
 /// <param name="QString text"></param>
 /// <param name="QString type"></param>
-void FileShredder::showMessageBox(const QString& title, const QString& text, const QString& type) {
+QMessageBox::StandardButton FileShredder::showMessageBox(const QString& title, const QString& text, const QString& type) {
     if (type == "critical")
-        QMessageBox::critical(nullptr, title, text);
+        return QMessageBox::critical(nullptr, title, text);
     else if (type == "warning")
-        QMessageBox::warning(nullptr, title, text);
+        return QMessageBox::warning(nullptr, title, text);
     else if (type == "information")
-        QMessageBox::information(nullptr, title, text);
+        return QMessageBox::information(nullptr, title, text);
     else if (type == "question")
-        QMessageBox::question(nullptr, title, text);
+        return QMessageBox::question(nullptr, title, text);
     /*else if (type == "NoIcon")
-        QMessageBox::NoIcon(nullptr, title, text);*/
+        return QMessageBox::NoIcon(nullptr, title, text);*/
 }
 
 
@@ -146,6 +146,9 @@ void FileShredder::showMessageBox(const QString& title, const QString& text, con
 /// </summary>
 void FileShredder::wipeFiles() {
     if (this->shredder == NULL && !(this->fileDictionary.empty())) { //if true we can start the wipe
+        QMessageBox::StandardButton choice = showMessageBox("Starting File Wiping", "Please be aware that all data in the selected files will be permanently erased and cannot be recovered. Are you sure you want to proceed?", "question");
+        if (choice == QMessageBox::No) //if user chose "No" we do not start the wiping process
+            return; //finish the method's work
         int numOfPasses = ui.PassesSpinBox->value(); //get number of passes from GUI
         bool toRemove = ui.RemoveFilesCheckBox->isChecked(); //check if user wants to delete files after wipe
         this->shredder = new Shredder(this->filePathList, numOfPasses, toRemove, this->signal); //initialize the shredder with the required parameters

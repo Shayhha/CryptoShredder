@@ -620,7 +620,7 @@ color: white;</string>
      <rect>
       <x>80</x>
       <y>80</y>
-      <width>221</width>
+      <width>431</width>
       <height>31</height>
      </rect>
     </property>
@@ -629,7 +629,9 @@ color: white;</string>
       <family>Arial</family>
       <pointsize>18</pointsize>
       <weight>75</weight>
+      <italic>false</italic>
       <bold>true</bold>
+      <underline>false</underline>
      </font>
     </property>
     <property name="styleSheet">
@@ -638,7 +640,7 @@ color: rgb(245,245,245);
 </string>
     </property>
     <property name="text">
-     <string>Files To Be Wiped:</string>
+     <string>Files Scheduled For Wipe</string>
     </property>
    </widget>
   </widget>

@@ -35,5 +35,5 @@ private slots: //here we declare the slot methods
     void updateListView(const QString& item, const QString& tag);
     void checkThreads();
     void setListViewTags(const QString& tag, const QString& currentTag = NULL);
-    void showMessageBox(const QString& title, const QString& text, const QString& type);
+    QMessageBox::StandardButton showMessageBox(const QString& title, const QString& text, const QString& type);
 };
