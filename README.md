@@ -15,7 +15,7 @@ The File Shredder App is a powerful tool designed to securely erase files, makin
 1. Run FileShredder.exe file in x64/Release folder (for 64-bit Windows machines).
 2. Select the files you want to securely erase.
 3. Configure the number of passes you wish to perform (more passes mean greater security).
-4. Click the "Shred" button to initiate the file shredding process.
+4. Click the "Wipe Files" button to initiate the file shredding process.
 
 ## Clone Repository:
 
