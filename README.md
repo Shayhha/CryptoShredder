@@ -2,6 +2,12 @@
 
 The File Shredder App is a powerful tool designed to securely erase files, making data recovery virtually impossible. This application utilizes multiple passes and employs the Mersenne Twister random number generator to overwrite file contents with secure and random bytes. Developed in C++ with Qt framework, it features multi-threading for wiping multiple files and smart memory management for efficiency.
 
+## Clone Repository:
+
+```shell
+git clone https://github.com/Shayhha/FileShredder
+```
+
 ## Features
 
 - **Multiple Passes**: The File Shredder allows you to perform multiple passes to ensure that files are thoroughly overwritten, making data recovery extremely challenging.
@@ -16,12 +22,6 @@ The File Shredder App is a powerful tool designed to securely erase files, makin
 2. Select the files you want to securely erase.
 3. Configure the number of passes you wish to perform (more passes mean greater security).
 4. Click the "Wipe Files" button to initiate the file shredding process.
-
-## Clone Repository:
-
-```shell
-git clone https://github.com/Shayhha/FileShredder
-```
 
 ## Screenshots
 
