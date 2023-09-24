@@ -31,4 +31,5 @@ The File Shredder App is a powerful tool designed to securely erase files, makin
 ## License
 
 This File Shredder is released under the [MIT License](LICENSE).
+
 © All rights reserved to Shayhha (Shay Hahiashvili).
