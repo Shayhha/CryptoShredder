@@ -17,6 +17,14 @@ The File Shredder App is a powerful tool designed to securely erase files, makin
 3. Configure the number of passes you wish to perform (more passes mean greater security).
 4. Click the "Shred" button to initiate the file shredding process.
 
+## Screenshots
+
+![Screenshot 1](FileShredder/images/fileShredderScreetshot1.png)
+*Wiping Files*
+
+![Screenshot 2](FileShredder/images/fileShredderScreetshot2.png)
+*Finished Wiping*
+
 ## Requirements
 
 - Qt Framework: Please ensure that you have Qt version 15.5.2 or a later installed on your system in order to build and run this application (pre compiled version for 64-bit Windows is available in x64/Release folder).
@@ -24,7 +32,7 @@ The File Shredder App is a powerful tool designed to securely erase files, makin
 ## How to Build
 
 1. Clone this repository to your local machine.
-2. Open the project in your preferred Qt development environment (Visual Studio with Qt extension is recommended).
+2. Open the project in your preferred Qt development environment (Visual Studio with Qt Tools extension is recommended).
 3. Build and compile the project.
 4. Run the application.
 
