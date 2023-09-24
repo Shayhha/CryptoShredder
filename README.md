@@ -42,6 +42,10 @@ git clone https://github.com/Shayhha/FileShredder
 3. Build and compile the project.
 4. Run the application.
 
+## Contact
+
+For questions or feedback, please contact [shayhha@gmail.com](mailto:shayhha@gmail.com).
+
 ## License
 
 This File Shredder is released under the [MIT License](LICENSE.txt).
