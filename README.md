@@ -17,6 +17,12 @@ The File Shredder App is a powerful tool designed to securely erase files, makin
 3. Configure the number of passes you wish to perform (more passes mean greater security).
 4. Click the "Shred" button to initiate the file shredding process.
 
+## Clone Repository:
+
+```shell
+git clone https://github.com/Shayhha/FileShredder
+```
+
 ## Screenshots
 
 ![Screenshot 1](FileShredder/images/fileShredderScreetshot1.png)
