@@ -232,6 +232,10 @@ void FileShredder::clearContents() {
  //Method to stop the wiping process
  //</summary>
 void FileShredder::cancelWipe() {
-    if(this->shredder)
-        this->shredder->cancelWipe(); //call cancelWipe method to indicate for cancelation
+    if (this->shredder) {
+        QMessageBox::StandardButton choice = showMessageBox("Cancel Wipe", "Stopping the wiping process will result in irretrievable loss of data for the files currently undergoing wiping. Are you certain you want to proceed?", "question");
+        if (choice == QMessageBox::No) //if user chose "No" we do not cancel the wiping process
+            return; //finish the method's work
+        this->shredder->cancelWipe(); //else we call cancelWipe method to indicate for cancelation
+    }
 }
