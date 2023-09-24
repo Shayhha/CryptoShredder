@@ -44,6 +44,6 @@ git clone https://github.com/Shayhha/FileShredder
 
 ## License
 
-This File Shredder is released under the [MIT License](LICENSE).
+This File Shredder is released under the [MIT License](LICENSE.txt).
 
 © All rights reserved to Shayhha (Shay Hahiashvili).
