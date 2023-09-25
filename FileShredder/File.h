@@ -14,12 +14,12 @@ using namespace std;
 
 class File : public Observable {
 private:
-	string name;
-	string extention;
-	string fullName;
-	string fullPath;
-	size_t length;
-	static bool isCanceled;
+	string name; //represents file name
+	string extention; //represents file extention
+	string fullName; //represents file full name
+	string fullPath; //represents file path
+	size_t length; //represents file length
+	static bool isCanceled; //static flag for canceled wipe
 
 public:
 	File(const string &filePath, Observer& observer);

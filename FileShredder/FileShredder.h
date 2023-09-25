@@ -13,14 +13,15 @@ class FileShredder : public QMainWindow {
     Q_OBJECT
 
 private:
-    Ui::FileShredderClass ui;
-    QStringListModel* listViewModel = NULL;
-    Shredder* shredder = NULL;
-    unordered_map<string, int> fileDictionary;
-    vector<string> filePathList;
-    SignalProxy* signal = NULL;
-    recursive_mutex GUIMutex;
-    int listViewCounter = 0;
+    Ui::FileShredderClass ui; //ui element for GUI
+    QStringListModel* listViewModel = NULL; //model for listView
+    Shredder* shredder = NULL; //shredder object for wipe
+    unordered_map<string, int> fileDictionary; //fileDictionary that represents each file with its corresponding index in listView
+    vector<string> filePathList; //vector that represents all the files path
+    SignalProxy* signal = NULL; //signal object for foreigner classes to communicate with GUI
+    recursive_mutex GUIMutex; //mutex for thread-safe operations
+    size_t listViewCounter = 0; //counter for number of items in listView
+    size_t fileCounter = 0; //counter for number of files
 
 public:
     FileShredder(QWidget *parent = nullptr);

@@ -80,6 +80,7 @@ void FileShredder::checkThreads() {
         if (!(this->shredder->areThreadsRunning())) { //if true the wipe finished so we clear the necessary elements
             this->filePathList.clear(); //clear filePathList
             this->fileDictionary.clear(); //clear file dictionary
+            this->fileCounter = 0; //set the fileCounter back to zero
             delete this->shredder; //delete shredder object
             this->shredder = NULL; //set pointer of shredder to NULL for next wipe
             if (File::getIsCanceled()) { //if true user canceled the wipe
@@ -176,38 +177,49 @@ void FileShredder::openFileDialog() {
     if (this->shredder == NULL) {
         QString desktopPath = QDir::homePath() + "/Desktop"; //we set a QString to point to the desktop directory 
         //set the file dialog with appropriate settings for our wiping
-        QStringList selectedFiles = QFileDialog::getOpenFileNames(nullptr, "Select Files", desktopPath, "All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg)");
-
-        // Check if files were selected
+        QStringList selectedFiles = QFileDialog::getOpenFileNames(nullptr, "Select Files", desktopPath, "All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg);;PDF Files (*.pdf);;Word Files (*.docx *.doc);;PowerPoint Files (*.pptx *.ppt);;Excel Files (*.xlsx *.xls)");
+        
+        //check if files were selected
         if (!selectedFiles.isEmpty()) {
             this->setListViewTags(" - Finished", " - Wiped Successfully"); //set previous files tags to finished 
-            bool isMaxSize = false; //flag for indicating files exceeds maximum size allowed
-            const qint64 maxSize = 600LL * 1024LL * 1024LL;; // set max size to 600MB
+            bool isMaxFiles = false; //flag for indicating that user added more then the maximum files allowed
+            const int MaxNumOfFiles = 20; //represents the maximum allowed files to wipe at once
+            bool isMaxFileSize = false; //flag for indicating files exceeds maximum size allowed
+            const qint64 MaxFileSize = 600LL * 1024LL * 1024LL; // set max file size to 600MB
             for (const QString& filePath : selectedFiles) { //we process the selected file paths
                 QFileInfo fileInfo(filePath); //get info about the file
-                if (fileInfo.size() <= maxSize) { //if file is below maximum size we proccess it
+                if (this->fileCounter >= MaxNumOfFiles) //if true we exceeded the maximum files allowed
+                    isMaxFiles = true; //set isMaxFiles flag to true
+                if (fileInfo.size() > MaxFileSize) //if file exceeds maximum allowed size
+                    isMaxFileSize = true; //set isMaxFileSize flag to true indicating user added large file
+                else { //else file is below maximum size we proccess it
                     string FilePath = filePath.toStdString(); //save file path in a string variable
                     filesystem::path p(FilePath); //call filesystem path method to get name of file
                     QString fileName = QString::fromStdString(p.stem().string() + p.extension().string()); //save name of file in QString variable for GUI
-                    auto dictIterator = this->fileDictionary.find(fileName.toStdString()); //we check if the file already exists inn our file dictionary
+                    auto dictIterator = this->fileDictionary.find(fileName.toStdString()); //we check if the file already exists in our file dictionary
                     if (dictIterator == this->fileDictionary.end()) { //if true and our dictIterator points to the end of dictionary it means the file is not in dictionary
+                        if (isMaxFiles) //if isMaxFiles flag is set
+                            break; //break from the loop
                         this->addItemToListView(fileName); //add the file name to our FileListView in GUI
                         this->fileDictionary[fileName.toStdString()] = this->listViewCounter; //add the file name as the key and the counter representing its index in the listView as value
                         this->filePathList.push_back(filePath.toStdString()); //add each file path to out filePathList
-                        this->listViewCounter++; //increase counter
+                        this->listViewCounter++; //increase listView counter
+                        this->fileCounter++; //increase file counter
                     }
                 }
-                else //else file is exceeding maximum size
-                    isMaxSize = true; //set isMaxSize flag to true
             }
-            if(isMaxSize) //if isMaxSize flag is set we show messagebox that notifies the user for a file that exceeded allowed file size
-                this->showMessageBox("Max File Size", "Files larger then 600MB detected, files that exceed the limit were not added.", "information");
+            if (isMaxFileSize && isMaxFiles) //if both flags are set we show messagebox with combined message indicating that both file size and number of files were exceeded
+                this->showMessageBox("Maximum File Size And Maximum Number Of Files Exceeded", "Files larger than 600MB were detected and cannot be added, also the maximum allowed number of files for wiping (limited to 20 files) has also been exceeded.", "information");
+            else if (isMaxFileSize) //if isMaxFileSize flag is set we show messagebox that notifies the user for a file that exceeded allowed file size
+                this->showMessageBox("Maximum File Size", "Files larger then 600MB detected, files that exceed the limit were not added.", "information");
+            else if (isMaxFiles) //if isMaxFiles flag is set we show messagebox that notifies the user he exceeded the allowed number of files for wipe
+                this->showMessageBox("Maximum Number Of Files Exceeded", "The maximum allowed number of files for wiping is limited to 20 files at a time.", "information");
         }
         else { //else we show messagebox indicating that user didn't choose files
             this->showMessageBox("No Files Chosen Error", "Error, please choose files for wiping.", "critical");
         }
     }
-    else
+    else //else we show messagebox indicating user cannot add files while wipe in process
         this->showMessageBox("Wipe In Progress Error", "Error, cannot add files while wipe in progress.", "warning");
 }
 
@@ -220,6 +232,7 @@ void FileShredder::clearContents() {
         this->filePathList.clear(); //clear filePathList
         this->fileDictionary.clear(); //clear file dictionary
         this->listViewCounter = 0; //set the listViewCounter back to zero
+        this->fileCounter = 0; //set the fileCounter back to zero
         this->listViewModel->setStringList(QStringList()); //clear current listView items
     }
     else { //else we can't clear the screen
