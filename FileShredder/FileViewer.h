@@ -24,8 +24,8 @@ private:
     string format = "HEX"; //format string for text
     FileViewer(QWidget* parent, const QString& filePath, const QString& fileName); //private constructor for class
     ~FileViewer(); //destructor for class
-    FileViewer(const FileViewer&) = delete;  //prevent copy
-    void operator=(const FileViewer&) = delete;  //prevent assignment
+    FileViewer(const FileViewer&) = delete; //prevent copy
+    void operator=(const FileViewer&) = delete; //prevent assignment
     static bool isInstance; //static bool instance flag for indication 
 
 public:
