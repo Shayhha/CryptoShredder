@@ -20,7 +20,7 @@ FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& 
         this->show(); //show window
     }
     else { //else we couldn't open the file so we show error messagebox and delete object
-        QMessageBox::critical(this, "Error Opening File", "Failed to open the file."); //show messagebox with error
+        QMessageBox::critical(this, "Error Opening File", "Failed to open the file. This could be due to the file not existing or being securely deleted as part of the wiping process."); //show messagebox with error
         this->deleteLater(); //ensure that allocated memory gets deleted 
     }
 }
@@ -60,7 +60,7 @@ bool FileViewer::openFile(const QString& filePath) {
     if (this->file.open(QIODevice::ReadOnly)) { //if true we opened the file successfully
         this->fileSize = this->file.size(); //set size file size
         this->bytesRead = 0; //set starting bytesRead to zero
-        this->loadChunk();  //;oad the initial chunk
+        this->loadChunk();  //load the initial chunk
         return true; //return true indicating for successful file opening
     }
     else //else we couldn't open file
