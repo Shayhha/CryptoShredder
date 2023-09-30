@@ -63,14 +63,16 @@ QScrollBar::sub-line:vertical {
     subcontrol-origin: margin;
 }
 
-QListView::item:hover {
-   background-color: transparent;
-   color: black;
+QListView::item:hover { 
+   background-color: rgb(173, 174, 184); 
+   color:black;
+   border: 1px solid black;
 }
 
 QListView::item:selected { 
-   background-color: transparent;
-   color: black;
+   background-color: rgb(187, 188, 196);
+   color:black;
+   border: 1px solid black;
 }
 </string>
   </property>
@@ -592,7 +594,7 @@ color: white;</string>
     <widget class="QLabel" name="titleLabel">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>440</x>
        <y>10</y>
        <width>191</width>
        <height>41</height>

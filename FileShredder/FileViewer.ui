@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FileViewer</class>
+ <widget class="QDialog" name="FileViewer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>850</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>850</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>850</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>FileViewer</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: rgba(68,70,84,255);
+}
+
+QScrollBar:vertical {
+    background-color: rgba(247, 247, 247,150);
+    border: 1px solid rgb(153, 153, 153);
+    width:10px;    
+    margin: 0px 0px 0px 0px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {          
+    background-color: black;   
+    min-height: 100px;
+    border: 0px solid black;
+    border-radius: 4px;
+}
+
+QScrollBar::add-line:vertical {       
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+    height: 0px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QListView::item:hover {
+   background-color: transparent;
+   color: black;
+}
+
+QListView::item:selected { 
+   background-color: transparent;
+   color: black;
+}
+</string>
+  </property>
+  <widget class="QTextEdit" name="FileTextEdit">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>830</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>830</width>
+     <height>541</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>830</width>
+     <height>541</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::ClickFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(198, 198, 198, 0.6);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QFrame" name="ComboBoxFrame">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>10</y>
+     <width>110</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>110</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>110</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(32,33,35,255);
+color: rgb(245,245,245);
+border-radius: 15px;
+border-width: 2px;
+border-radius: 15px;
+padding: 4px;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QComboBox" name="FormatComboBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>110</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>110</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>110</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::WheelFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox {
+    background-color: transparent;
+	color: rgb(245,245,245);
+    border-radius: 15px;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 15px;
+    border-color: black;	
+    padding: 4px;
+}
+
+QComboBox:hover {
+    border: 2px solid black
+}
+
+QComboBox QAbstractItemView {
+    background-color:  rgb(245,245,245);
+    selection-background-color: rgb(95, 97, 109);
+    color: rgb(0, 0, 0);    
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+QComboBox QListView{
+    outline: 0px;
+} the list in combox box doesnt apply changes</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>HEX</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>BINARY</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>UTF-8</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="FormatLabel">
+   <property name="geometry">
+    <rect>
+     <x>635</x>
+     <y>15</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: none;
+color: rgb(245,245,245);
+</string>
+   </property>
+   <property name="text">
+    <string>Format</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="FileNameLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>471</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: none;
+color: rgb(245,245,245);
+</string>
+   </property>
+   <property name="text">
+    <string>FileName</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

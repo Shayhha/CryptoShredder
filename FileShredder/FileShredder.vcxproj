@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileViewer.cpp" />
     <ClCompile Include="Shredder.cpp" />
     <QtRcc Include="FileShredder.qrc" />
     <QtUic Include="FileShredder.ui" />
@@ -95,9 +96,11 @@
     <ClCompile Include="File.cpp" />
     <ClCompile Include="FileShredder.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="FileViewer.ui" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="File.h" />
+    <QtMoc Include="FileViewer.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Shredder.h" />
     <QtMoc Include="SignalProxy.h" />

@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_FileShredder_t {
-    QByteArrayData data[18];
-    char stringdata0[205];
+    QByteArrayData data[21];
+    char stringdata0[241];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,20 +45,23 @@ QT_MOC_LITERAL(9, 102, 3), // "tag"
 QT_MOC_LITERAL(10, 106, 12), // "checkThreads"
 QT_MOC_LITERAL(11, 119, 15), // "setListViewTags"
 QT_MOC_LITERAL(12, 135, 10), // "currentTag"
-QT_MOC_LITERAL(13, 146, 14), // "showMessageBox"
-QT_MOC_LITERAL(14, 161, 27), // "QMessageBox::StandardButton"
-QT_MOC_LITERAL(15, 189, 5), // "title"
-QT_MOC_LITERAL(16, 195, 4), // "text"
-QT_MOC_LITERAL(17, 200, 4) // "type"
+QT_MOC_LITERAL(13, 146, 17), // "doubleClickedFile"
+QT_MOC_LITERAL(14, 164, 11), // "QModelIndex"
+QT_MOC_LITERAL(15, 176, 5), // "index"
+QT_MOC_LITERAL(16, 182, 14), // "showMessageBox"
+QT_MOC_LITERAL(17, 197, 27), // "QMessageBox::StandardButton"
+QT_MOC_LITERAL(18, 225, 5), // "title"
+QT_MOC_LITERAL(19, 231, 4), // "text"
+QT_MOC_LITERAL(20, 236, 4) // "type"
 
     },
     "FileShredder\0wipeFiles\0\0cancelWipe\0"
     "openFileDialog\0clearContents\0"
     "addItemToListView\0item\0updateListView\0"
     "tag\0checkThreads\0setListViewTags\0"
-    "currentTag\0showMessageBox\0"
-    "QMessageBox::StandardButton\0title\0"
-    "text\0type"
+    "currentTag\0doubleClickedFile\0QModelIndex\0"
+    "index\0showMessageBox\0QMessageBox::StandardButton\0"
+    "title\0text\0type"
 };
 #undef QT_MOC_LITERAL
 
@@ -68,7 +71,7 @@ static const uint qt_meta_data_FileShredder[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -76,16 +79,17 @@ static const uint qt_meta_data_FileShredder[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   64,    2, 0x08 /* Private */,
-       3,    0,   65,    2, 0x08 /* Private */,
-       4,    0,   66,    2, 0x08 /* Private */,
-       5,    0,   67,    2, 0x08 /* Private */,
-       6,    1,   68,    2, 0x08 /* Private */,
-       8,    2,   71,    2, 0x08 /* Private */,
-      10,    0,   76,    2, 0x08 /* Private */,
-      11,    2,   77,    2, 0x08 /* Private */,
-      11,    1,   82,    2, 0x28 /* Private | MethodCloned */,
-      13,    3,   85,    2, 0x08 /* Private */,
+       1,    0,   69,    2, 0x08 /* Private */,
+       3,    0,   70,    2, 0x08 /* Private */,
+       4,    0,   71,    2, 0x08 /* Private */,
+       5,    0,   72,    2, 0x08 /* Private */,
+       6,    1,   73,    2, 0x08 /* Private */,
+       8,    2,   76,    2, 0x08 /* Private */,
+      10,    0,   81,    2, 0x08 /* Private */,
+      11,    2,   82,    2, 0x08 /* Private */,
+      11,    1,   87,    2, 0x28 /* Private | MethodCloned */,
+      13,    1,   90,    2, 0x08 /* Private */,
+      16,    3,   93,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -97,7 +101,8 @@ static const uint qt_meta_data_FileShredder[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString, QMetaType::QString,    9,   12,
     QMetaType::Void, QMetaType::QString,    9,
-    0x80000000 | 14, QMetaType::QString, QMetaType::QString, QMetaType::QString,   15,   16,   17,
+    QMetaType::Void, 0x80000000 | 14,   15,
+    0x80000000 | 17, QMetaType::QString, QMetaType::QString, QMetaType::QString,   18,   19,   20,
 
        0        // eod
 };
@@ -117,7 +122,8 @@ void FileShredder::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 6: _t->checkThreads(); break;
         case 7: _t->setListViewTags((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
         case 8: _t->setListViewTags((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 9: { QMessageBox::StandardButton _r = _t->showMessageBox((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])));
+        case 9: _t->doubleClickedFile((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 10: { QMessageBox::StandardButton _r = _t->showMessageBox((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< QMessageBox::StandardButton*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
@@ -153,13 +159,13 @@ int FileShredder::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

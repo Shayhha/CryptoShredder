@@ -84,14 +84,16 @@ public:
 "    subcontrol-origin: margin;\n"
 "}\n"
 "\n"
-"QListView::item:hover {\n"
-"   background-color: transparent;\n"
-"   color: black;\n"
+"QListView::item:hover { \n"
+"   background-color: rgb(173, 174, 184); \n"
+"   color:black;\n"
+"   border: 1px solid black;\n"
 "}\n"
 "\n"
 "QListView::item:selected { \n"
-"   background-color: transparent;\n"
-"   color: black;\n"
+"   background-color: rgb(187, 188, 196);\n"
+"   color:black;\n"
+"   border: 1px solid black;\n"
 "}\n"
 ""));
         centralWidget = new QWidget(FileShredderClass);
@@ -347,7 +349,7 @@ public:
         titleFrame->setFrameShadow(QFrame::Raised);
         titleLabel = new QLabel(titleFrame);
         titleLabel->setObjectName(QString::fromUtf8("titleLabel"));
-        titleLabel->setGeometry(QRect(450, 10, 191, 41));
+        titleLabel->setGeometry(QRect(440, 10, 191, 41));
         QFont font4;
         font4.setFamily(QString::fromUtf8("Arial"));
         font4.setPointSize(22);

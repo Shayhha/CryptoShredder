@@ -20,6 +20,7 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
     connect(ui.CancelWipeButton, &QPushButton::clicked, this, &FileShredder::cancelWipe);
     connect(ui.ChooseFilesButton, &QPushButton::clicked, this, &FileShredder::openFileDialog);
     connect(ui.ClearScreenButton, &QPushButton::clicked, this, &FileShredder::clearContents);
+    connect(ui.FileListView, &QAbstractItemView::doubleClicked, this, &FileShredder::doubleClickedFile);
     connect(this->signal, &SignalProxy::signalUpdateListView, this, &FileShredder::updateListView);
     connect(this->signal, &SignalProxy::signalMessageBox, this, &FileShredder::showMessageBox);
     connect(this->signal, &SignalProxy::signalSetListViewTags, this, &FileShredder::setListViewTags);
@@ -200,8 +201,9 @@ void FileShredder::openFileDialog() {
                     if (dictIterator == this->fileDictionary.end()) { //if true and our dictIterator points to the end of dictionary it means the file is not in dictionary
                         if (isMaxFiles) //if isMaxFiles flag is set
                             break; //break from the loop
-                        this->addItemToListView(fileName); //add the file name to our FileListView in GUI
+                        this->addItemToListView((fileName.size() > 34) ? QString::fromStdString(p.stem().string().substr(0, 30) + "..." + p.extension().string()) : fileName); //add the file name to our FileListView in GUI
                         this->fileDictionary[fileName.toStdString()] = this->listViewCounter; //add the file name as the key and the counter representing its index in the listView as value
+                        this->listViewFileDictionary[this->listViewCounter] = FilePath; //add the file to listViewFileDictionary for later use in file viewer
                         this->filePathList.push_back(filePath.toStdString()); //add each file path to out filePathList
                         this->listViewCounter++; //increase listView counter
                         this->fileCounter++; //increase file counter
@@ -231,6 +233,7 @@ void FileShredder::clearContents() {
     if (this->shredder == NULL) { //means there's no wipe in progress
         this->filePathList.clear(); //clear filePathList
         this->fileDictionary.clear(); //clear file dictionary
+        this->listViewFileDictionary.clear(); //clear listView file dictionary
         this->listViewCounter = 0; //set the listViewCounter back to zero
         this->fileCounter = 0; //set the fileCounter back to zero
         this->listViewModel->setStringList(QStringList()); //clear current listView items
@@ -241,9 +244,9 @@ void FileShredder::clearContents() {
 }
 
 
- //<summary>
- //Method to stop the wiping process
- //</summary>
+ // <summary>
+ // Method to stop the wiping process
+ // </summary>
 void FileShredder::cancelWipe() {
     if (this->shredder) {
         QMessageBox::StandardButton choice = showMessageBox("Cancel Wipe", "Stopping the wiping process will result in irretrievable loss of data for the files currently undergoing wiping. Are you certain you want to proceed?", "question");
@@ -251,4 +254,17 @@ void FileShredder::cancelWipe() {
             return; //finish the method's work
         this->shredder->cancelWipe(); //else we call cancelWipe method to indicate for cancelation
     }
+}
+
+
+/// <summary>
+/// Method for double click events in file listView
+/// </summary>
+/// <param name="QModelIndex index"></param>
+void FileShredder::doubleClickedFile(const QModelIndex& index) {
+    int fileIndex = index.row(); //get fileIndex in integer
+    string filePath = this->listViewFileDictionary[fileIndex]; //get file path from the listView file dictionary
+    filesystem::path p(filePath); //call filesystem path method to get name of file
+    QString fileName = QString::fromStdString(p.stem().string() + p.extension().string()); //get file name with filesystem
+    this->fileViewer = FileViewer::getInstance(this, QString::fromStdString(filePath), (fileName.size() > 34) ? QString::fromStdString(p.stem().string().substr(0, 30) + "..." + p.extension().string()) : fileName); //create a new instance of fileViewer to show file's content to user
 }
