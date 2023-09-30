@@ -8,6 +8,7 @@
 #include "ui_FileShredder.h"
 #include "Shredder.h"
 #include "FileViewer.h"
+#include "ImageLabel.h"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ private:
     size_t listViewCounter = 0; //counter for number of items in listView
     size_t fileCounter = 0; //counter for number of files
     FileViewer* fileViewer = NULL; //FileViewer object for file viewer 
+    ImageLabel* infoImageLabel = NULL; //ImageLabel for info icon
 
 public:
     FileShredder(QWidget *parent = nullptr);

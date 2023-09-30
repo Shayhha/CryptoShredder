@@ -68,6 +68,9 @@
     <QtMoc Include="FileViewer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="ImageLabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="FileViewer.ui">

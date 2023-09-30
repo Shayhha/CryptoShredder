@@ -12,9 +12,10 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
     //FileListView model initialization//
     this->listViewModel = new QStringListModel(this); //initialize the model for listView in GUI
     this->signal = new SignalProxy(); //initialize the signal proxy for the foreigner classes
+    this->infoImageLabel = new ImageLabel("images/info.png", QPoint(1020, 10), QSize(40, 40), this); //set the info icon in GUI
     ui.FileListView->setModel(listViewModel); //set the list model for listView in GUI to add elements
     ui.FileListView->setEditTriggers(QAbstractItemView::NoEditTriggers); //set the listView to be uneditable
-
+    
     //slots for ui elements//
     connect(ui.WipeButton, &QPushButton::clicked, this, &FileShredder::wipeFiles);
     connect(ui.CancelWipeButton, &QPushButton::clicked, this, &FileShredder::cancelWipe);
@@ -24,6 +25,7 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
     connect(this->signal, &SignalProxy::signalUpdateListView, this, &FileShredder::updateListView);
     connect(this->signal, &SignalProxy::signalMessageBox, this, &FileShredder::showMessageBox);
     connect(this->signal, &SignalProxy::signalSetListViewTags, this, &FileShredder::setListViewTags);
+    //connect(this->infoImageLabel, &ImageLabel::clicked, this, &FileShredder::infoLabelClicked);
 }
 
 
@@ -35,6 +37,7 @@ FileShredder::~FileShredder() {
         delete this->shredder; //delete the shredder object
     delete this->listViewModel; //delete the list view model
     delete this->signal; //delete the signal object
+    delete this->infoImageLabel; //delete the infoImageLabel object
 }
 
 
@@ -262,9 +265,13 @@ void FileShredder::cancelWipe() {
 /// </summary>
 /// <param name="QModelIndex index"></param>
 void FileShredder::doubleClickedFile(const QModelIndex& index) {
-    int fileIndex = index.row(); //get fileIndex in integer
-    string filePath = this->listViewFileDictionary[fileIndex]; //get file path from the listView file dictionary
-    filesystem::path p(filePath); //call filesystem path method to get name of file
-    QString fileName = QString::fromStdString(p.stem().string() + p.extension().string()); //get file name with filesystem
-    this->fileViewer = FileViewer::getInstance(this, QString::fromStdString(filePath), (fileName.size() > 34) ? QString::fromStdString(p.stem().string().substr(0, 30) + "..." + p.extension().string()) : fileName); //create a new instance of fileViewer to show file's content to user
+    if (this->shredder == NULL) { //if true we can open file for viewing
+        int fileIndex = index.row(); //get fileIndex in integer
+        string filePath = this->listViewFileDictionary[fileIndex]; //get file path from the listView file dictionary
+        filesystem::path p(filePath); //call filesystem path method to get name of file
+        QString fileName = QString::fromStdString(p.stem().string() + p.extension().string()); //get file name with filesystem
+        this->fileViewer = FileViewer::getInstance(this, QString::fromStdString(filePath), (fileName.size() > 34) ? QString::fromStdString(p.stem().string().substr(0, 30) + "..." + p.extension().string()) : fileName); //create a new instance of fileViewer to show file's content to user
+    }
+    else //else wipe in progress
+        this->showMessageBox("Unable To Open File", "Error, cannot open file while wipe in progress.", "warning"); //show messagebox with error indicating wipe in progress
 }

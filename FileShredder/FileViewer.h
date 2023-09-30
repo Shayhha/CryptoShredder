@@ -13,6 +13,9 @@
 
 using namespace std;
 
+/// <summary>
+/// Class for file viewing in various formats
+/// </summary>
 class FileViewer : public QDialog {
     Q_OBJECT
 

@@ -1,5 +1,4 @@
 ﻿  FileShredder.cpp
   main.cpp
-C:\Users\shayh\Documents\Visual Studio 2022\Projects\FileShredder\FileShredder\FileShredder.cpp(143): warning C4715: 'FileShredder::showMessageBox': not all control paths return a value
-  moc_FileShredder.cpp
+C:\Users\shayh\Documents\Visual Studio 2022\Projects\FileShredder\FileShredder\FileShredder.cpp(145): warning C4715: 'FileShredder::showMessageBox': not all control paths return a value
   FileShredder.vcxproj -> C:\Users\shayh\Documents\Visual Studio 2022\Projects\FileShredder\x64\Debug\FileShredder.exe

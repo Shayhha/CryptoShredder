@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClInclude Include="File.h" />
     <QtMoc Include="FileViewer.h" />
+    <QtMoc Include="ImageLabel.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Shredder.h" />
     <QtMoc Include="SignalProxy.h" />
