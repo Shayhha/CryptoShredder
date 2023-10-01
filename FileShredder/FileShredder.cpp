@@ -12,7 +12,7 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
     //FileListView model initialization//
     this->listViewModel = new QStringListModel(this); //initialize the model for listView in GUI
     this->signal = new SignalProxy(); //initialize the signal proxy for the foreigner classes
-    this->infoImageLabel = new ImageLabel("images/info.png", QPoint(1020, 10), QSize(40, 40), this); //set the info icon in GUI
+    this->infoImageLabel = new ImageLabel("images/infoIcon.png", QPoint(1020, 10), QSize(40, 40), this); //set the info icon in GUI
     ui.FileListView->setModel(listViewModel); //set the list model for listView in GUI to add elements
     ui.FileListView->setEditTriggers(QAbstractItemView::NoEditTriggers); //set the listView to be uneditable
     

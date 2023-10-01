@@ -20,7 +20,7 @@ FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& 
         this->show(); //show window
     }
     else { //else we couldn't open the file so we show error messagebox and delete object
-        QMessageBox::critical(this, "Error Opening File", "Failed to open the file. This could be due to the file not existing or being securely deleted as part of the wiping process."); //show messagebox with error
+        QMessageBox::critical(nullptr, "Error Opening File", "Failed to open the file. This could be due to the file not existing or being securely deleted as part of the wiping process."); //show messagebox with error
         this->deleteLater(); //ensure that allocated memory gets deleted 
     }
 }
@@ -109,7 +109,7 @@ void FileViewer::updateFileContent(int index) {
 /// Method to load chunks of data to the FileTextEdit when scroll bar emits signal for value change
 /// </summary>
 void FileViewer::loadChunk() {
-    const qint64 DefaultChunkSize = 1024 * 3;  //setting DefaultChuckSize 
+    const qint64 DefaultChunkSize = 1024 * 3;  //setting DefaultChuckSize that will add each time
 
     if (!this->file.isOpen() || this->bytesRead >= this->fileSize) { //if true we loaded all the file contents
         return;  //no more data to load, finish the task

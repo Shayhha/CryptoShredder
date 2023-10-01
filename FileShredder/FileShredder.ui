@@ -594,7 +594,7 @@ color: white;</string>
     <widget class="QLabel" name="titleLabel">
      <property name="geometry">
       <rect>
-       <x>440</x>
+       <x>450</x>
        <y>10</y>
        <width>191</width>
        <height>41</height>
@@ -619,7 +619,7 @@ color: white;</string>
     <widget class="QLabel" name="shredderLabel">
      <property name="geometry">
       <rect>
-       <x>390</x>
+       <x>400</x>
        <y>10</y>
        <width>40</width>
        <height>40</height>
@@ -637,7 +637,7 @@ color: white;</string>
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../../../../../Downloads/cropped-shredderSmoked.png</pixmap>
+      <pixmap>images/shredderIcon.png</pixmap>
      </property>
     </widget>
    </widget>

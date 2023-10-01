@@ -350,7 +350,7 @@ public:
         titleFrame->setFrameShadow(QFrame::Raised);
         titleLabel = new QLabel(titleFrame);
         titleLabel->setObjectName(QString::fromUtf8("titleLabel"));
-        titleLabel->setGeometry(QRect(440, 10, 191, 41));
+        titleLabel->setGeometry(QRect(450, 10, 191, 41));
         QFont font4;
         font4.setFamily(QString::fromUtf8("Arial"));
         font4.setPointSize(22);
@@ -361,12 +361,12 @@ public:
         titleLabel->setStyleSheet(QString::fromUtf8("color: rgb(245,245,245);"));
         shredderLabel = new QLabel(titleFrame);
         shredderLabel->setObjectName(QString::fromUtf8("shredderLabel"));
-        shredderLabel->setGeometry(QRect(390, 10, 40, 40));
+        shredderLabel->setGeometry(QRect(400, 10, 40, 40));
         QFont font5;
         font5.setFamily(QString::fromUtf8("Arial"));
         shredderLabel->setFont(font5);
         shredderLabel->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        shredderLabel->setPixmap(QPixmap(QString::fromUtf8("../../../../../Downloads/cropped-shredderSmoked.png")));
+        shredderLabel->setPixmap(QPixmap(QString::fromUtf8("images/shredderIcon.png")));
         FilesToBeWipedLabel = new QLabel(centralWidget);
         FilesToBeWipedLabel->setObjectName(QString::fromUtf8("FilesToBeWipedLabel"));
         FilesToBeWipedLabel->setGeometry(QRect(80, 80, 431, 31));

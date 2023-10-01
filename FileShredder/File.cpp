@@ -75,5 +75,4 @@ void File::secureWipeFile(const File& file, int passes, bool toRemove) {
     if (toRemove) //if true we need to remove the file
         removeFile(file); //call removeFile function to remove the file
     file.notify(); //notify all observers that we finished the task
-    cout << "Secure wiping completed." << endl; 
 }
