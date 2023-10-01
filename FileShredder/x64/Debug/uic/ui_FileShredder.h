@@ -40,6 +40,7 @@ public:
     QProgressBar *progressBar;
     QFrame *titleFrame;
     QLabel *titleLabel;
+    QLabel *shredderLabel;
     QLabel *FilesToBeWipedLabel;
 
     void setupUi(QMainWindow *FileShredderClass)
@@ -358,17 +359,25 @@ public:
         font4.setWeight(75);
         titleLabel->setFont(font4);
         titleLabel->setStyleSheet(QString::fromUtf8("color: rgb(245,245,245);"));
+        shredderLabel = new QLabel(titleFrame);
+        shredderLabel->setObjectName(QString::fromUtf8("shredderLabel"));
+        shredderLabel->setGeometry(QRect(390, 10, 40, 40));
+        QFont font5;
+        font5.setFamily(QString::fromUtf8("Arial"));
+        shredderLabel->setFont(font5);
+        shredderLabel->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        shredderLabel->setPixmap(QPixmap(QString::fromUtf8("../../../../../Downloads/cropped-shredderSmoked.png")));
         FilesToBeWipedLabel = new QLabel(centralWidget);
         FilesToBeWipedLabel->setObjectName(QString::fromUtf8("FilesToBeWipedLabel"));
         FilesToBeWipedLabel->setGeometry(QRect(80, 80, 431, 31));
-        QFont font5;
-        font5.setFamily(QString::fromUtf8("Arial"));
-        font5.setPointSize(18);
-        font5.setBold(true);
-        font5.setItalic(false);
-        font5.setUnderline(false);
-        font5.setWeight(75);
-        FilesToBeWipedLabel->setFont(font5);
+        QFont font6;
+        font6.setFamily(QString::fromUtf8("Arial"));
+        font6.setPointSize(18);
+        font6.setBold(true);
+        font6.setItalic(false);
+        font6.setUnderline(false);
+        font6.setWeight(75);
+        FilesToBeWipedLabel->setFont(font6);
         FilesToBeWipedLabel->setStyleSheet(QString::fromUtf8("background-color: none;\n"
 "color: rgb(245,245,245);\n"
 ""));
@@ -395,6 +404,7 @@ public:
         NumberOfPassesLabel->setText(QCoreApplication::translate("FileShredderClass", "Number Of Passes", nullptr));
         CancelWipeButton->setText(QCoreApplication::translate("FileShredderClass", "Cancel Wipe", nullptr));
         titleLabel->setText(QCoreApplication::translate("FileShredderClass", "File Shredder", nullptr));
+        shredderLabel->setText(QString());
         FilesToBeWipedLabel->setText(QCoreApplication::translate("FileShredderClass", "Files Scheduled For Wipe", nullptr));
     } // retranslateUi
 

@@ -616,6 +616,30 @@ color: white;</string>
       <string>File Shredder</string>
      </property>
     </widget>
+    <widget class="QLabel" name="shredderLabel">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>10</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../../../../Downloads/cropped-shredderSmoked.png</pixmap>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="FilesToBeWipedLabel">
     <property name="geometry">
