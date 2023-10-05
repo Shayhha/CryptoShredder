@@ -111,7 +111,6 @@ public:
 "border-radius: 15px;\n"
 "border-style: outset;\n"
 "border-width: 2px;\n"
-"border-radius: 15px;\n"
 "border-color: black;\n"
 "padding: 4px;"));
         OptionsFrame = new QFrame(centralWidget);
@@ -390,7 +389,7 @@ public:
 
     void retranslateUi(QMainWindow *FileShredderClass)
     {
-        FileShredderClass->setWindowTitle(QCoreApplication::translate("FileShredderClass", "FileShredder", nullptr));
+        FileShredderClass->setWindowTitle(QCoreApplication::translate("FileShredderClass", "File Shredder", nullptr));
         RemoveFilesCheckBox->setText(QCoreApplication::translate("FileShredderClass", "Remove Files After Wipe", nullptr));
         WipeButton->setText(QCoreApplication::translate("FileShredderClass", "Wipe Files", nullptr));
 #if QT_CONFIG(tooltip)

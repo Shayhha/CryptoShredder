@@ -4,6 +4,12 @@
 bool FileViewer::isInstance = false; //initialize the static instance flag 
 
 
+/// <summary>
+/// Constructor of class
+/// </summary>
+/// <param name="QWidget parent"></param>
+/// <param name=" QString filePath"></param>
+/// <param name="QString fileName"></param>
 FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& fileName) : QDialog(parent) {
     ui.setupUi(this); //set ui elements
     this->file.setFileName(filePath); //set file name for QFile object
@@ -12,6 +18,7 @@ FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& 
     this->setWhatsThis("This window serves as a viewer for the selected file in one of three formats: HEX, BINARY, or UTF-8. You can choose the format using the dropdown menu. The viewer allows you to inspect the file's contents in the selected format.");
     ui.FileTextEdit->viewport()->setCursor(Qt::ArrowCursor); //set cursor for FileTextEdit
     this->setAttribute(Qt::WA_DeleteOnClose); //ensure that object gets deleted when window closes
+    this->setModal(true); //set the dialog model to block interactions with main GUI 
 
     connect(ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk); //connect signal for adding text when scrolling
     connect(ui.FormatComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &FileViewer::updateFileContent); //connect signal for combo box index changed event

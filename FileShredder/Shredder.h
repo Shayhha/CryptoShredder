@@ -13,6 +13,9 @@
 
 using namespace std;
 
+/// <summary>
+/// Class that represent shredding multiple files
+/// </summary>
 class Shredder : public Observer {
 private:
 	unordered_map<string, File*> fileDictionary; //file dictionary for wipe

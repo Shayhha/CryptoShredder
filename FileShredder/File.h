@@ -12,6 +12,9 @@
 
 using namespace std;
 
+/// <summary>
+/// Class that represent a File object
+/// </summary>
 class File : public Observable {
 private:
 	string name; //represents file name

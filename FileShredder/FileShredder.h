@@ -9,9 +9,13 @@
 #include "Shredder.h"
 #include "FileViewer.h"
 #include "ImageLabel.h"
+#include "InfoWindow.h"
 
 using namespace std;
 
+/// <summary>
+/// Class that represents the main GUi application of FileShredder
+/// </summary>
 class FileShredder : public QMainWindow {
     Q_OBJECT
 
@@ -44,4 +48,5 @@ private slots: //here we declare the slot methods
     void setListViewTags(const QString& tag, const QString& currentTag = NULL);
     void doubleClickedFile(const QModelIndex& index);
     QMessageBox::StandardButton showMessageBox(const QString& title, const QString& text, const QString& type);
+    void infoLabelClicked();
 };

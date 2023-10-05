@@ -49,6 +49,9 @@
     <ClCompile Include="FileViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InfoWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Observer.h">
@@ -71,9 +74,15 @@
     <QtMoc Include="ImageLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="InfoWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="FileViewer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="InfoWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

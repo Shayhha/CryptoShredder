@@ -25,7 +25,7 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
     connect(this->signal, &SignalProxy::signalUpdateListView, this, &FileShredder::updateListView);
     connect(this->signal, &SignalProxy::signalMessageBox, this, &FileShredder::showMessageBox);
     connect(this->signal, &SignalProxy::signalSetListViewTags, this, &FileShredder::setListViewTags);
-    //connect(this->infoImageLabel, &ImageLabel::clicked, this, &FileShredder::infoLabelClicked);
+    connect(this->infoImageLabel, &ImageLabel::clicked, this, &FileShredder::infoLabelClicked);
 }
 
 
@@ -274,4 +274,13 @@ void FileShredder::doubleClickedFile(const QModelIndex& index) {
     }
     else //else wipe in progress
         this->showMessageBox("Unable To Open File", "Error, cannot open file while wipe in progress.", "warning"); //show messagebox with error indicating wipe in progress
+}
+
+
+
+/// <summary>
+/// Method to open the general information window to display information about FileShredder
+/// </summary>
+void FileShredder::infoLabelClicked() {
+    InfoWindow* info = InfoWindow::getInstance(this); //create new instance of InfoWindow
 }
