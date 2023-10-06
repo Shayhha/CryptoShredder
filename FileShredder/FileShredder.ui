@@ -593,7 +593,7 @@ color: white;</string>
     <widget class="QLabel" name="titleLabel">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>455</x>
        <y>10</y>
        <width>191</width>
        <height>41</height>
@@ -618,7 +618,7 @@ color: white;</string>
     <widget class="QLabel" name="shredderLabel">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>405</x>
        <y>10</y>
        <width>40</width>
        <height>40</height>
