@@ -15,7 +15,8 @@ FileShredder::FileShredder(QWidget *parent) : QMainWindow(parent) {
     this->infoImageLabel = new ImageLabel("images/infoIcon.png", QPoint(1020, 10), QSize(40, 40), this); //set the info icon in GUI
     ui.FileListView->setModel(listViewModel); //set the list model for listView in GUI to add elements
     ui.FileListView->setEditTriggers(QAbstractItemView::NoEditTriggers); //set the listView to be uneditable
-    
+    ui.PassesSpinBox->findChild<QLineEdit*>()->setReadOnly(true); //remove the lineEdit in spinBox
+
     //slots for ui elements//
     connect(ui.WipeButton, &QPushButton::clicked, this, &FileShredder::wipeFiles);
     connect(ui.CancelWipeButton, &QPushButton::clicked, this, &FileShredder::cancelWipe);

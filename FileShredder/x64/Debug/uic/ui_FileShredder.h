@@ -124,7 +124,10 @@ public:
 "border-radius: 15px;\n"
 "border-color: black;\n"
 "padding: 4px;\n"
-"}"));
+"}\n"
+"\n"
+"\n"
+""));
         OptionsFrame->setFrameShape(QFrame::StyledPanel);
         OptionsFrame->setFrameShadow(QFrame::Raised);
         RemoveFilesCheckBox = new QCheckBox(OptionsFrame);
@@ -260,7 +263,9 @@ public:
 "border-width: 2px;\n"
 "border-radius: 15px;\n"
 "border-color: black;\n"
-"padding: 4px;"));
+"padding: 4px;\n"
+"selection-background-color: transparent;"));
+        PassesSpinBox->setReadOnly(false);
         PassesSpinBox->setMinimum(1);
         PassesSpinBox->setMaximum(10);
         NumberOfPassesLabel = new QLabel(OptionsFrame);
@@ -337,7 +342,8 @@ public:
 "border-width: 2px;\n"
 "border-radius: 15px;\n"
 "border-color: black;\n"
-"padding: 4px;"));
+"padding: 4px;\n"
+"text-align: center;"));
         progressBar->setValue(0);
         progressBar->setTextVisible(false);
         titleFrame = new QFrame(centralWidget);

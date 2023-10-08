@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QStringList>
+#include <QLineEdit>
 #include <QStringListModel>
 #include <unordered_map>
 #include "ui_FileShredder.h"
