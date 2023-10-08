@@ -10,9 +10,11 @@ git clone https://github.com/Shayhha/FileShredder
 
 ## Features
 
-- **Multiple Passes**: The File Shredder allows you to perform multiple passes to ensure that files are thoroughly overwritten, making data recovery extremely challenging.
+- **Multiple Passes**: File Shredder allows you to perform multiple passes to ensure that files are thoroughly overwritten, making data recovery extremely challenging.
 
-- **Mersenne Twister RNG**: The File Shredder uses the Mersenne Twister random number generator for generating secure and unpredictable bytes during the file wiping process.
+- **Mersenne Twister RNG**: File Shredder uses the Mersenne Twister random number generator for generating secure and unpredictable bytes during the file wiping process.
+
+- **File Viewer**: File Shredder provides users with the flexibility to view files in various formats, including Hexadecimal, Binary, and UTF-8, enabling thorough inspection of file contents before making shredding decisions.
 
 - **User-Friendly GUI**: With a modern and intuitive graphical user interface built using Qt, the File Shredder is easy to use, even for those new to data shredding.
 
@@ -29,7 +31,7 @@ git clone https://github.com/Shayhha/FileShredder
 *Wiping Files*
 
 ![Screenshot 2](FileShredder/images/fileShredderScreetshot2.png)
-*Finished Wiping*
+*Viewing File*
 
 ## Requirements
 
