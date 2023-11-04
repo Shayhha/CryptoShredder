@@ -32,8 +32,10 @@ void File::removeFile(const File& file) {
 /// <summary>
 /// Function that handles wiping the file contents securely using crypto methods
 /// </summary>
-/// <param name="File file, int passes"></param>
-void File::secureWipeFile(const File& file, int passes, bool toRemove) {
+/// <param name="File file"></param>
+/// <param name="int passes"></param>
+/// <param name="bool toRemove"></param>
+void File::WipeFile(const File& file, int passes, bool toRemove) {
     fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
 
     if (!outputFile.is_open() || outputFile.fail()) { //we check if we failed opening the file
@@ -74,5 +76,68 @@ void File::secureWipeFile(const File& file, int passes, bool toRemove) {
     outputFile.close(); //after we finish we close the file
     if (toRemove) //if true we need to remove the file
         removeFile(file); //call removeFile function to remove the file
+    file.notify(); //notify all observers that we finished the task
+}
+
+
+/// <summary>
+/// Function that handles encryption/decryption on given file using custom AES library
+/// </summary>
+/// <param name="File file"></param>
+/// <param name="string key"></param>
+/// <param name="bool decrypt"></param>
+void File::CipherFile(const File& file, const string& key, bool decrypt) {
+    fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); // Open the file in binary mode for reading and writing
+
+    if (!outputFile.is_open() || outputFile.fail()) { // Check if we failed opening the file
+        throw runtime_error("Error opening file: " + file.fullName); // Throw a runtime error exception if failed to open the file
+        return; // Stop the method
+    }
+
+    outputFile.seekp(0); // Start from the beginning of the file each pass
+    size_t fileSize = file.length; // Set the fileSize to be the file size in bytes for wiping
+    size_t currentSize = 0; // Set currentSize to be zero to indicate the beginning of the file
+    const size_t bufferSize = fileSize / 4; // Set a bufferSize to be a quarter of the original file size for memory efficiency
+    vector<char> buffer(bufferSize); // Create a vector that uses the bufferSize
+    string key1 = "PopSmokeTheWoo55";
+    string iv = "PopSmokeTheWoo55";
+    vector<unsigned char> keyVec(key1.begin(), key1.end());
+    vector<unsigned char> ivVec(iv.begin(), iv.end());
+
+    while (currentSize != file.length) { // Write until we reach the original size of the file
+        const size_t chunkSize = min(fileSize, bufferSize);
+
+        // Read asynchronously
+        future<void> readFuture = async(launch::async, [&]() {
+            outputFile.seekg(currentSize);
+            vector<unsigned char> buffer(chunkSize);
+            outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize);
+
+            // Perform encryption
+            buffer = AES::Encrypt_OFB(buffer, keyVec, ivVec);
+
+            if (File::isCanceled) { //if true we stop the file wipe
+                outputFile.close(); //after we finish we close the file
+                file.notify(); //notify all observers that we finished the task
+                return; //finish the function if we need to cancel
+            }
+
+            // Write asynchronously
+            future<void> writeFuture = async(launch::async, [&]() {
+                outputFile.seekp(currentSize);
+                outputFile.write(reinterpret_cast<char*>(buffer.data()), chunkSize);
+                outputFile.flush();
+                });
+
+            writeFuture.get(); // Wait for the write to finish
+            });
+
+        readFuture.get(); // Wait for the read and encryption to finish
+
+        currentSize += chunkSize;
+        fileSize -= chunkSize;
+    }
+
+    outputFile.close(); //after we finish, we close the file
     file.notify(); //notify all observers that we finished the task
 }

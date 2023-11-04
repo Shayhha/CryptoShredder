@@ -7,7 +7,7 @@
 #include <QStringListModel>
 #include <unordered_map>
 #include "ui_FileShredder.h"
-#include "Shredder.h"
+#include "FileHandler.h"
 #include "FileViewer.h"
 #include "ImageLabel.h"
 #include "InfoWindow.h"
@@ -22,8 +22,9 @@ class FileShredder : public QMainWindow {
 
 private:
     Ui::FileShredderClass ui; //ui element for GUI
+    static bool wipe; //flag for indication operation mode, if true we wipe, else we encrypt/decrypt
     QStringListModel* listViewModel = NULL; //model for listView
-    Shredder* shredder = NULL; //shredder object for wipe
+    FileHandler* fileHandler = NULL; //shredder object for wipe
     unordered_map<string, int> fileDictionary; //fileDictionary that represents each file with its corresponding index in listView
     unordered_map<int, string> listViewFileDictionary; //listViewDictionary represents the current files that are showing in FileListView
     vector<string> filePathList; //vector that represents all the files path
@@ -33,21 +34,25 @@ private:
     size_t fileCounter = 0; //counter for number of files
     FileViewer* fileViewer = NULL; //FileViewer object for file viewer 
     ImageLabel* infoImageLabel = NULL; //ImageLabel for info icon
+    ImageLabel* optionsImageLabel = NULL; //ImageLabel for options icon
 
 public:
     FileShredder(QWidget *parent = nullptr);
     ~FileShredder();
 
 private slots: //here we declare the slot methods
-    void wipeFiles();
-    void cancelWipe();
+    void processFiles();
+    void cancelProcess();
     void openFileDialog();
     void clearContents();
     void addItemToListView(const QString& item);
     void updateListView(const QString& item, const QString& tag);
     void checkThreads();
-    void setListViewTags(const QString& tag, const QString& currentTag = NULL);
+    void setListViewTags(const QString& tag, const QString& currentTag=NULL);
     void doubleClickedFile(const QModelIndex& index);
+    void checkLineEditValidator();
     QMessageBox::StandardButton showMessageBox(const QString& title, const QString& text, const QString& type);
     void infoLabelClicked();
+    void optionsLabelClicked();
+    void cipherCheckBoxClicked();
 };

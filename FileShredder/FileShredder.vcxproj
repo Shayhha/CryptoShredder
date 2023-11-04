@@ -88,9 +88,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AES\AES.cpp" />
     <ClCompile Include="FileViewer.cpp" />
     <ClCompile Include="InfoWindow.cpp" />
-    <ClCompile Include="Shredder.cpp" />
+    <ClCompile Include="FileHandler.cpp" />
     <QtRcc Include="FileShredder.qrc" />
     <QtUic Include="FileShredder.ui" />
     <QtMoc Include="FileShredder.h" />
@@ -101,12 +102,13 @@
     <QtUic Include="InfoWindow.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AES\AES.h" />
     <ClInclude Include="File.h" />
     <QtMoc Include="FileViewer.h" />
     <QtMoc Include="ImageLabel.h" />
     <QtMoc Include="InfoWindow.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="Shredder.h" />
+    <ClInclude Include="FileHandler.h" />
     <QtMoc Include="SignalProxy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

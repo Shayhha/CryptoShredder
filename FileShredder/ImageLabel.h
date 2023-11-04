@@ -23,6 +23,12 @@ public:
         this->setStyleSheet("background: transparent;"); //make background transparent
     }
 
+    void setNewImage(const QString& imagePath, const QString& tooltipText = "") {
+        setPixmap(QPixmap(imagePath)); //set the new icon file path
+        if (tooltipText != "")
+            this->setToolTip(tooltipText);
+    }
+
 signals:
     void clicked(); //signal for clicked event
 

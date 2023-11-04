@@ -7,8 +7,10 @@
 #include <fstream>
 #include <cstdlib>
 #include <filesystem>
+#include <future>
 #include <random>
 #include "Observer.h"
+#include "AES/AES.h"
 
 using namespace std;
 
@@ -28,7 +30,8 @@ public:
 	File(const string &filePath, Observer& observer);
 	virtual ~File() {}
 	static void removeFile(const File& file);
-	static void secureWipeFile(const File &file, int passes, bool toRemove);
+	static void WipeFile(const File &file, int passes=1, bool toRemove=false);
+	static void CipherFile(const File& file, const string& key, bool decrypt=false);
 	string getName() { return this->name; }
 	string getExtention() { return this->extention; }
 	string getFullName() { return this->fullName; }
