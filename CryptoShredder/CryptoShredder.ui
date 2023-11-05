@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CryptoShredder</class>
+ <widget class="QMainWindow" name="CryptoShredder">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1078</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1078</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1078</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>14</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>CryptoShredder</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+    background-color: rgba(68, 70, 84, 255);
+}
+
+QScrollBar:vertical, QScrollBar:horizontal {
+    background-color: rgba(247, 247, 247, 150);
+    border: 1px solid rgb(153, 153, 153);
+    width: 10px;
+    height: 10px; 
+    margin: 0px 0px 0px 0px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background-color: black;
+    min-height: 100px;
+    border: 0px solid black;
+    border-radius: 4px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal {
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
+    height: 0px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QListView::item:hover { 
+    background-color: rgb(173, 174, 184); 
+    color: black;
+    border: 1px solid black;
+}
+
+QListView::item:selected { 
+    background-color: rgb(187, 188, 196);
+    color: black;
+    border: 1px solid black;
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QListView" name="FileListView">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>961</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(198, 198, 198, 0.6);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;
+border-color: black;
+padding: 4px;</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="OptionsFrame">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>510</y>
+      <width>961</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#OptionsFrame {
+background-color: rgba(53,54,64,0.8);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;
+}
+</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QCheckBox" name="RemoveFilesCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>30</y>
+       <width>151</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: none;
+color: white;
+border: none</string>
+     </property>
+     <property name="text">
+      <string>Remove Files </string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ProcessButton">
+     <property name="geometry">
+      <rect>
+       <x>135</x>
+       <y>90</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Start secure wipe on selected files.</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: rgba(32,33,35,255);
+	color: rgb(245,245,245);
+	border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:hover {
+   background-color: #575965;
+	color: white;
+    border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:pressed {
+   background-color:#b1b9bb;
+	color: white;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>Wipe Files</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ChooseFilesButton">
+     <property name="geometry">
+      <rect>
+       <x>500</x>
+       <y>90</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Maximum 20 files.</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: rgba(32,33,35,255);
+	color: rgb(245,245,245);
+	border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:hover {
+   background-color: #575965;
+	color: white;
+    border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:pressed {
+   background-color:#b1b9bb;
+	color: white;
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Choose Files</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ClearScreenButton">
+     <property name="geometry">
+      <rect>
+       <x>685</x>
+       <y>90</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Clean screen contents.</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: rgba(32,33,35,255);
+	color: rgb(245,245,245);
+	border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:hover {
+   background-color: #575965;
+	color: white;
+    border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:pressed {
+   background-color:#b1b9bb;
+	color: white;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>Clear Screen</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="PassesSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>30</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum 10 passes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QSpinBox {
+	background-color: transparent;
+	color: rgb(245,245,245);
+	border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+	selection-background-color: transparent;
+};</string>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>10</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="NumberOfPassesLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>30</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: none;
+color: rgb(245,245,245);
+border: none</string>
+     </property>
+     <property name="text">
+      <string>Number Of Passes</string>
+     </property>
+    </widget>
+    <widget class="QFrame" name="SpinBoxFrame">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>30</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(32,33,35,255);
+border-radius: 15px;
+border-width: 2px;
+border-radius: 15px;
+padding: 4px;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CancelButton">
+     <property name="geometry">
+      <rect>
+       <x>318</x>
+       <y>90</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>141</width>
+       <height>51</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Cancel current operation.</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: rgba(32,33,35,255);
+	color: rgb(245,245,245);
+	border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:hover {
+   background-color: #575965;
+	color: white;
+    border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+QPushButton:pressed {
+   background-color:#b1b9bb;
+	color: white;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>Cancel Wipe</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="KeyLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>213</x>
+       <y>30</y>
+       <width>340</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>340</width>
+       <height>31</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>340</width>
+       <height>31</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>AES key required, accepted key lengths include 16, 24 or 32 characters.</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+    background-color: rgba(32,33,35,255);
+	color: rgb(245,245,245);
+	border-radius: 15px;
+	border-style: outset;
+	border-width: 2px;
+	border-radius: 15px;
+	border-color: black;
+	padding: 4px;
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="maxLength">
+      <number>32</number>
+     </property>
+     <property name="cursorPosition">
+      <number>0</number>
+     </property>
+     <property name="placeholderText">
+      <string>                                Required</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="KeyLabel">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>30</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: none;
+color: rgb(245,245,245);
+</string>
+     </property>
+     <property name="text">
+      <string>Key</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="CipherCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>30</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: none;
+color: white;
+border: none</string>
+     </property>
+     <property name="text">
+      <string>Decrypt Files</string>
+     </property>
+    </widget>
+    <zorder>SpinBoxFrame</zorder>
+    <zorder>RemoveFilesCheckBox</zorder>
+    <zorder>ProcessButton</zorder>
+    <zorder>ChooseFilesButton</zorder>
+    <zorder>ClearScreenButton</zorder>
+    <zorder>PassesSpinBox</zorder>
+    <zorder>NumberOfPassesLabel</zorder>
+    <zorder>CancelButton</zorder>
+    <zorder>KeyLineEdit</zorder>
+    <zorder>KeyLabel</zorder>
+    <zorder>CipherCheckBox</zorder>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>490</y>
+      <width>941</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(32,33,35,255);
+color: rgb(245,245,245);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;
+text-align: center;</string>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="textVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QFrame" name="titleFrame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1081</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(32,33,35,255);
+color: white;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="TitleLabel">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>10</y>
+       <width>232</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>22</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(245,245,245);</string>
+     </property>
+     <property name="text">
+      <string>CryptoShredder</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TitleIconLabel">
+     <property name="geometry">
+      <rect>
+       <x>406</x>
+       <y>10</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>images/wipeIcon.png</pixmap>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="TopLabel">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>80</y>
+      <width>431</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: none;
+color: rgb(245,245,245);
+</string>
+    </property>
+    <property name="text">
+     <string>Files Scheduled For Wipe</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="CryptoShredder.qrc"/>
+ </resources>
+ <connections/>
+</ui>
