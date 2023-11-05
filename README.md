@@ -1,11 +1,11 @@
-# File Shredder App
+# CryptoShredder - Secure File Management Utility
 
-File Shredder is a powerful tool designed to securely erase files, making data recovery virtually impossible. This application utilizes multiple passes and employs the Mersenne Twister random number generator to overwrite file contents with secure and random bytes. Developed in C++ with Qt framework, it features multi-threading for wiping multiple files and smart memory management for efficiency.
+CryptoShredder is a powerful tool designed to securely erase files, making data recovery virtually impossible. This application utilizes multiple passes and employs the Mersenne Twister random number generator to overwrite file contents with secure and random bytes. Developed in C++ with Qt framework, it features multi-threading for wiping multiple files and smart memory management for efficiency.
 
 ## Clone Repository:
 
 ```shell
-git clone https://github.com/Shayhha/FileShredder
+git clone https://github.com/Shayhha/CryptoShredder
 ```
 
 ## Features
@@ -20,17 +20,17 @@ git clone https://github.com/Shayhha/FileShredder
 
 ## Usage
 
-1. Run FileShredder.exe file in x64/Release folder (for 64-bit Windows machines).
+1. Run CryptoShredder.exe file in x64/Release folder (for 64-bit Windows machines).
 2. Select the files you want to securely erase.
 3. Configure the number of passes you wish to perform (more passes mean greater security).
 4. Click the "Wipe Files" button to initiate the file shredding process.
 
 ## Screenshots
 
-![Screenshot 1](FileShredder/images/fileShredderScreetshot1.png)
+![Screenshot 1](FileShredder/images/CryptoShredderScreetshot1.png)
 *Wiping Files*
 
-![Screenshot 2](FileShredder/images/fileShredderScreetshot2.png)
+![Screenshot 2](FileShredder/images/CryptoShredderScreetshot2.png)
 *Viewing File*
 
 ## Requirements
