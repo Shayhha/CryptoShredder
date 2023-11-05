@@ -283,6 +283,18 @@ color: rgb(245,245,245);
      <height>31</height>
     </rect>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>471</width>
+     <height>31</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>471</width>
+     <height>31</height>
+    </size>
+   </property>
    <property name="font">
     <font>
      <family>Arial</family>

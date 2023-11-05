@@ -4,16 +4,16 @@
 bool File::isCanceled = false; //initialization of static flag 
 
 
-File::File(const string& filePath, Observer& observer): Observable() { //remember that the ctor throws exceptions!
-    filesystem::path p(filePath); //create path object to get info from filePath
+File::File(const string& filePath, Observer& observer): Observable() { 
+    filesystem::path p(File::ToWString(filePath)); //create path object to get info from filePath
     if (!exists(p)) { //check if the path exists
         throw runtime_error("Error, the path: " + filePath + " does not exist."); //if not we throw runtime error
     }
-    this->name = p.stem().string(); //set the name of file
-    this->extention = p.extension().string(); //set the extention 
-    this->fullName = p.stem().string() + p.extension().string(); //set the file full name
-    this->fullPath = p.string(); //set full path of file
-    this->length = filesystem::file_size(filePath); //set the length with file_size method
+    this->name = p.stem().wstring(); //set the name of file
+    this->extention = p.extension().wstring(); //set the extention 
+    this->fullName = p.stem().wstring() + p.extension().wstring(); //set the file full name
+    this->fullPath = p.wstring(); //set full path of file
+    this->length = filesystem::file_size(p); //set the length with file_size method
     this->addObserver(&observer); //add the observer to observer list
 }
 
@@ -23,8 +23,8 @@ File::File(const string& filePath, Observer& observer): Observable() { //remembe
 /// </summary>
 /// <param name="File file"></param>
 void File::removeFile(const File& file) {
-    if (remove(file.fullPath.c_str()) != 0) { //if true we failed removing file
-        throw runtime_error("Error trying to delete file: " + file.fullName); //throw exception with error
+    if (_wremove(file.fullPath.c_str()) != 0) { //if true we failed removing file
+        throw runtime_error("Error trying to delete file: " + File::ToString(file.fullPath)); //throw exception with error
     }
 }
 
@@ -39,7 +39,7 @@ void File::WipeFile(const File& file, int passes, bool toRemove) {
     fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
 
     if (!outputFile.is_open() || outputFile.fail()) { //we check if we failed opening the file
-        throw runtime_error("Error opening file: " + file.fullName); //throw runtime error exception if failed to open file
+        throw runtime_error("Error opening file: " + File::ToString(file.fullName)); //throw runtime error exception if failed to open file
         return; //stop the method
     }
 
@@ -60,7 +60,7 @@ void File::WipeFile(const File& file, int passes, bool toRemove) {
             outputFile.seekp(currentSize); //set the pointer for replacing bytes with the currentSize parameter to write in chunks
             //generate random data
             for (size_t i = 0; i < chunkSize; i++) {
-                if (isCanceled) { //if true we stop the file wipe
+                if (File::isCanceled) { //if true we stop the file wipe
                     outputFile.close(); //after we finish we close the file
                     file.notify(); //notify all observers that we finished the task
                     return; //finish the function if we need to cancel
@@ -90,7 +90,7 @@ void File::CipherFile(const File& file, const string& key, bool decrypt) {
     fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
 
     if (!outputFile.is_open() || outputFile.fail()) { //check if we failed opening the file
-        throw runtime_error("Error opening file: " + file.fullName); //throw a runtime error exception if failed to open the file
+        throw runtime_error("Error opening file: " + File::ToString(file.fullName)); //throw a runtime error exception if failed to open the file
         return; //stop the method
     }
 
@@ -118,11 +118,11 @@ void File::CipherFile(const File& file, const string& key, bool decrypt) {
                 outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize);
 
                 if (!decrypt) //if true we encrypt file
-                    buffer = AES::Encrypt_CTR(buffer, keyVec, ivVec);
+                    buffer = AES::Encrypt_CTR(buffer, keyVec, ivVec); //we encrypt using AES CTR mode with given key and iv 
                 else //else we decrypt file
-                    buffer = AES::Decrypt_CTR(buffer, keyVec, ivVec);
+                    buffer = AES::Decrypt_CTR(buffer, keyVec, ivVec); //we decrypt using AES CTR mode with given key and iv
 
-                if (isCanceled) { //if true we stop the file wipe
+                if (File::isCanceled) { //if true we stop the file encryption/decryption
                     outputFile.close(); //after we finish we close the file
                     file.notify(); //notify all observers that we finished the task
                     return; //finish the function if we need to cancel
@@ -144,12 +144,13 @@ void File::CipherFile(const File& file, const string& key, bool decrypt) {
             fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
         }
     }
-    catch (const runtime_error& e) {
+    catch (const exception& e) { //catch exceptions that may be thrown
         outputFile.close(); //after we finish, we close the file
         file.notify(); //notify all observers that we finished the task
-        throw runtime_error(e.what());
+        throw runtime_error(e.what()); //throw runtime error
     }
 
     outputFile.close(); //after we finish, we close the file
     file.notify(); //notify all observers that we finished the task
 }
+

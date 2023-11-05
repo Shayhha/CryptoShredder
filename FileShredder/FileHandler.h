@@ -18,7 +18,7 @@ using namespace std;
 /// </summary>
 class FileHandler : public Observer {
 private:
-	unordered_map<string, File*> fileDictionary; //file dictionary for wipe
+	unordered_map<wstring, File*> fileDictionary; //file dictionary for wipe
 	size_t fileDictionarySize; //represents the size of dictionary
 	int numOfThreads = 0; //represents the current amount of running threads
 	bool threadsRunning = false; //flag for indicating if threads are running

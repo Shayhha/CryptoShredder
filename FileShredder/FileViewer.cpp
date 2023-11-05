@@ -13,13 +13,20 @@ bool FileViewer::isInstance = false; //initialize the static instance flag
 FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& fileName) : QDialog(parent) {
     ui.setupUi(this); //set ui elements
     this->file.setFileName(filePath); //set file name for QFile object
-    ui.FileNameLabel->setText(fileName); //set the file name in FileViewer
+    ui.FileNameLabel->setText(QString(QChar(0x200E)) + fileName); //set the file name in FileViewer
     //set the tooltip for the window
     this->setWhatsThis("This window serves as a viewer for the selected file in one of three formats: HEX, BINARY, or UTF-8. You can choose the format using the dropdown menu. The viewer allows you to inspect the file's contents in the selected format.");
     ui.FileTextEdit->viewport()->setCursor(Qt::ArrowCursor); //set cursor for FileTextEdit
     this->setAttribute(Qt::WA_DeleteOnClose); //ensure that object gets deleted when window closes
     this->setModal(true); //set the dialog model to block interactions with main GUI 
-
+    
+    //this will make the text inside textEdit from left to right regardless of language 
+    //QTextDocument* doc = ui.FileTextEdit->document();
+    //QTextOption textOption = doc->defaultTextOption();
+    //textOption.setTextDirection(Qt::LeftToRight);
+    //doc->setDefaultTextOption(textOption);
+    //ui.FileTextEdit->setDocument(doc);
+    
     connect(ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk); //connect signal for adding text when scrolling
     connect(ui.FormatComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &FileViewer::updateFileContent); //connect signal for combo box index changed event
 
