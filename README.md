@@ -27,10 +27,10 @@ git clone https://github.com/Shayhha/CryptoShredder
 
 ## Screenshots
 
-![Screenshot 1](FileShredder/images/CryptoShredderScreenshot1.png)
+![Screenshot 1](CryptoShredder/images/CryptoShredderScreenshot1.png)
 *Wiping Files*
 
-![Screenshot 2](FileShredder/images/CryptoShredderScreenshot2.png)
+![Screenshot 2](CryptoShredder/images/CryptoShredderScreenshot2.png)
 *Viewing File*
 
 ## Requirements
