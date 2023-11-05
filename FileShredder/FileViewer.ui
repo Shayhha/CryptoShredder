@@ -27,44 +27,47 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
-	background-color: rgba(68,70,84,255);
+    background-color: rgba(68, 70, 84, 255);
 }
 
-QScrollBar:vertical {
-    background-color: rgba(247, 247, 247,150);
+QScrollBar:vertical, QScrollBar:horizontal {
+    background-color: rgba(247, 247, 247, 150);
     border: 1px solid rgb(153, 153, 153);
-    width:10px;    
+    width: 10px;
+    height: 10px; 
     margin: 0px 0px 0px 0px;
     border-radius: 4px;
 }
 
-QScrollBar::handle:vertical {          
-    background-color: black;   
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background-color: black;
     min-height: 100px;
     border: 0px solid black;
     border-radius: 4px;
 }
 
-QScrollBar::add-line:vertical {       
+QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal {
     height: 0px;
     subcontrol-position: bottom;
     subcontrol-origin: margin;
 }
 
-QScrollBar::sub-line:vertical {
+QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
     height: 0px;
     subcontrol-position: top;
     subcontrol-origin: margin;
 }
 
-QListView::item:hover {
-   background-color: transparent;
-   color: black;
+QListView::item:hover { 
+    background-color: rgb(173, 174, 184); 
+    color: black;
+    border: 1px solid black;
 }
 
 QListView::item:selected { 
-   background-color: transparent;
-   color: black;
+    background-color: rgb(187, 188, 196);
+    color: black;
+    border: 1px solid black;
 }
 </string>
   </property>
@@ -106,6 +109,12 @@ border-width: 2px;
 border-radius: 15px;
 border-color: black;
 padding: 4px;</string>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAsNeeded</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAsNeeded</enum>
    </property>
    <property name="readOnly">
     <bool>true</bool>

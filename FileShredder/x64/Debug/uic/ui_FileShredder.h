@@ -59,48 +59,49 @@ public:
         font.setPointSize(14);
         FileShredderClass->setFont(font);
         FileShredderClass->setStyleSheet(QString::fromUtf8("QWidget {\n"
-"	background-color: rgba(68,70,84,255);\n"
+"    background-color: rgba(68, 70, 84, 255);\n"
 "}\n"
 "\n"
-"QScrollBar:vertical {\n"
-"    background-color: rgba(247, 247, 247,150);\n"
+"QScrollBar:vertical, QScrollBar:horizontal {\n"
+"    background-color: rgba(247, 247, 247, 150);\n"
 "    border: 1px solid rgb(153, 153, 153);\n"
-"    width:10px;    \n"
+"    width: 10px;\n"
+"    height: 10px; \n"
 "    margin: 0px 0px 0px 0px;\n"
 "    border-radius: 4px;\n"
 "}\n"
 "\n"
-"QScrollBar::handle:vertical {          \n"
-"    background-color: black;   \n"
+"QScrollBar::handle:vertical, QScrollBar::handle:horizontal {\n"
+"    background-color: black;\n"
 "    min-height: 100px;\n"
 "    border: 0px solid black;\n"
 "    border-radius: 4px;\n"
 "}\n"
 "\n"
-"QScrollBar::add-line:vertical {       \n"
+"QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal {\n"
 "    height: 0px;\n"
 "    subcontrol-position: bottom;\n"
 "    subcontrol-origin: margin;\n"
 "}\n"
 "\n"
-"QScrollBar::sub-line:vertical {\n"
+"QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {\n"
 "    height: 0px;\n"
 "    subcontrol-position: top;\n"
 "    subcontrol-origin: margin;\n"
 "}\n"
 "\n"
 "QListView::item:hover { \n"
-"   background-color: rgb(173, 174, 184); \n"
-"   color:black;\n"
-"   border: 1px solid black;\n"
+"    background-color: rgb(173, 174, 184); \n"
+"    color: black;\n"
+"    border: 1px solid black;\n"
 "}\n"
 "\n"
-"QListView::item:selected { \n"
-"   background-color: rgb(187, 188, 196);\n"
-"   color:black;\n"
-"   border: 1px solid black;\n"
+"QListV"
+                        "iew::item:selected { \n"
+"    background-color: rgb(187, 188, 196);\n"
+"    color: black;\n"
+"    border: 1px solid black;\n"
 "}\n"
-"\n"
 ""));
         centralWidget = new QWidget(FileShredderClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
@@ -121,6 +122,12 @@ public:
         OptionsFrame = new QFrame(centralWidget);
         OptionsFrame->setObjectName(QString::fromUtf8("OptionsFrame"));
         OptionsFrame->setGeometry(QRect(60, 510, 961, 161));
+        QFont font2;
+        font2.setFamily(QString::fromUtf8("Arial"));
+        font2.setPointSize(14);
+        font2.setBold(true);
+        font2.setWeight(75);
+        OptionsFrame->setFont(font2);
         OptionsFrame->setStyleSheet(QString::fromUtf8("#OptionsFrame {\n"
 "background-color: rgba(53,54,64,0.8);\n"
 "border-radius: 15px;\n"
@@ -136,11 +143,6 @@ public:
         RemoveFilesCheckBox = new QCheckBox(OptionsFrame);
         RemoveFilesCheckBox->setObjectName(QString::fromUtf8("RemoveFilesCheckBox"));
         RemoveFilesCheckBox->setGeometry(QRect(590, 30, 151, 31));
-        QFont font2;
-        font2.setFamily(QString::fromUtf8("Arial"));
-        font2.setPointSize(14);
-        font2.setBold(true);
-        font2.setWeight(75);
         RemoveFilesCheckBox->setFont(font2);
         RemoveFilesCheckBox->setCursor(QCursor(Qt::PointingHandCursor));
         RemoveFilesCheckBox->setFocusPolicy(Qt::ClickFocus);
@@ -328,13 +330,19 @@ public:
 ""));
         KeyLineEdit = new QLineEdit(OptionsFrame);
         KeyLineEdit->setObjectName(QString::fromUtf8("KeyLineEdit"));
-        KeyLineEdit->setGeometry(QRect(220, 30, 191, 31));
-        KeyLineEdit->setMinimumSize(QSize(191, 31));
-        KeyLineEdit->setMaximumSize(QSize(191, 31));
+        KeyLineEdit->setGeometry(QRect(213, 30, 340, 31));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(KeyLineEdit->sizePolicy().hasHeightForWidth());
+        KeyLineEdit->setSizePolicy(sizePolicy);
+        KeyLineEdit->setMinimumSize(QSize(340, 31));
+        KeyLineEdit->setMaximumSize(QSize(340, 31));
         QFont font3;
         font3.setFamily(QString::fromUtf8("Arial"));
-        font3.setPointSize(12);
+        font3.setPointSize(11);
         font3.setBold(true);
+        font3.setItalic(true);
         font3.setWeight(75);
         KeyLineEdit->setFont(font3);
         KeyLineEdit->setFocusPolicy(Qt::ClickFocus);
@@ -350,10 +358,11 @@ public:
 "}\n"
 "\n"
 ""));
-        KeyLineEdit->setMaxLength(16);
+        KeyLineEdit->setMaxLength(32);
+        KeyLineEdit->setCursorPosition(0);
         KeyLabel = new QLabel(OptionsFrame);
         KeyLabel->setObjectName(QString::fromUtf8("KeyLabel"));
-        KeyLabel->setGeometry(QRect(176, 30, 41, 31));
+        KeyLabel->setGeometry(QRect(170, 30, 41, 31));
         QFont font4;
         font4.setFamily(QString::fromUtf8("Arial"));
         font4.setPointSize(14);
@@ -475,10 +484,10 @@ public:
 #endif // QT_CONFIG(tooltip)
         CancelButton->setText(QCoreApplication::translate("FileShredderClass", "Cancel Wipe", nullptr));
 #if QT_CONFIG(tooltip)
-        KeyLineEdit->setToolTip(QCoreApplication::translate("FileShredderClass", "AES key required, accepted key lengths include 8, 12, or 16 characters.", nullptr));
+        KeyLineEdit->setToolTip(QCoreApplication::translate("FileShredderClass", "AES key required, accepted key lengths include 16, 24 or 32 characters.", nullptr));
 #endif // QT_CONFIG(tooltip)
         KeyLineEdit->setText(QString());
-        KeyLineEdit->setPlaceholderText(QCoreApplication::translate("FileShredderClass", "             Required", nullptr));
+        KeyLineEdit->setPlaceholderText(QCoreApplication::translate("FileShredderClass", "                                Required", nullptr));
         KeyLabel->setText(QCoreApplication::translate("FileShredderClass", "Key", nullptr));
         CipherCheckBox->setText(QCoreApplication::translate("FileShredderClass", "Decrypt Files", nullptr));
         TitleLabel->setText(QCoreApplication::translate("FileShredderClass", "File Shredder", nullptr));

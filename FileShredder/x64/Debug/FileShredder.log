@@ -1,4 +1,2 @@
 ﻿  File.cpp
-  FileShredder.cpp
-C:\Users\shayh\Documents\Visual Studio 2022\Projects\FileShredder\FileShredder\FileShredder.cpp(178,58): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
   FileShredder.vcxproj -> C:\Users\shayh\Documents\Visual Studio 2022\Projects\FileShredder\x64\Debug\FileShredder.exe

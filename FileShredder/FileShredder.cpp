@@ -213,11 +213,11 @@ void FileShredder::processFiles() {
         else { //else we encrypt/decrypt the files
             string key = ui.KeyLineEdit->text().toStdString(); //get the key from GUI
             if (key.length() == 0) {
-                this->showMessageBox("Invalid key", "Error, The key field must not be left empty. Please provide a key that matches AES requirements, accepted key lengths include 8, 12, or 16 characters.", "critical");
+                this->showMessageBox("Invalid key", "Error, The key field must not be left empty. Please provide a key that matches AES requirements, accepted key lengths include 16, 24 or 32 characters.", "critical");
                 return; //stop the method
             }
-            else if (key.length() != 8 && key.length() != 12 && key.length() != 16) { //if true the key is invalid so we show error
-                this->showMessageBox("Invalid key", "Error, Please provide a key that matches AES requirements, accepted key lengths include 8, 12, or 16 characters.", "critical");
+            else if (key.length() != 16 && key.length() != 24 && key.length() != 32) { //if true the key is invalid so we show error
+                this->showMessageBox("Invalid key", "Error, Please provide a key that matches AES requirements, accepted key lengths include 16, 24 or 32 characters.", "critical");
                 return; //stop the method
             }
             this->fileHandler = new FileHandler(this->filePathList, this->signal); //initialize the fileHandler with the required parameters
@@ -415,7 +415,7 @@ void FileShredder::doubleClickedFile(const QModelIndex& index) {
 /// </summary>
 void FileShredder::checkLineEditValidator() {
     QString text = ui.KeyLineEdit->text(); //get the text inside key line edit
-    if (text.length() != 0 && text.length() != 8 && text.length() != 12 && text.length() != 16) { //if true the text isn't valid
+    if (text.length() != 0 && text.length() != 16 && text.length() != 24 && text.length() != 32) { //if true the text isn't valid
         QString styleSheet = "QLineEdit {"
             "background-color: rgba(32,33,35,255);"
             "color: rgb(245,245,245);"

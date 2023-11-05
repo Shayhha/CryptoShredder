@@ -33,48 +33,48 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
-	background-color: rgba(68,70,84,255);
+    background-color: rgba(68, 70, 84, 255);
 }
 
-QScrollBar:vertical {
-    background-color: rgba(247, 247, 247,150);
+QScrollBar:vertical, QScrollBar:horizontal {
+    background-color: rgba(247, 247, 247, 150);
     border: 1px solid rgb(153, 153, 153);
-    width:10px;    
+    width: 10px;
+    height: 10px; 
     margin: 0px 0px 0px 0px;
     border-radius: 4px;
 }
 
-QScrollBar::handle:vertical {          
-    background-color: black;   
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background-color: black;
     min-height: 100px;
     border: 0px solid black;
     border-radius: 4px;
 }
 
-QScrollBar::add-line:vertical {       
+QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal {
     height: 0px;
     subcontrol-position: bottom;
     subcontrol-origin: margin;
 }
 
-QScrollBar::sub-line:vertical {
+QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
     height: 0px;
     subcontrol-position: top;
     subcontrol-origin: margin;
 }
 
 QListView::item:hover { 
-   background-color: rgb(173, 174, 184); 
-   color:black;
-   border: 1px solid black;
+    background-color: rgb(173, 174, 184); 
+    color: black;
+    border: 1px solid black;
 }
 
 QListView::item:selected { 
-   background-color: rgb(187, 188, 196);
-   color:black;
-   border: 1px solid black;
+    background-color: rgb(187, 188, 196);
+    color: black;
+    border: 1px solid black;
 }
-
 </string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -113,6 +113,14 @@ padding: 4px;</string>
       <width>961</width>
       <height>161</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">#OptionsFrame {
@@ -553,29 +561,36 @@ QPushButton:pressed {
     <widget class="QLineEdit" name="KeyLineEdit">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>213</x>
        <y>30</y>
-       <width>191</width>
+       <width>340</width>
        <height>31</height>
       </rect>
      </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
-       <width>191</width>
+       <width>340</width>
        <height>31</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>191</width>
+       <width>340</width>
        <height>31</height>
       </size>
      </property>
      <property name="font">
       <font>
        <family>Arial</family>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
        <weight>75</weight>
+       <italic>true</italic>
        <bold>true</bold>
       </font>
      </property>
@@ -583,7 +598,7 @@ QPushButton:pressed {
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>AES key required, accepted key lengths include 8, 12, or 16 characters.</string>
+      <string>AES key required, accepted key lengths include 16, 24 or 32 characters.</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QLineEdit {
@@ -603,16 +618,19 @@ QPushButton:pressed {
       <string/>
      </property>
      <property name="maxLength">
-      <number>16</number>
+      <number>32</number>
+     </property>
+     <property name="cursorPosition">
+      <number>0</number>
      </property>
      <property name="placeholderText">
-      <string>             Required</string>
+      <string>                                Required</string>
      </property>
     </widget>
     <widget class="QLabel" name="KeyLabel">
      <property name="geometry">
       <rect>
-       <x>176</x>
+       <x>170</x>
        <y>30</y>
        <width>41</width>
        <height>31</height>
