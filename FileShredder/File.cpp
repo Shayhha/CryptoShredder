@@ -60,7 +60,7 @@ void File::WipeFile(const File& file, int passes, bool toRemove) {
             outputFile.seekp(currentSize); //set the pointer for replacing bytes with the currentSize parameter to write in chunks
             //generate random data
             for (size_t i = 0; i < chunkSize; i++) {
-                if (File::isCanceled) { //if true we stop the file wipe
+                if (isCanceled) { //if true we stop the file wipe
                     outputFile.close(); //after we finish we close the file
                     file.notify(); //notify all observers that we finished the task
                     return; //finish the function if we need to cancel
@@ -94,53 +94,60 @@ void File::CipherFile(const File& file, const string& key, bool decrypt) {
         return; //stop the method
     }
 
-    outputFile.seekp(0); //start from the beginning of the file each pass
-    size_t fileSize = file.length; //set the fileSize to be the file size in bytes 
-    size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of the file
-    const size_t bufferSize = fileSize / 4; //set a bufferSize to be a quarter of the original file size for memory efficiency
-    vector<char> buffer(bufferSize); //create a vector that uses the bufferSize
+    try {
+        outputFile.seekp(0); //start from the beginning of the file each pass
+        size_t fileSize = file.length; //set the fileSize to be the file size in bytes 
+        size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of the file
+        const size_t bufferSize = fileSize / 4; //set a bufferSize to be a quarter of the original file size for memory efficiency
+        vector<char> buffer(bufferSize); //create a vector that uses the bufferSize
 
-    const vector<unsigned char> keyVec(key.begin(), key.end()); //save the given key in a vector
-    vector<unsigned char> ivVec(keyVec.begin(), keyVec.begin() + 16); //create a initialization vector with first 16 bytes of given keyVec
-    ivVec = AES::Encrypt_ECB(ivVec, keyVec); //we encrypt the initialization vector using AES ECB mode with given key
-    //apply XOR operation between encrypted ivVec and keyVec
-    for (size_t i = 0; i < ivVec.size(); i++) 
-        ivVec[i] ^= keyVec[i]; //XOR between each byte
+        const vector<unsigned char> keyVec(key.begin(), key.end()); //save the given key in a vector
+        vector<unsigned char> ivVec(keyVec.begin(), keyVec.begin() + 16); //create a initialization vector with first 16 bytes of given keyVec
+        ivVec = AES::Encrypt_ECB(ivVec, keyVec); //we encrypt the initialization vector using AES ECB mode with given key
+        //apply XOR operation between encrypted ivVec and keyVec
+        for (size_t i = 0; i < ivVec.size(); i++)
+            ivVec[i] ^= keyVec[i]; //XOR between each byte
 
-    while (currentSize != file.length) { // Write until we reach the original size of the file
-        const size_t chunkSize = min(fileSize, bufferSize); //set chunkSize based on the minimum between the fileSize and bufferSize
+        while (currentSize != file.length) { // Write until we reach the original size of the file
+            const size_t chunkSize = min(fileSize, bufferSize); //set chunkSize based on the minimum between the fileSize and bufferSize
 
-        //read asynchronously
-        future<void> readFuture = async(launch::async, [&]() {
-            outputFile.seekg(currentSize);
-            vector<unsigned char> buffer(chunkSize);
-            outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize);
+            //read asynchronously
+            future<void> readFuture = async(launch::async, [&]() {
+                outputFile.seekg(currentSize);
+                vector<unsigned char> buffer(chunkSize);
+                outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize);
 
-            if(!decrypt) //if true we encrypt file
-                buffer = AES::Encrypt_CTR(buffer, keyVec, ivVec);
-            else //else we decrypt file
-                buffer = AES::Decrypt_CTR(buffer, keyVec, ivVec);
+                if (!decrypt) //if true we encrypt file
+                    buffer = AES::Encrypt_CTR(buffer, keyVec, ivVec);
+                else //else we decrypt file
+                    buffer = AES::Decrypt_CTR(buffer, keyVec, ivVec);
 
-            if (File::isCanceled) { //if true we stop the file wipe
-                outputFile.close(); //after we finish we close the file
-                file.notify(); //notify all observers that we finished the task
-                return; //finish the function if we need to cancel
-            }
+                if (isCanceled) { //if true we stop the file wipe
+                    outputFile.close(); //after we finish we close the file
+                    file.notify(); //notify all observers that we finished the task
+                    return; //finish the function if we need to cancel
+                }
 
-            //write asynchronously
-            future<void> writeFuture = async(launch::async, [&]() {
-                outputFile.seekp(currentSize);
-                outputFile.write(reinterpret_cast<char*>(buffer.data()), chunkSize);
-                outputFile.flush(); //flush the file 
-            });
+                //write asynchronously
+                future<void> writeFuture = async(launch::async, [&]() {
+                    outputFile.seekp(currentSize);
+                    outputFile.write(reinterpret_cast<char*>(buffer.data()), chunkSize);
+                    outputFile.flush(); //flush the file 
+                    });
 
-            writeFuture.get(); //wait for the write to finish
-        });
+                writeFuture.get(); //wait for the write to finish
+                });
 
-        readFuture.get(); //wait for the read and encryption/decryption to finish
+            readFuture.get(); //wait for the read and encryption/decryption to finish
 
-        currentSize += chunkSize; //add chunkSize to currentSize for indication and for the point where we need to write more data in next iteration
-        fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
+            currentSize += chunkSize; //add chunkSize to currentSize for indication and for the point where we need to write more data in next iteration
+            fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
+        }
+    }
+    catch (const runtime_error& e) {
+        outputFile.close(); //after we finish, we close the file
+        file.notify(); //notify all observers that we finished the task
+        throw runtime_error(e.what());
     }
 
     outputFile.close(); //after we finish, we close the file

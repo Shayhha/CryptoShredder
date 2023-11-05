@@ -421,7 +421,7 @@ public:
         titleFrame->setFrameShadow(QFrame::Raised);
         TitleLabel = new QLabel(titleFrame);
         TitleLabel->setObjectName(QString::fromUtf8("TitleLabel"));
-        TitleLabel->setGeometry(QRect(455, 10, 191, 41));
+        TitleLabel->setGeometry(QRect(450, 10, 232, 41));
         QFont font6;
         font6.setFamily(QString::fromUtf8("Arial"));
         font6.setPointSize(22);
@@ -432,7 +432,7 @@ public:
         TitleLabel->setStyleSheet(QString::fromUtf8("color: rgb(245,245,245);"));
         TitleIconLabel = new QLabel(titleFrame);
         TitleIconLabel->setObjectName(QString::fromUtf8("TitleIconLabel"));
-        TitleIconLabel->setGeometry(QRect(405, 10, 40, 40));
+        TitleIconLabel->setGeometry(QRect(406, 10, 40, 40));
         QFont font7;
         font7.setFamily(QString::fromUtf8("Arial"));
         TitleIconLabel->setFont(font7);
@@ -461,7 +461,7 @@ public:
 
     void retranslateUi(QMainWindow *FileShredderClass)
     {
-        FileShredderClass->setWindowTitle(QCoreApplication::translate("FileShredderClass", "File Shredder", nullptr));
+        FileShredderClass->setWindowTitle(QCoreApplication::translate("FileShredderClass", "CryptoShredder", nullptr));
         RemoveFilesCheckBox->setText(QCoreApplication::translate("FileShredderClass", "Remove Files ", nullptr));
 #if QT_CONFIG(tooltip)
         ProcessButton->setToolTip(QCoreApplication::translate("FileShredderClass", "Start secure wipe on selected files.", nullptr));
@@ -490,7 +490,7 @@ public:
         KeyLineEdit->setPlaceholderText(QCoreApplication::translate("FileShredderClass", "                                Required", nullptr));
         KeyLabel->setText(QCoreApplication::translate("FileShredderClass", "Key", nullptr));
         CipherCheckBox->setText(QCoreApplication::translate("FileShredderClass", "Decrypt Files", nullptr));
-        TitleLabel->setText(QCoreApplication::translate("FileShredderClass", "File Shredder", nullptr));
+        TitleLabel->setText(QCoreApplication::translate("FileShredderClass", "CryptoShredder", nullptr));
         TitleIconLabel->setText(QString());
         TopLabel->setText(QCoreApplication::translate("FileShredderClass", "Files Scheduled For Wipe", nullptr));
     } // retranslateUi

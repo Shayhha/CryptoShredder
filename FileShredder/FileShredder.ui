@@ -29,7 +29,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>File Shredder</string>
+   <string>CryptoShredder</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
@@ -754,9 +754,9 @@ color: white;</string>
     <widget class="QLabel" name="TitleLabel">
      <property name="geometry">
       <rect>
-       <x>455</x>
+       <x>450</x>
        <y>10</y>
-       <width>191</width>
+       <width>232</width>
        <height>41</height>
       </rect>
      </property>
@@ -773,13 +773,13 @@ color: white;</string>
       <string notr="true">color: rgb(245,245,245);</string>
      </property>
      <property name="text">
-      <string>File Shredder</string>
+      <string>CryptoShredder</string>
      </property>
     </widget>
     <widget class="QLabel" name="TitleIconLabel">
      <property name="geometry">
       <rect>
-       <x>405</x>
+       <x>406</x>
        <y>10</y>
        <width>40</width>
        <height>40</height>

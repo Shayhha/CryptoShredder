@@ -31,14 +31,16 @@ void FileHandler::initWipe(int passes, bool toRemove) {
 	this->wipe = true; //set the wipe flag to true
 	this->numOfThreads = this->fileDictionarySize; //set the numOfThreads value to size of dictionary
 	this->threadsRunning = true; //set threadsRunning flag to true
-	try {
-		for (const auto& [fileName, file] : this->fileDictionary) { //iterate over the fileDictionary
-			thread fileThread(&File::WipeFile, *file, passes, toRemove); //we initiate a new thread with wipe method and given parameters
-			fileThread.detach(); //detach each thread so they run independently
-		}
-	}
-	catch (const runtime_error& e) { //catch a runtime error that might be thrown
-		this->signal->sendSignalMessageBox("Error", e.what(), "critical"); //show a messagebox with error in GUI
+	for (const auto& [fileName, file] : this->fileDictionary) { //iterate over the fileDictionary
+		thread fileThread([&] { //we initiate a new thread with WipeFile function and given parameters
+			try {
+				File::WipeFile(*file, passes, toRemove); //call our WipeFile function
+			}
+			catch (const runtime_error& e) { //catch a runtime error that might be thrown
+				this->signal->sendSignalMessageBox("Error", e.what(), "critical"); //emit a signal to show a messagebox with error in GUI
+			}
+		});
+		fileThread.detach(); //detach each thread so they run independently
 	}
 }
 
@@ -50,14 +52,16 @@ void FileHandler::initCipher(const string& key, bool decrypt) {
 	this->decrypt = decrypt; //set decrypt flag 
 	this->numOfThreads = this->fileDictionarySize; //set the numOfThreads value to size of dictionary
 	this->threadsRunning = true; //set threadsRunning flag to true
-	try {
-		for (const auto& [fileName, file] : this->fileDictionary) { //iterate over the fileDictionary
-			thread fileThread(&File::CipherFile, *file, key, this->decrypt); //we initiate a new thread with cipher method and given parameters
-			fileThread.detach(); //detach each thread so they run independently
-		}
-	}
-	catch (const runtime_error& e) { //catch a runtime error that might be thrown
-		this->signal->sendSignalMessageBox("Error", e.what(), "critical"); //show a messagebox with error in GUI
+	for (const auto& [fileName, file] : this->fileDictionary) { //iterate over the fileDictionary
+		thread fileThread([&] { //we initiate a new thread with CipherFile function and given parameters
+			try {
+				File::CipherFile(*file, key, this->decrypt); //call our CipherFile function
+			}
+			catch (const runtime_error& e) { //catch a runtime error that might be thrown
+				this->signal->sendSignalMessageBox("Error", e.what(), "critical"); //emit a signal to show a messagebox with error in GUI
+			}
+		});
+		fileThread.detach(); //detach each thread so they run independently
 	}
 }
 
