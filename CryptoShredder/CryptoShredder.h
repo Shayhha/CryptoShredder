@@ -46,7 +46,7 @@ private slots: //here we declare the slot methods
     void openFileDialog();
     void clearContents();
     void addItemToListView(const QString& item);
-    void updateListView(const QString& item, const QString& tag);
+    void updateListView(const QString& fileDictionaryName, const QString& fileName, const QString& tag);
     void checkThreads();
     void setListViewTags(const QString& tag, const QString& currentTag=NULL);
     void doubleClickedFile(const QModelIndex& index);

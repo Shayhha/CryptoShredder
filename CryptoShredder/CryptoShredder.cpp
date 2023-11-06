@@ -70,12 +70,12 @@ void CryptoShredder::addItemToListView(const QString& item) {
 /// Method to update the listView when thread finishes its work
 /// </summary>
 /// <param name="QString item"></param>
-void CryptoShredder::updateListView(const QString& item, const QString& tag) {
+void CryptoShredder::updateListView(const QString& fileDictionaryName, const QString& fileName, const QString& tag) {
     this->GUIMutex.lock(); //lock the GUI mutex to prevent race conditions with threads
     if (this->fileHandler) { //update only if fileHandler object is initialized
-        int fileIndex = this->fileDictionary[item.toStdString()]; //get the index of the file we need to update in fileDictionary
+        int fileIndex = this->fileDictionary[fileDictionaryName.toStdString()]; //get the index of the file we need to update in fileDictionary
         QModelIndex index = this->listViewModel->index(fileIndex, 0); //convert the integer index to QModelIndex for Qt list model
-        this->listViewModel->setData(index, item + tag, Qt::EditRole); //set the tag in the specific file to indicate that its finished
+        this->listViewModel->setData(index, fileName + tag, Qt::EditRole); //set the tag in the specific file to indicate that its finished
         this->checkThreads(); //call checkThreads method to determine if we can delete allocated memory
     }
     this->GUIMutex.unlock(); //unlock mutex

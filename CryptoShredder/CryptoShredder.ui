@@ -91,6 +91,8 @@ QListView::item:selected {
      <font>
       <family>Arial</family>
       <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="focusPolicy">

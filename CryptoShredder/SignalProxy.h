@@ -16,7 +16,7 @@ class SignalProxy : public QObject {
 	Q_OBJECT
 
 signals: //here we declare the signals for GUI
-	void signalUpdateListView(const QString& item, const QString& tag); //signal to update GUI listView 
+	void signalUpdateListView(const QString& fileDictionaryName, const QString& fileName, const QString& tag); //signal to update GUI listView 
 	void signalMessageBox(const QString& title, const QString& text, const QString& type); //signal to show GUI messagebox
 	void signalSetListViewTags(const QString& tag, const QString& currentTag); //signal for set tags in GUI listView
 
@@ -29,8 +29,8 @@ public slots: //here we declare the slot methods
 	/// Method to emit a signal to GUI to update listView
 	/// </summary>
 	/// <param name="string item"></param>
-	void sendSignalUpdateListView(const string& item, const string& tag) {
-		emit signalUpdateListView(QString::fromStdString(item), QString::fromStdString(tag));
+	void sendSignalUpdateListView(const string& fileDictionaryName, const string& fileName, const string& tag) {
+		emit signalUpdateListView(QString::fromStdString(fileDictionaryName), QString::fromStdString(fileName), QString::fromStdString(tag));
 	}
 
 	/// <summary>

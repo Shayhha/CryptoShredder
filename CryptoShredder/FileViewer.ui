@@ -167,7 +167,7 @@ padding: 4px;</string>
       <x>0</x>
       <y>0</y>
       <width>110</width>
-      <height>30</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -179,13 +179,13 @@ padding: 4px;</string>
     <property name="minimumSize">
      <size>
       <width>110</width>
-      <height>30</height>
+      <height>31</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>110</width>
-      <height>30</height>
+      <height>31</height>
      </size>
     </property>
     <property name="font">
@@ -231,7 +231,7 @@ QComboBox QAbstractItemView {
 
 QComboBox QListView{
     outline: 0px;
-} the list in combox box doesnt apply changes</string>
+} </string>
     </property>
     <item>
      <property name="text">
@@ -253,16 +253,18 @@ QComboBox QListView{
   <widget class="QLabel" name="FormatLabel">
    <property name="geometry">
     <rect>
-     <x>635</x>
+     <x>641</x>
      <y>15</y>
-     <width>81</width>
+     <width>80</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Arial</family>
-     <pointsize>18</pointsize>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
@@ -299,6 +301,8 @@ color: rgb(245,245,245);
     <font>
      <family>Arial</family>
      <pointsize>18</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
