@@ -72,7 +72,7 @@ FileViewer* FileViewer::getInstance(QWidget* parent, const QString& filePath, co
 /// <returns></returns>
 bool FileViewer::openFile(const QString& filePath) {
     if (this->file.open(QIODevice::ReadOnly)) { //if true we opened the file successfully
-        this->fileSize = this->file.size(); //set size file size
+        this->fileSize = this->file.size(); //set size file 
         this->bytesRead = 0; //set starting bytesRead to zero
         this->loadChunk();  //load the initial chunk
         return true; //return true indicating for successful file opening
@@ -123,7 +123,7 @@ void FileViewer::updateFileContent(int index) {
 /// Method to load chunks of data to the FileTextEdit when scroll bar emits signal for value change
 /// </summary>
 void FileViewer::loadChunk() {
-    const qint64 DefaultChunkSize = 1024 * 3;  //setting DefaultChuckSize that will add each time
+    const qint64 DefaultChunkSize = 2048 * 3;  //setting DefaultChuckSize that will add each time
 
     if (!this->file.isOpen() || this->bytesRead >= this->fileSize) { //if true we loaded all the file contents
         return;  //no more data to load, finish the task

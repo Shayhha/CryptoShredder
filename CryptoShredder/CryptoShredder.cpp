@@ -19,9 +19,12 @@ CryptoShredder::CryptoShredder(QWidget *parent) : QMainWindow(parent) {
     this->listViewModel = new QStringListModel(this); //initialize the model for listView in GUI
     this->signal = new SignalProxy(); //initialize the signal proxy for the foreigner classes
     this->infoImageLabel = new ImageLabel("images/infoIcon.png", QPoint(1020, 10), QSize(40, 40), this); //set the info icon in GUI
-    this->infoImageLabel->setToolTip("General information\n about app."); //set toolTip for info icon
+    this->infoImageLabel->setToolTip("General information\nabout app."); //set toolTip for info icon
     this->optionsImageLabel = new ImageLabel("images/cipherIcon.png", QPoint(955, 10), QSize(40, 40), this); //set the options icon in GUI
     this->optionsImageLabel->setToolTip("Encrypt/Decrypt files."); //set toolTip for options icon
+    this->keyValidator = new QRegExpValidator(QRegExp("[a-zA-Z0-9\\W]{16}|[a-zA-Z0-9\\W]{24}|[a-zA-Z0-9\\W]{32}"), this); //regular expression for key 
+    ui.KeyLineEdit->setValidator(this->keyValidator); //set the key validator
+    ui.KeyLineEdit->setToolTip("AES key required, accepted key lengths\ninclude 16, 24 or 32 characters."); //set toolTip for KeyLineEdit
     ui.FileListView->setModel(listViewModel); //set the list model for listView in GUI to add elements
     ui.FileListView->setEditTriggers(QAbstractItemView::NoEditTriggers); //set the listView to be uneditable
     ui.PassesSpinBox->findChild<QLineEdit*>()->setReadOnly(true); //remove the lineEdit in spinBox
@@ -49,6 +52,7 @@ CryptoShredder::~CryptoShredder() {
     if (this->fileHandler) //if there's an object of fileHandler initialized
         delete this->fileHandler; //delete the fileHandler object
     delete this->listViewModel; //delete the list view model
+    delete this->keyValidator; //delete the key validator
     delete this->signal; //delete the signal object
     delete this->infoImageLabel; //delete the infoImageLabel object
     delete this->optionsImageLabel; //delete the optionsImageLabel object
@@ -473,7 +477,6 @@ void CryptoShredder::optionsLabelClicked() {
             ui.RemoveFilesCheckBox->setVisible(true);
             ui.TopLabel->setText("Files Scheduled For Wipe");
             ui.ProcessButton->setText("Wipe Files");
-            ui.CancelButton->setText("Cancel Wipe");
             ui.ChooseFilesButton->setToolTip("Maximum 20 files.");
             ui.ProcessButton->setToolTip("Start secure wipe on selected files.");
             this->clearContents();
@@ -492,7 +495,6 @@ void CryptoShredder::optionsLabelClicked() {
             ui.KeyLineEdit->setVisible(true);
             ui.CipherCheckBox->setVisible(true);
             this->cipherCheckBoxClicked();
-            ui.CancelButton->setText("Cancel");
             ui.ChooseFilesButton->setToolTip("Maximum 10 files.");
             this->clearContents();
             this->wipe = false;

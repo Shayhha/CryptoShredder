@@ -557,7 +557,7 @@ QPushButton:pressed {
 </string>
      </property>
      <property name="text">
-      <string>Cancel Wipe</string>
+      <string>Cancel</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="KeyLineEdit">
@@ -612,9 +612,7 @@ QPushButton:pressed {
 	border-radius: 15px;
 	border-color: black;
 	padding: 4px;
-}
-
-</string>
+}</string>
      </property>
      <property name="text">
       <string/>
