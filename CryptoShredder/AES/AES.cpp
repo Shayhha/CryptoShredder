@@ -6,9 +6,9 @@ size_t AES::Nk = 4; //number of 32-bit words in the key (AES-128)
 size_t AES::Nr = 10; //number of rounds (AES-128 has 10 rounds)
 
 
-/// <summary>
-/// Represents the SBOX table of AES encryption.
-/// </summary>
+/**
+ * @brief • Represents the SBOX table of AES encryption.
+ */
 const unsigned char AES::SBOX[16][16] = {
   //  _0    _1    _2    _3    _4    _5    _6    _7    _8    _9    _A    _B    _C    _D    _E    _F    //
     {0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76}, //_0
@@ -30,9 +30,9 @@ const unsigned char AES::SBOX[16][16] = {
 };
 
 
-/// <summary>
-/// Represents the inverse SBOX table of AES encryption.
-/// </summary>
+/**
+ * @brief • Represents the inverse SBOX table of AES encryption.
+ */
 const unsigned char AES::INVSBOX[16][16] = {
   //  _0    _1    _2    _3    _4    _5    _6    _7    _8    _9    _A    _B    _C    _D    _E    _F    //
     {0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB}, //_0
@@ -54,9 +54,9 @@ const unsigned char AES::INVSBOX[16][16] = {
 };
 
 
-/// <summary>
-///  Galois multiplication tables for AES MixColumns function.
-/// </summary>
+/**
+ * @brief • Galois multiplication tables for AES MixColumns function.
+ */
 const unsigned char AES::GaloisMult[15][256] = {
     {}, {},
 
@@ -170,10 +170,10 @@ const unsigned char AES::GaloisMult[15][256] = {
 };
 
 
-/// <summary>
-/// Function that handles the operation mode of AES encryption, this function throws runtime error if given key size isn't valid.
-/// </summary>
-/// <param name="size_t keySize"></param>
+/**
+ * @brief • Function that handles the operation mode of AES encryption, this function throws runtime error if given key size isn't valid.
+ * @param • size_t keySize
+ */
 void AES::SetOperationMode(const size_t keySize) {
     if (keySize == 16) { //if keySize is 16 bytes (128 bits)
         AES::Nk = 4; //number of 32-bit words in the key (AES-128)
@@ -192,10 +192,10 @@ void AES::SetOperationMode(const size_t keySize) {
 }
 
 
-/// <summary>
-/// Function for printing a vector array.
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; vector"></param>
+/**
+ * @brief • Function for printing a vector array.
+ * @param • vector<unsigned char> vector
+ */
 void AES::PrintVector(const vector<unsigned char>& vector) {
     for (unsigned char element : vector) // iterate through each element
         cout << hex << setw(2) << setfill('0') << (int)element << " "; //set the output stream to hexadecimal mode
@@ -203,10 +203,10 @@ void AES::PrintVector(const vector<unsigned char>& vector) {
 }
 
 
-/// <summary>
-/// Function for printing a matrix represented as vector of vectors.
-/// </summary>
-/// <param name="vector&lt;vector&lt;unsigned char&gt;&gt; matrix"></param>
+/**
+ * @brief • Function for printing a matrix represented as vector of vectors.
+ * @param • vector<vector<unsigned char>> matrix
+ */
 void AES::PrintMatrix(const vector<vector<unsigned char>>& matrix) {
     for (const vector<unsigned char>& row : matrix) {
         for (unsigned char element : row) //iterate through the inner vector (row)
@@ -217,11 +217,11 @@ void AES::PrintMatrix(const vector<vector<unsigned char>>& matrix) {
 }
 
 
-/// <summary>
-/// Function that rotates a vector element(byte) to the left.
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; word"></param>
-/// <returns>vector&lt;unsigned char&gt; rotatedWord</returns>
+/**
+ * @brief • Function that rotates a vector element (byte) to the left.
+ * @param • vector<unsigned char> word
+ * @return • vector<unsigned char> rotatedWord
+ */
 const vector<unsigned char> AES::RotWord(const vector<unsigned char>& word) {
     vector<unsigned char> result(Nb); //initialize a vector of size Nb
     //shift the word to the left by one position
@@ -233,11 +233,11 @@ const vector<unsigned char> AES::RotWord(const vector<unsigned char>& word) {
 }
 
 
-/// <summary>
-/// Function that substitutes each byte in a word using the SBOX.
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; word"></param>
-/// <returns>vector&lt;unsigned char&gt; subWord</returns>
+/**
+ * @brief • Function that substitutes each byte in a word using the SBOX.
+ * @param • vector<unsigned char> word
+ * @return • vector<unsigned char> subWord
+ */
 const vector<unsigned char> AES::SubWord(const vector<unsigned char>& word) {
     vector<unsigned char> result(Nb); //initialize a vector of size Nb
     for (int i = 0; i < Nb; i++) { //iterate over the word
@@ -248,11 +248,11 @@ const vector<unsigned char> AES::SubWord(const vector<unsigned char>& word) {
 }
 
 
-/// <summary>
-/// Function that returns the Rcon value given original value for key schedule.
-/// </summary>
-/// <param name=" unsigned char value"></param>
-/// <returns>unsigned char RconValue</returns>
+/**
+ * @brief • Function that returns the Rcon value given original value for key schedule.
+ * @param • unsigned char value
+ * @return • unsigned char rconValue
+ */
 const unsigned char AES::Rcon(const unsigned char& value) {
     unsigned char result = 0x01; //initialize with 0x01 (first round constant)
     for (int i = 1; i < value; i++) {
@@ -265,12 +265,12 @@ const unsigned char AES::Rcon(const unsigned char& value) {
 }
 
 
-/// <summary>
-/// Function for substitute bytes in AES encryption, both for encryption and decryption.
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; state"></param>
-/// <param name="bool inverse"></param>
-/// <returns>vector&lt;unsigned char&gt; subState</returns>
+/**
+ * @brief • Function for substitute bytes in AES encryption, both for encryption and decryption.
+ * @param • vector<unsigned char> state
+ * @param • bool inverse
+ * @return • vector<unsigned char> subState
+ */
 const vector<unsigned char> AES::SubBytes(vector<unsigned char>& state, const bool inverse) {
     if (!inverse) { //perform substitute bytes for encryption
         for (size_t i = 0; i < state.size(); i++) //iterate over state vector
@@ -284,12 +284,12 @@ const vector<unsigned char> AES::SubBytes(vector<unsigned char>& state, const bo
 }
 
 
-/// <summary>
-/// Function for shifting rows in AES encryption, both for encryption and decryption.
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; state"></param>
-/// <param name="bool inverse"></param>
-/// <returns>vector&lt;unsigned char&gt; shiftedState</returns>
+/**
+ * @brief • Function for shifting rows in AES encryption, both for encryption and decryption.
+ * @param • vector<unsigned char> state
+ * @param • bool inverse
+ * @return • vector<unsigned char> shiftedState
+ */
 const vector<unsigned char> AES::ShiftRows(vector<unsigned char>& state, const bool inverse) {
     if (!inverse) { //perform shift rows for encryption
         //swap elements in second row
@@ -317,12 +317,12 @@ const vector<unsigned char> AES::ShiftRows(vector<unsigned char>& state, const b
 }
 
 
-/// <summary>
-/// Function for mixing columns using GaloisMult tables for AES encryption, both for encryption and decryption.
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; state"></param>
-/// <param name="bool inverse"></param>
-/// <returns>vector&lt;unsigned char&gt; mixedState</returns>
+/**
+ * @brief • Function for mixing columns using GaloisMult tables for AES encryption, both for encryption and decryption.
+ * @param • vector<unsigned char> state
+ * @param • bool inverse
+ * @return • vector<unsigned char> mixedState
+ */
 const vector<unsigned char> AES::MixColumns(vector<unsigned char>& state, const bool inverse) {
     vector<unsigned char> temp(Nb); //temp vector represents current column values 
     if (!inverse) { //perform mix columns for encryption
@@ -351,13 +351,13 @@ const vector<unsigned char> AES::MixColumns(vector<unsigned char>& state, const 
 }
 
 
-/// <summary>
-/// Function for XOR operation between two vectors in same size, vectors immutable if flag is set. 
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; first"></param>
-/// <param name="vector&lt;unsigned char&gt; second"></param>
-/// <param name="bool immutable"></param>
-/// <returns>vector&lt;unsigned char&gt; xor</returns>
+/**
+ * @brief • Function for XOR operation between two vectors in same size, vectors immutable if flag is set. 
+ * @param • vector<unsigned char> first
+ * @param • vector<unsigned char> second
+ * @param • bool immutable
+ * @return • vector<unsigned char> xor
+ */
 const vector<unsigned char> AES::XOR(vector<unsigned char>& first, const vector<unsigned char>& second, const bool immutable) {
     if (first.size() != second.size()) //if not same size we exit the function
         return first; //return first vector as indication for failure
@@ -378,11 +378,11 @@ const vector<unsigned char> AES::XOR(vector<unsigned char>& first, const vector<
 }
 
 
-/// <summary>
-/// Function that splits given vector into AES blocks (4 bytes).
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <returns>vector&lt;vector&lt;unsigned char&gt;&gt; splitKey</returns>
+/**
+ * @brief • Function that splits given vector into AES blocks (4 bytes).
+ * @param • vector<unsigned char> key
+ * @return • vector<vector<unsigned char>> splitKey
+ */
 const vector<vector<unsigned char>> AES::SplitIntoKeyWords(const vector<unsigned char>& key) {
     vector<vector<unsigned char>> KeyWordArray; //initialize new vector
     KeyWordArray.reserve(key.size() / Nb); //reserve memory for blocks 
@@ -393,11 +393,11 @@ const vector<vector<unsigned char>> AES::SplitIntoKeyWords(const vector<unsigned
 }
 
 
-/// <summary>
-/// Function for generating round keys for AES encryption, supports AES-128, AES-192 and AES-256.
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <returns>vector&lt;vector&lt;unsigned char&gt;&gt; roundKeys</returns>
+/**
+ * @brief • Function for generating round keys for AES encryption, supports AES-128, AES-192 and AES-256.
+ * @param • vector<unsigned char> key
+ * @return • vector<vector<unsigned char>> roundKeys
+ */
 const vector<vector<unsigned char>> AES::KeySchedule(const vector<unsigned char>& key) {
     vector<vector<unsigned char>> roundKeysMatrix; //represents the matrix of round keys (each represented as a vector of unsigned char)
     vector<unsigned char> roundKeysVector; //represents new round keys vector
@@ -431,14 +431,14 @@ const vector<vector<unsigned char>> AES::KeySchedule(const vector<unsigned char>
 }
 
 
-/// <summary>
-/// Function that performs AES encryption on given text using specified round keys, supports AES-128, AES-192 and AES-256. 
-/// <para>This function performs AES encryption with fixed block size of 16 bytes (128-bit).</para>
-/// <para>This function throws runtime error if given text is invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;vector&lt;unsigned char&gt;&gt; roundKeys"></param>
-/// <returns>vector&lt;unsigned char&gt; cipherText</returns>
+/**
+ * @brief • Function that performs AES encryption on given text using specified round keys, supports AES-128, AES-192 and AES-256.
+ * @brief • This function performs AES encryption with fixed block size of 16 bytes (128-bit).
+ * @param • vector<unsigned char> text
+ * @param • vector<vector<unsigned char>> roundKeys
+ * @return • vector<unsigned char> cipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ */
 const vector<unsigned char> AES::EncryptBlock(vector<unsigned char>& text, const vector<vector<unsigned char>>& roundKeys) {
     if(text.size() != BlockSize) //if plaintext isn't valid we throw runtime error
         throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES requirements."); //throw a runtime error
@@ -459,14 +459,14 @@ const vector<unsigned char> AES::EncryptBlock(vector<unsigned char>& text, const
 }
 
 
-/// <summary>
-/// Function that performs AES decryption on given text using specified round keys, supports AES-128, AES-192 and AES-256. 
-/// <para>This function performs AES decryption with fixed block size of 16 bytes (128-bit).</para>
-/// <para>This function throws runtime error if given text is invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;vector&lt;unsigned char&gt;&gt; roundKeys"></param>
-/// <returns>vector&lt;unsigned char&gt; decipherText</returns>
+/**
+ * @brief • Function that performs AES decryption on given text using specified round keys, supports AES-128, AES-192 and AES-256. 
+ * @brief • This function performs AES decryption with fixed block size of 16 bytes (128-bit).
+ * @param • vector<unsigned char> text
+ * @param • vector<vector<unsigned char>> roundKeys
+ * @return • vector<unsigned char> decipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ */
 const vector<unsigned char> AES::DecryptBlock(vector<unsigned char>& text, const vector<vector<unsigned char>>& roundKeys) {
     if (text.size() != BlockSize) //if plaintext isn't valid we throw runtime error
         throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES requirements."); //throw a runtime error
@@ -487,14 +487,15 @@ const vector<unsigned char> AES::DecryptBlock(vector<unsigned char>& text, const
 }
 
 
-/// <summary>
-/// Function that performs AES encryption on given text using specified key, supports AES-128, AES-192 and AES-256. 
-/// <para>This function performs AES encryption with fixed block size of 16 bytes (128-bit).</para>
-/// <para>This function throws runtime error if given text and key are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <returns>vector&lt;unsigned char&gt; cipherText</returns>
+/**
+ * @brief • Function that performs AES encryption on given text using specified key, supports AES-128, AES-192 and AES-256. 
+ * @brief • This function performs AES encryption with fixed block size of 16 bytes (128-bit).
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @return • vector<unsigned char> cipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ */
 const vector<unsigned char> AES::Encrypt(vector<unsigned char>& text, const vector<unsigned char>& key) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -504,14 +505,15 @@ const vector<unsigned char> AES::Encrypt(vector<unsigned char>& text, const vect
 }
 
 
-/// <summary>
-/// Function that performs AES decryption on given text using specified key, supports AES-128, AES-192 and AES-256. 
-/// <para>This function performs AES decryption with fixed block size of 16 bytes (128-bit).</para>
-/// <para>This function throws runtime error if given text and key are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <returns>vector&lt;unsigned char&gt; decipherText</returns>
+/**
+ * @brief • Function that performs AES decryption on given text using specified key, supports AES-128, AES-192 and AES-256. 
+ * @brief • This function performs AES decryption with fixed block size of 16 bytes (128-bit).
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @return • vector<unsigned char> decipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ */
 const vector<unsigned char> AES::Decrypt(vector<unsigned char>& text, const vector<unsigned char>& key) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -521,14 +523,16 @@ const vector<unsigned char> AES::Decrypt(vector<unsigned char>& text, const vect
 }
 
 
-/// <summary>
-/// Function that performs AES encryption in ECB mode on given text using specified key. 
-/// <para>ECB mode supports AES-128, AES-192 and AES-256, includes PKCS7 padding.</para> 
-/// <para>This function throws runtime error if given text and key are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <returns>vector&lt;unsigned char&gt; cipherText</returns>
+/**
+ * @brief • Function that performs AES encryption in ECB mode on given text using specified key. 
+ * @brief • ECB mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports PKCS7 padding.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @return • vector<unsigned char> cipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ */
 const vector<unsigned char> AES::Encrypt_ECB(vector<unsigned char>& text, const vector<unsigned char>& key) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (text.size() % BlockSize != 0) { //if text size isn't multiply of 16 bytes we add padding
@@ -547,14 +551,17 @@ const vector<unsigned char> AES::Encrypt_ECB(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES decryption in ECB mode on given text using specified key.
-/// <para>ECB mode supports AES-128, AES-192 and AES-256, includes PKCS7 padding.</para> 
-/// <para>This function throws runtime error if given text and key are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <returns>vector&lt;unsigned char&gt; decipherText</returns>
+/**
+ * @brief • Function that performs AES decryption in ECB mode on given text using specified key.
+ * @brief • ECB mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports PKCS7 padding.
+ * @brief • ECB decryption mode requires text to be a multiple of 16 bytes in length.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @return • vector<unsigned char> decipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ */
 const vector<unsigned char> AES::Decrypt_ECB(vector<unsigned char>& text, const vector<unsigned char>& key) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (text.size() % BlockSize != 0) //if text size isn't multiply of 16 bytes
@@ -574,15 +581,18 @@ const vector<unsigned char> AES::Decrypt_ECB(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES encryption in CBC mode on given text using specified key and initialization vector. 
-/// <para>CBC mode supports AES-128, AES-192 and AES-256, includes PKCS7 padding.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; cipherText</returns>
+/**
+ * @brief • Function that performs AES encryption in CBC mode on given text using specified key and initialization vector. 
+ * @brief • CBC mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports PKCS7 padding.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> cipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Encrypt_CBC(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -606,15 +616,19 @@ const vector<unsigned char> AES::Encrypt_CBC(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES decryption in CBC mode on given text using specified key and initialization vector. 
-/// <para>CBC mode supports AES-128, AES-192 and AES-256, includes PKCS7 padding.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; decipherText</returns>
+/**
+ * @brief • Function that performs AES decryption in CBC mode on given text using specified key and initialization vector. 
+ * @brief • CBC mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports PKCS7 padding.
+ * @brief • CBC decryption mode requires text to be a multiple of 16 bytes in length.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> decipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Decrypt_CBC(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -641,15 +655,18 @@ const vector<unsigned char> AES::Decrypt_CBC(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES encryption in CFB mode on given text using specified key and initialization vector. 
-/// <para>CFB mode supports AES-128, AES-192 and AES-256, supports text in any size.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; cipherText</returns>
+/**
+ * @brief • Function that performs AES encryption in CFB mode on given text using specified key and initialization vector. 
+ * @brief • CFB mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports text in any size.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> cipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Encrypt_CFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -673,15 +690,18 @@ const vector<unsigned char> AES::Encrypt_CFB(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES decryption in CFB mode on given text using specified key and initialization vector. 
-/// <para>CFB mode supports AES-128, AES-192 and AES-256, supports text in any size.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; decipherText</returns>
+/**
+ * @brief • Function that performs AES decryption in CFB mode on given text using specified key and initialization vector. 
+ * @brief • CFB mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports text in any size.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> decipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Decrypt_CFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -705,15 +725,18 @@ const vector<unsigned char> AES::Decrypt_CFB(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES encryption in OFB mode on given text using specified key and initialization vector. 
-/// <para>OFB mode supports AES-128, AES-192 and AES-256, supports text in any size.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; cipherText</returns>
+/**
+ * @brief • Function that performs AES encryption in OFB mode on given text using specified key and initialization vector. 
+ * @brief • OFB mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports text in any size.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> cipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Encrypt_OFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -734,15 +757,18 @@ const vector<unsigned char> AES::Encrypt_OFB(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES decryption in OFB mode on given text using specified key and initialization vector. 
-/// <para>OFB mode supports AES-128, AES-192 and AES-256, supports text in any size.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; decipherText</returns>
+/**
+ * @brief • Function that performs AES decryption in OFB mode on given text using specified key and initialization vector. 
+ * @brief • OFB mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports text in any size.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> decipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Decrypt_OFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -763,15 +789,18 @@ const vector<unsigned char> AES::Decrypt_OFB(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES encryption in CTR mode on given text using specified key and initialization vector. 
-/// <para>CTR mode supports AES-128, AES-192 and AES-256, supports text in any size.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; cipherText</returns>
+/**
+ * @brief • Function that performs AES encryption in CTR mode on given text using specified key and initialization vector. 
+ * @brief • CTR mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports text in any size.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> cipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Encrypt_CTR(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -799,15 +828,18 @@ const vector<unsigned char> AES::Encrypt_CTR(vector<unsigned char>& text, const 
 }
 
 
-/// <summary>
-/// Function that performs AES decryption in CTR mode on given text using specified key and initialization vector. 
-/// <para>CTR mode supports AES-128, AES-192 and AES-256, supports text in any size.</para> 
-/// <para>This function throws runtime error if given text, key and iv are invalid.</para>
-/// </summary>
-/// <param name="vector&lt;unsigned char&gt; text"></param>
-/// <param name="vector&lt;unsigned char&gt; key"></param>
-/// <param name="vector&lt;unsigned char&gt; iv"></param>
-/// <returns>vector&lt;unsigned char&gt; decipherText</returns>
+/**
+ * @brief • Function that performs AES decryption in CTR mode on given text using specified key and initialization vector.
+ * @brief • CTR mode supports AES-128, AES-192 and AES-256.
+ * @brief • Supports text in any size.
+ * @param • vector<unsigned char> text
+ * @param • vector<unsigned char> key
+ * @param • vector<unsigned char> iv
+ * @return • vector<unsigned char> decipherText
+ * @throws • runtime_error thrown if given text is invalid.
+ * @throws • runtime_error thrown if given key is invalid.
+ * @throws • runtime_error thrown if given iv is invalid.
+ */
 const vector<unsigned char> AES::Decrypt_CTR(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
@@ -839,7 +871,7 @@ const vector<unsigned char> AES::Decrypt_CTR(vector<unsigned char>& text, const 
 //int main() {
 //    ///test key schedule///
 //    //vector<unsigned char> key1(16, 0x00);
-//    ////AES::SetOperationMode(16, key.size());
+//    //AES::SetOperationMode(16, key.size());
 //    //vector<vector<unsigned char>> keys = AES::KeySchedule(key1);
 //    //AES::PrintMatrix(keys);
 //
