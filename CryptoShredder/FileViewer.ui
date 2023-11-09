@@ -69,6 +69,12 @@ QListView::item:selected {
     color: black;
     border: 1px solid black;
 }
+
+QToolTip { 
+   color: rgb(245,245,245);
+   background-color: rgba(46, 47, 56, 0.8);
+   border: 1px solid rgb(102,102,102);
+}
 </string>
   </property>
   <widget class="QTextEdit" name="FileTextEdit">
@@ -102,13 +108,15 @@ QListView::item:selected {
     <enum>Qt::ClickFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgba(198, 198, 198, 0.6);
-border-radius: 15px;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;
-border-color: black;
-padding: 4px;</string>
+    <string notr="true">QTextEdit {
+   background-color: rgba(198, 198, 198, 0.6);
+   border-radius: 15px;
+   border-style: outset;
+   border-width: 2px;
+   border-radius: 15px;
+   border-color: black;
+   padding: 4px;
+}</string>
    </property>
    <property name="verticalScrollBarPolicy">
     <enum>Qt::ScrollBarAsNeeded</enum>
@@ -148,12 +156,14 @@ padding: 4px;</string>
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgba(32,33,35,255);
-color: rgb(245,245,245);
-border-radius: 15px;
-border-width: 2px;
-border-radius: 15px;
-padding: 4px;</string>
+    <string notr="true">QFrame {
+   background-color: rgba(32,33,35,255);
+   color: rgb(245,245,245);
+   border-radius: 15px;
+   border-width: 2px;
+   border-radius: 15px;
+   padding: 4px;
+}</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -202,6 +212,9 @@ padding: 4px;</string>
     <property name="focusPolicy">
      <enum>Qt::WheelFocus</enum>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt&quot;&gt;Choose HEX, BINARY&lt;br&gt; or UTF-8 formats.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="styleSheet">
      <string notr="true">QComboBox {
     background-color: transparent;
@@ -215,7 +228,7 @@ padding: 4px;</string>
 }
 
 QComboBox:hover {
-    border: 2px solid black
+    border: 2px solid black;
 }
 
 QComboBox QAbstractItemView {
@@ -268,8 +281,10 @@ QComboBox QListView{
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: none;
-color: rgb(245,245,245);
+    <string notr="true">QLabel {
+   background-color: none;
+   color: rgb(245,245,245);
+}
 </string>
    </property>
    <property name="text">
@@ -306,8 +321,10 @@ color: rgb(245,245,245);
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: none;
-color: rgb(245,245,245);
+    <string notr="true">QLabel {
+   background-color: none;
+   color: rgb(245,245,245);
+}
 </string>
    </property>
    <property name="text">

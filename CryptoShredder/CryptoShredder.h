@@ -14,9 +14,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represents the main GUi application of CryptoShredder
-/// </summary>
+/**
+ * @brief Class that represents the main GUi application of CryptoShredder.
+ */
 class CryptoShredder : public QMainWindow {
     Q_OBJECT
 

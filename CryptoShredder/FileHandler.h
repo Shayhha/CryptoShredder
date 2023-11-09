@@ -13,9 +13,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represent shredding multiple files
-/// </summary>
+/**
+ * Class that represent shredding multiple files.
+ */
 class FileHandler : public Observer {
 private:
 	unordered_map<wstring, File*> fileDictionary; //file dictionary for wipe
