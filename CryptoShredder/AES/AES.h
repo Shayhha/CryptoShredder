@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
+#include <random>
 #include <fstream>
 #include <cstdlib>
 #include <iomanip> 
@@ -311,13 +312,35 @@ public:
 	static const vector<unsigned char> Decrypt_CTR(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv);
 
 	/**
-	 * @brief • Function for printing a vector array.
+	 * @brief • Function for creating a vector.
+	 * @param • size_t vecSize
+	 * @return • vector<unsigned char> vector
+	 */
+	static const vector<unsigned char> Create_Vector(const size_t vecSize);
+
+	/**
+	 * @brief • Function for creating an AES key.
+	 * @brief • Supports AES-128, AES-192 and AES-256 keys.
+	 * @brief • Returns default AES-128 key if invalid size given.
+	 * @param • size_t keySize
+	 * @return • vector<unsigned char> key
+	 */
+	static const vector<unsigned char> Create_Key(const size_t keySize);
+
+	/**
+	 * @brief • Function for creating an initialization vector.
+	 * @return • vector<unsigned char> iv
+	 */
+	static const vector<unsigned char> Create_IV();
+
+	/**
+	 * @brief • Function for printing a vector in hexadecimal.
 	 * @param • vector<unsigned char> vector
 	 */
 	static void PrintVector(const vector<unsigned char>& vector);
 
 	/**
-	 * @brief • Function for printing a matrix represented as vector of vectors.
+	 * @brief • Function for printing a matrix represented as vector of vectors in hexadecimal.
 	 * @param • vector<vector<unsigned char>> matrix
 	 */
 	static void PrintMatrix(const vector<vector<unsigned char>>& matrix);
