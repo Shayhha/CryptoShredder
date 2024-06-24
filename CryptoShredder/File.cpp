@@ -46,8 +46,8 @@ void File::WipeFile(const File& file, int passes, bool toRemove) {
         return; //stop the method
     }
     try {
-        random_device rd; //for random bytes generator
-        mt19937_64 generator(rd()); //secure random byte generator using Mersenne Twister algorithm 
+        random_device randomDevice; //for random bytes generator
+        mt19937_64 generator(randomDevice()); //secure random byte generator 
 
         //we iterate in a loop each pass and wipe the file's contents
         for (int pass = 0; pass < passes; pass++) {
