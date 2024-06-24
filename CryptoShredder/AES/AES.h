@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
+#include <random>
 #include <fstream>
 #include <cstdlib>
 #include <iomanip> 
@@ -83,8 +84,9 @@ protected:
 	static const vector<vector<unsigned char>> KeySchedule(const vector<unsigned char>& key);
 
 	/**
-	 * @brief • Function that handles the operation mode of AES encryption, this function throws runtime error if given key size isn't valid.
+	 * @brief • Function that handles the operation mode of AES encryption.
 	 * @param • size_t keySize
+	 * @throws • runtime_error thrown if given keySize is invalid.
 	 */
 	static void SetOperationMode(const size_t keySize);
 
@@ -311,15 +313,49 @@ public:
 	static const vector<unsigned char> Decrypt_CTR(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv);
 
 	/**
-	 * @brief • Function for printing a vector array.
-	 * @param • vector<unsigned char> vector
+	 * @brief • Function for creating a vector.
+	 * @param • size_t vecSize
+	 * @return • vector<unsigned char> vector
 	 */
-	static void PrintVector(const vector<unsigned char>& vector);
+	static const vector<unsigned char> Create_Vector(const size_t vecSize);
 
 	/**
-	 * @brief • Function for printing a matrix represented as vector of vectors.
-	 * @param • vector<vector<unsigned char>> matrix
+	 * @brief • Function for creating an AES key.
+	 * @brief • Supports AES-128, AES-192 and AES-256 keys.
+	 * @brief • Returns default AES-128 key if no arguments given.
+	 * @param • size_t keySize
+	 * @return • vector<unsigned char> key
 	 */
-	static void PrintMatrix(const vector<vector<unsigned char>>& matrix);
+	static const vector<unsigned char> Create_Key(const size_t keySize = BlockSize * Nb * 2);
+
+	/**
+	 * @brief • Function for creating an initialization vector.
+	 * @return • vector<unsigned char> iv
+	 */
+	static const vector<unsigned char> Create_IV();
+
+	/**
+	 * @brief • Function for clearing a vector security.
+	 * @param • vector<unsigned char> vec
+	 */
+	static void ClearVector(vector<unsigned char>& vec);
+
+	/**
+	 * @brief • Function for clearing a vector of vectors security.
+	 * @param • vector<vector<unsigned char>> vec
+	 */
+	static void ClearVector(vector<vector<unsigned char>>& vec);
+
+	/**
+	 * @brief • Function for printing a vector in hexadecimal.
+	 * @param • vector<unsigned char> vec
+	 */
+	static void PrintVector(const vector<unsigned char>& vec);
+
+	/**
+	 * @brief • Function for printing a vector of vectors in hexadecimal.
+	 * @param • vector<vector<unsigned char>> vec
+	 */
+	static void PrintVector(const vector<vector<unsigned char>>& vec);
 };
 #endif

@@ -10,23 +10,23 @@ size_t AES::Nr = 10; //number of rounds (AES-128 has 10 rounds, AES-192 has 12 r
  * @brief • Represents the SBOX table of AES encryption.
  */
 const unsigned char AES::SBOX[16][16] = {
-  //  _0    _1    _2    _3    _4    _5    _6    _7    _8    _9    _A    _B    _C    _D    _E    _F    //
-    {0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76}, //_0
-    {0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0}, //_1
-    {0xB7, 0xFD, 0x93, 0x26, 0x36, 0x3F, 0xF7, 0xCC, 0x34, 0xA5, 0xE5, 0xF1, 0x71, 0xD8, 0x31, 0x15}, //_2
-    {0x04, 0xC7, 0x23, 0xC3, 0x18, 0x96, 0x05, 0x9A, 0x07, 0x12, 0x80, 0xE2, 0xEB, 0x27, 0xB2, 0x75}, //_3
-    {0x09, 0x83, 0x2C, 0x1A, 0x1B, 0x6E, 0x5A, 0xA0, 0x52, 0x3B, 0xD6, 0xB3, 0x29, 0xE3, 0x2F, 0x84}, //_4
-    {0x53, 0xD1, 0x00, 0xED, 0x20, 0xFC, 0xB1, 0x5B, 0x6A, 0xCB, 0xBE, 0x39, 0x4A, 0x4C, 0x58, 0xCF}, //_5
-    {0xD0, 0xEF, 0xAA, 0xFB, 0x43, 0x4D, 0x33, 0x85, 0x45, 0xF9, 0x02, 0x7F, 0x50, 0x3C, 0x9F, 0xA8}, //_6
-    {0x51, 0xA3, 0x40, 0x8F, 0x92, 0x9D, 0x38, 0xF5, 0xBC, 0xB6, 0xDA, 0x21, 0x10, 0xFF, 0xF3, 0xD2}, //_7
-    {0xCD, 0x0C, 0x13, 0xEC, 0x5F, 0x97, 0x44, 0x17, 0xC4, 0xA7, 0x7E, 0x3D, 0x64, 0x5D, 0x19, 0x73}, //_8
-    {0x60, 0x81, 0x4F, 0xDC, 0x22, 0x2A, 0x90, 0x88, 0x46, 0xEE, 0xB8, 0x14, 0xDE, 0x5E, 0x0B, 0xDB}, //_9
-    {0xE0, 0x32, 0x3A, 0x0A, 0x49, 0x06, 0x24, 0x5C, 0xC2, 0xD3, 0xAC, 0x62, 0x91, 0x95, 0xE4, 0x79}, //_A
-    {0xE7, 0xC8, 0x37, 0x6D, 0x8D, 0xD5, 0x4E, 0xA9, 0x6C, 0x56, 0xF4, 0xEA, 0x65, 0x7A, 0xAE, 0x08}, //_B
-    {0xBA, 0x78, 0x25, 0x2E, 0x1C, 0xA6, 0xB4, 0xC6, 0xE8, 0xDD, 0x74, 0x1F, 0x4B, 0xBD, 0x8B, 0x8A}, //_C
-    {0x70, 0x3E, 0xB5, 0x66, 0x48, 0x03, 0xF6, 0x0E, 0x61, 0x35, 0x57, 0xB9, 0x86, 0xC1, 0x1D, 0x9E}, //_D
-    {0xE1, 0xF8, 0x98, 0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55, 0x28, 0xDF}, //_E
-    {0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16}  //_F
+    //  _0    _1    _2    _3    _4    _5    _6    _7    _8    _9    _A    _B    _C    _D    _E    _F    //
+      {0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76}, //_0
+      {0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0}, //_1
+      {0xB7, 0xFD, 0x93, 0x26, 0x36, 0x3F, 0xF7, 0xCC, 0x34, 0xA5, 0xE5, 0xF1, 0x71, 0xD8, 0x31, 0x15}, //_2
+      {0x04, 0xC7, 0x23, 0xC3, 0x18, 0x96, 0x05, 0x9A, 0x07, 0x12, 0x80, 0xE2, 0xEB, 0x27, 0xB2, 0x75}, //_3
+      {0x09, 0x83, 0x2C, 0x1A, 0x1B, 0x6E, 0x5A, 0xA0, 0x52, 0x3B, 0xD6, 0xB3, 0x29, 0xE3, 0x2F, 0x84}, //_4
+      {0x53, 0xD1, 0x00, 0xED, 0x20, 0xFC, 0xB1, 0x5B, 0x6A, 0xCB, 0xBE, 0x39, 0x4A, 0x4C, 0x58, 0xCF}, //_5
+      {0xD0, 0xEF, 0xAA, 0xFB, 0x43, 0x4D, 0x33, 0x85, 0x45, 0xF9, 0x02, 0x7F, 0x50, 0x3C, 0x9F, 0xA8}, //_6
+      {0x51, 0xA3, 0x40, 0x8F, 0x92, 0x9D, 0x38, 0xF5, 0xBC, 0xB6, 0xDA, 0x21, 0x10, 0xFF, 0xF3, 0xD2}, //_7
+      {0xCD, 0x0C, 0x13, 0xEC, 0x5F, 0x97, 0x44, 0x17, 0xC4, 0xA7, 0x7E, 0x3D, 0x64, 0x5D, 0x19, 0x73}, //_8
+      {0x60, 0x81, 0x4F, 0xDC, 0x22, 0x2A, 0x90, 0x88, 0x46, 0xEE, 0xB8, 0x14, 0xDE, 0x5E, 0x0B, 0xDB}, //_9
+      {0xE0, 0x32, 0x3A, 0x0A, 0x49, 0x06, 0x24, 0x5C, 0xC2, 0xD3, 0xAC, 0x62, 0x91, 0x95, 0xE4, 0x79}, //_A
+      {0xE7, 0xC8, 0x37, 0x6D, 0x8D, 0xD5, 0x4E, 0xA9, 0x6C, 0x56, 0xF4, 0xEA, 0x65, 0x7A, 0xAE, 0x08}, //_B
+      {0xBA, 0x78, 0x25, 0x2E, 0x1C, 0xA6, 0xB4, 0xC6, 0xE8, 0xDD, 0x74, 0x1F, 0x4B, 0xBD, 0x8B, 0x8A}, //_C
+      {0x70, 0x3E, 0xB5, 0x66, 0x48, 0x03, 0xF6, 0x0E, 0x61, 0x35, 0x57, 0xB9, 0x86, 0xC1, 0x1D, 0x9E}, //_D
+      {0xE1, 0xF8, 0x98, 0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55, 0x28, 0xDF}, //_E
+      {0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16}  //_F
 };
 
 
@@ -34,23 +34,23 @@ const unsigned char AES::SBOX[16][16] = {
  * @brief • Represents the inverse SBOX table of AES encryption.
  */
 const unsigned char AES::INVSBOX[16][16] = {
-  //  _0    _1    _2    _3    _4    _5    _6    _7    _8    _9    _A    _B    _C    _D    _E    _F    //
-    {0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB}, //_0
-    {0x7C, 0xE3, 0x39, 0x82, 0x9B, 0x2F, 0xFF, 0x87, 0x34, 0x8E, 0x43, 0x44, 0xC4, 0xDE, 0xE9, 0xCB}, //_1
-    {0x54, 0x7B, 0x94, 0x32, 0xA6, 0xC2, 0x23, 0x3D, 0xEE, 0x4C, 0x95, 0x0B, 0x42, 0xFA, 0xC3, 0x4E}, //_2
-    {0x08, 0x2E, 0xA1, 0x66, 0x28, 0xD9, 0x24, 0xB2, 0x76, 0x5B, 0xA2, 0x49, 0x6D, 0x8B, 0xD1, 0x25}, //_3
-    {0x72, 0xF8, 0xF6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xD4, 0xA4, 0x5C, 0xCC, 0x5D, 0x65, 0xB6, 0x92}, //_4
-    {0x6C, 0x70, 0x48, 0x50, 0xFD, 0xED, 0xB9, 0xDA, 0x5E, 0x15, 0x46, 0x57, 0xA7, 0x8D, 0x9D, 0x84}, //_5
-    {0x90, 0xD8, 0xAB, 0x00, 0x8C, 0xBC, 0xD3, 0x0A, 0xF7, 0xE4, 0x58, 0x05, 0xB8, 0xB3, 0x45, 0x06}, //_6
-    {0xD0, 0x2C, 0x1E, 0x8F, 0xCA, 0x3F, 0x0F, 0x02, 0xC1, 0xAF, 0xBD, 0x03, 0x01, 0x13, 0x8A, 0x6B}, //_7
-    {0x3A, 0x91, 0x11, 0x41, 0x4F, 0x67, 0xDC, 0xEA, 0x97, 0xF2, 0xCF, 0xCE, 0xF0, 0xB4, 0xE6, 0x73}, //_8
-    {0x96, 0xAC, 0x74, 0x22, 0xE7, 0xAD, 0x35, 0x85, 0xE2, 0xF9, 0x37, 0xE8, 0x1C, 0x75, 0xDF, 0x6E}, //_9
-    {0x47, 0xF1, 0x1A, 0x71, 0x1D, 0x29, 0xC5, 0x89, 0x6F, 0xB7, 0x62, 0x0E, 0xAA, 0x18, 0xBE, 0x1B}, //_A
-    {0xFC, 0x56, 0x3E, 0x4B, 0xC6, 0xD2, 0x79, 0x20, 0x9A, 0xDB, 0xC0, 0xFE, 0x78, 0xCD, 0x5A, 0xF4}, //_B
-    {0x1F, 0xDD, 0xA8, 0x33, 0x88, 0x07, 0xC7, 0x31, 0xB1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xEC, 0x5F}, //_C
-    {0x60, 0x51, 0x7F, 0xA9, 0x19, 0xB5, 0x4A, 0x0D, 0x2D, 0xE5, 0x7A, 0x9F, 0x93, 0xC9, 0x9C, 0xEF}, //_D
-    {0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61}, //_E
-    {0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D}  //_F
+    //  _0    _1    _2    _3    _4    _5    _6    _7    _8    _9    _A    _B    _C    _D    _E    _F    //
+      {0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB}, //_0
+      {0x7C, 0xE3, 0x39, 0x82, 0x9B, 0x2F, 0xFF, 0x87, 0x34, 0x8E, 0x43, 0x44, 0xC4, 0xDE, 0xE9, 0xCB}, //_1
+      {0x54, 0x7B, 0x94, 0x32, 0xA6, 0xC2, 0x23, 0x3D, 0xEE, 0x4C, 0x95, 0x0B, 0x42, 0xFA, 0xC3, 0x4E}, //_2
+      {0x08, 0x2E, 0xA1, 0x66, 0x28, 0xD9, 0x24, 0xB2, 0x76, 0x5B, 0xA2, 0x49, 0x6D, 0x8B, 0xD1, 0x25}, //_3
+      {0x72, 0xF8, 0xF6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xD4, 0xA4, 0x5C, 0xCC, 0x5D, 0x65, 0xB6, 0x92}, //_4
+      {0x6C, 0x70, 0x48, 0x50, 0xFD, 0xED, 0xB9, 0xDA, 0x5E, 0x15, 0x46, 0x57, 0xA7, 0x8D, 0x9D, 0x84}, //_5
+      {0x90, 0xD8, 0xAB, 0x00, 0x8C, 0xBC, 0xD3, 0x0A, 0xF7, 0xE4, 0x58, 0x05, 0xB8, 0xB3, 0x45, 0x06}, //_6
+      {0xD0, 0x2C, 0x1E, 0x8F, 0xCA, 0x3F, 0x0F, 0x02, 0xC1, 0xAF, 0xBD, 0x03, 0x01, 0x13, 0x8A, 0x6B}, //_7
+      {0x3A, 0x91, 0x11, 0x41, 0x4F, 0x67, 0xDC, 0xEA, 0x97, 0xF2, 0xCF, 0xCE, 0xF0, 0xB4, 0xE6, 0x73}, //_8
+      {0x96, 0xAC, 0x74, 0x22, 0xE7, 0xAD, 0x35, 0x85, 0xE2, 0xF9, 0x37, 0xE8, 0x1C, 0x75, 0xDF, 0x6E}, //_9
+      {0x47, 0xF1, 0x1A, 0x71, 0x1D, 0x29, 0xC5, 0x89, 0x6F, 0xB7, 0x62, 0x0E, 0xAA, 0x18, 0xBE, 0x1B}, //_A
+      {0xFC, 0x56, 0x3E, 0x4B, 0xC6, 0xD2, 0x79, 0x20, 0x9A, 0xDB, 0xC0, 0xFE, 0x78, 0xCD, 0x5A, 0xF4}, //_B
+      {0x1F, 0xDD, 0xA8, 0x33, 0x88, 0x07, 0xC7, 0x31, 0xB1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xEC, 0x5F}, //_C
+      {0x60, 0x51, 0x7F, 0xA9, 0x19, 0xB5, 0x4A, 0x0D, 0x2D, 0xE5, 0x7A, 0x9F, 0x93, 0xC9, 0x9C, 0xEF}, //_D
+      {0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61}, //_E
+      {0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D}  //_F
 };
 
 
@@ -150,7 +150,7 @@ const unsigned char AES::GaloisMult[15][256] = {
      0x67, 0x6A, 0x7D, 0x70, 0x53, 0x5E, 0x49, 0x44, 0x0F, 0x02, 0x15, 0x18, 0x3B, 0x36, 0x21, 0x2C,
      0x0C, 0x01, 0x16, 0x1B, 0x38, 0x35, 0x22, 0x2F, 0x64, 0x69, 0x7E, 0x73, 0x50, 0x5D, 0x4A, 0x47,
      0xDC, 0xD1, 0xC6, 0xCB, 0xE8, 0xE5, 0xF2, 0xFF, 0xB4, 0xB9, 0xAE, 0xA3, 0x80, 0x8D, 0x9A, 0x97},
-    
+
     {0x00, 0x0E, 0x1C, 0x12, 0x38, 0x36, 0x24, 0x2A, 0x70, 0x7E, 0x6C, 0x62, 0x48, 0x46, 0x54, 0x5A,
      0xE0, 0xEE, 0xFC, 0xF2, 0xD8, 0xD6, 0xC4, 0xCA, 0x90, 0x9E, 0x8C, 0x82, 0xA8, 0xA6, 0xB4, 0xBA,
      0xDB, 0xD5, 0xC7, 0xC9, 0xE3, 0xED, 0xFF, 0xF1, 0xAB, 0xA5, 0xB7, 0xB9, 0x93, 0x9D, 0x8F, 0x81,
@@ -171,47 +171,109 @@ const unsigned char AES::GaloisMult[15][256] = {
 
 
 /**
- * @brief • Function that handles the operation mode of AES encryption, this function throws runtime error if given key size isn't valid.
+ * @brief • Function that handles the operation mode of AES encryption.
  * @param • size_t keySize
+ * @throws • runtime_error thrown if given keySize is invalid.
  */
 void AES::SetOperationMode(const size_t keySize) {
     if (keySize == 16) { //if keySize is 16 bytes (128 bits)
-        AES::Nk = 4; //number of 32-bit words in the key (AES-128)
-        AES::Nr = 10; //number of rounds (AES-128 has 10 rounds)
+        Nk = 4; //number of 32-bit words in the key (AES-128)
+        Nr = 10; //number of rounds (AES-128 has 10 rounds)
     }
     else if (keySize == 24) { //if keySize is 24 bytes (192 bits)
-        AES::Nk = 6; //number of 32-bit words in the key (AES-192)
-        AES::Nr = 12; //number of rounds (AES-192 has 12 rounds)
+        Nk = 6; //number of 32-bit words in the key (AES-192)
+        Nr = 12; //number of rounds (AES-192 has 12 rounds)
     }
     else if (keySize == 32) { //if keySize is 32 bytes (256 bits)
-        AES::Nk = 8; //number of 32-bit words in the key (AES-256)
-        AES::Nr = 14; //number of rounds (AES-256 has 14 rounds)
+        Nk = 8; //number of 32-bit words in the key (AES-256)
+        Nr = 14; //number of rounds (AES-256 has 14 rounds)
     }
-    else //else keySize isn't valid
+    else //else keySize is invalid
         throw runtime_error("Invalid mode of operation, please provide valid key that matches AES requirements."); //we throw a runtime error
 }
 
 
 /**
- * @brief • Function for printing a vector array.
- * @param • vector<unsigned char> vector
+ * @brief • Function for creating a vector.
+ * @param • size_t vecSize
+ * @return • vector<unsigned char> vector
  */
-void AES::PrintVector(const vector<unsigned char>& vector) {
-    for (unsigned char element : vector) // iterate through each element
-        cout << hex << setw(2) << setfill('0') << (int)element << " "; //set the output stream to hexadecimal mode
-    cout << endl; //new line
+const vector<unsigned char> AES::Create_Vector(const size_t vecSize) {
+    random_device randomDevice; //create seed for random generator
+    mt19937 generator(randomDevice()); //create instance for generator
+    uniform_int_distribution<> charDistribution(32, 126); //create instance for unsigned char generator
+
+    vector<unsigned char> vector(vecSize); //create vector of desired size
+    for (size_t i = 0; i < vecSize; i++) //iterate over the vector
+        vector[i] = (unsigned char)charDistribution(generator); //insert random byte to vector using our charDistribution generator
+
+    return vector; //return the vector
 }
 
 
 /**
- * @brief • Function for printing a matrix represented as vector of vectors.
- * @param • vector<vector<unsigned char>> matrix
+ * @brief • Function for creating an AES key.
+ * @brief • Supports AES-128, AES-192 and AES-256 keys.
+ * @brief • Returns default AES-128 key if no arguments given.
+ * @param • size_t keySize
+ * @return • vector<unsigned char> key
  */
-void AES::PrintMatrix(const vector<vector<unsigned char>>& matrix) {
-    for (const vector<unsigned char>& row : matrix) {
-        for (unsigned char element : row) //iterate through the inner vector (row)
-            cout << hex << setw(2) << setfill('0') << (int)element << " "; //set the output stream to hexadecimal mode
-        cout << dec << endl; //restore the output stream to decimal mode after each row
+const vector<unsigned char> AES::Create_Key(const size_t keySize) {
+    if (keySize == 128 || keySize == 192 || keySize == 256) //if keySize is valid AES key size
+        return Create_Vector(keySize / (Nb * 2)); //return the key with our Create_Vector function
+    else  //else keySize isn't valid AES key size
+        return Create_Vector(128 / (Nb * 2)); //return default AES-128 key with our Create_Vector function
+}
+
+
+/**
+ * @brief • Function for creating an initialization vector.
+ * @return • vector<unsigned char> iv
+ */
+const vector<unsigned char> AES::Create_IV() {
+    return Create_Vector(128 / (Nb * 2)); //return initialization vector with our Create_Vector function
+}
+
+
+/**
+ * @brief • Function for clearing a vector security.
+ * @param • vector<unsigned char> vec
+ */
+void AES::ClearVector(vector<unsigned char>& vec) {
+    fill(vec.begin(), vec.end(), 0); //fill vector with zeros 
+    vec.clear(); //clear vector for added security after finishing operations
+}
+
+
+/**
+ * @brief • Function for clearing a vector of vectors security.
+ * @param • vector<vector<unsigned char>> vec
+ */
+void AES::ClearVector(vector<vector<unsigned char>>& vec) {
+    for (vector<unsigned char>& innerVec : vec) //iterate through each innerVec
+        ClearVector(innerVec); //clear each innerVec 
+    vec.clear(); //clear vector for added security after finishing operations
+}
+
+
+/**
+ * @brief • Function for printing a vector in hexadecimal.
+ * @param • vector<unsigned char> vec
+ */
+void AES::PrintVector(const vector<unsigned char>& vec) {
+    for (unsigned char element : vec) //iterate through each element
+        cout << hex << setw(2) << setfill('0') << (int)element << " "; //set the output stream to hexadecimal mode
+    cout << dec << endl; //restore the output stream to decimal mode 
+}
+
+
+/**
+ * @brief • Function for printing a vector of vectors in hexadecimal.
+ * @param • vector<vector<unsigned char>> vec
+ */
+void AES::PrintVector(const vector<vector<unsigned char>>& vec) {
+    for (const vector<unsigned char>& innerVec : vec) { //iterate through each vec
+        PrintVector(innerVec); //print innerVec
     }
     cout << endl; //new line
 }
@@ -352,7 +414,7 @@ const vector<unsigned char> AES::MixColumns(vector<unsigned char>& state, const 
 
 
 /**
- * @brief • Function for XOR operation between two vectors in same size, vectors immutable if flag is set. 
+ * @brief • Function for XOR operation between two vectors in same size, vectors immutable if flag is set.
  * @param • vector<unsigned char> first
  * @param • vector<unsigned char> second
  * @param • bool immutable
@@ -440,7 +502,7 @@ const vector<vector<unsigned char>> AES::KeySchedule(const vector<unsigned char>
  * @throws • runtime_error thrown if given text is invalid.
  */
 const vector<unsigned char> AES::EncryptBlock(vector<unsigned char>& text, const vector<vector<unsigned char>>& roundKeys) {
-    if(text.size() != BlockSize) //if plaintext isn't valid we throw runtime error
+    if (text.size() != BlockSize) //if plaintext isn't valid we throw runtime error
         throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES requirements."); //throw a runtime error
     //apply initial round key
     XOR(text, roundKeys[0]); //perform first AddRoundKey operation on text
@@ -460,7 +522,7 @@ const vector<unsigned char> AES::EncryptBlock(vector<unsigned char>& text, const
 
 
 /**
- * @brief • Function that performs AES decryption on given text using specified round keys, supports AES-128, AES-192 and AES-256. 
+ * @brief • Function that performs AES decryption on given text using specified round keys, supports AES-128, AES-192 and AES-256.
  * @brief • This function performs AES decryption with fixed block size of 16 bytes (128-bit).
  * @param • vector<unsigned char> text
  * @param • vector<vector<unsigned char>> roundKeys
@@ -488,7 +550,7 @@ const vector<unsigned char> AES::DecryptBlock(vector<unsigned char>& text, const
 
 
 /**
- * @brief • Function that performs AES encryption on given text using specified key, supports AES-128, AES-192 and AES-256. 
+ * @brief • Function that performs AES encryption on given text using specified key, supports AES-128, AES-192 and AES-256.
  * @brief • This function performs AES encryption with fixed block size of 16 bytes (128-bit).
  * @param • vector<unsigned char> text
  * @param • vector<unsigned char> key
@@ -500,13 +562,13 @@ const vector<unsigned char> AES::Encrypt(vector<unsigned char>& text, const vect
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
     EncryptBlock(text, roundKeys); //call our AES EncryptBlock function for encrypting text using round keys
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations 
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations 
     return text; //return ciphered text
 }
 
 
 /**
- * @brief • Function that performs AES decryption on given text using specified key, supports AES-128, AES-192 and AES-256. 
+ * @brief • Function that performs AES decryption on given text using specified key, supports AES-128, AES-192 and AES-256.
  * @brief • This function performs AES decryption with fixed block size of 16 bytes (128-bit).
  * @param • vector<unsigned char> text
  * @param • vector<unsigned char> key
@@ -518,13 +580,13 @@ const vector<unsigned char> AES::Decrypt(vector<unsigned char>& text, const vect
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
     DecryptBlock(text, roundKeys); //call our AES DecryptBlock function for decrypting text using round keys
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations 
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations 
     return text; //return deciphered text
 }
 
 
 /**
- * @brief • Function that performs AES encryption in ECB mode on given text using specified key. 
+ * @brief • Function that performs AES encryption in ECB mode on given text using specified key.
  * @brief • ECB mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports PKCS7 padding.
  * @param • vector<unsigned char> text
@@ -535,6 +597,8 @@ const vector<unsigned char> AES::Decrypt(vector<unsigned char>& text, const vect
  */
 const vector<unsigned char> AES::Encrypt_ECB(vector<unsigned char>& text, const vector<unsigned char>& key) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES ECB requirements."); //throw runtime error
     if (text.size() % BlockSize != 0) { //if text size isn't multiply of 16 bytes we add padding
         unsigned char padding = BlockSize - (text.size() % BlockSize); //calculate the number of padding bytes needed
         text.insert(text.end(), padding, padding); //append the padding bytes to the text
@@ -546,7 +610,7 @@ const vector<unsigned char> AES::Encrypt_ECB(vector<unsigned char>& text, const 
         EncryptBlock(temp, roundKeys); //encrypt the block using our AES EncryptBlock function using round keys
         copy(temp.begin(), temp.end(), text.begin() + i); //replace the original block in the input text with the encrypted block
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations 
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations 
     return text; //return ciphered text
 }
 
@@ -564,7 +628,7 @@ const vector<unsigned char> AES::Encrypt_ECB(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Decrypt_ECB(vector<unsigned char>& text, const vector<unsigned char>& key) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
-    if (text.size() % BlockSize != 0) //if text size isn't multiply of 16 bytes
+    if (text.empty() || text.size() % BlockSize != 0) //if plaintext is empty or plaintext size isn't multiply of 16 bytes
         throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES ECB requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
     vector<unsigned char> temp(BlockSize); //represents temp vector for ECB operation
@@ -574,15 +638,17 @@ const vector<unsigned char> AES::Decrypt_ECB(vector<unsigned char>& text, const 
         copy(temp.begin(), temp.end(), text.begin() + i); //replace the original block in the input text with the decrypted block
     }
     unsigned char padding = text.back(); //get the value of the last byte, which indicates the padding size
-    if (padding > 0 && padding <= BlockSize && padding < text.size()) //if true we have padding bytes to remove from text
-        text.resize(text.size() - padding); //remove the padding bytes from the text
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations 
+    if (padding > 0 && padding <= BlockSize && padding < text.size()) { //if true we have padding bytes to remove from text
+        if (all_of(text.end() - padding, text.end(), [&](unsigned char byte) { return byte == padding; })) //check if last bytes match padding value
+            text.resize(text.size() - padding); //remove the padding bytes from the text
+    }
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations 
     return text; //return deciphered text
 }
 
 
 /**
- * @brief • Function that performs AES encryption in CBC mode on given text using specified key and initialization vector. 
+ * @brief • Function that performs AES encryption in CBC mode on given text using specified key and initialization vector.
  * @brief • CBC mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports PKCS7 padding.
  * @param • vector<unsigned char> text
@@ -595,6 +661,8 @@ const vector<unsigned char> AES::Decrypt_ECB(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Encrypt_CBC(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES CBC requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES CBC requirements."); //throw runtime error
     if (text.size() % BlockSize != 0) { //if text size isn't multiply of 16 bytes we add padding
@@ -611,13 +679,13 @@ const vector<unsigned char> AES::Encrypt_CBC(vector<unsigned char>& text, const 
         copy(temp.begin(), temp.end(), text.begin() + i); //replace the original block in the input text with the encrypted block
         previousCipher = temp; //update previous cipher block
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations 
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations 
     return text; //return ciphered text
 }
 
 
 /**
- * @brief • Function that performs AES decryption in CBC mode on given text using specified key and initialization vector. 
+ * @brief • Function that performs AES decryption in CBC mode on given text using specified key and initialization vector.
  * @brief • CBC mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports PKCS7 padding.
  * @brief • CBC decryption mode requires text to be a multiple of 16 bytes in length.
@@ -631,10 +699,10 @@ const vector<unsigned char> AES::Encrypt_CBC(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Decrypt_CBC(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty() || text.size() % BlockSize != 0) //if plaintext is empty or plaintext size isn't multiply of 16 bytes
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES CBC requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES CBC requirements."); //throw runtime error
-    if (text.size() % BlockSize != 0) //if text size isn't multiply of 16 bytes
-        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES CBC requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
     vector<unsigned char> temp(BlockSize); //represents temp vector for CBC operation
     vector<unsigned char> cipherBlock(BlockSize); //represents current cipher block for decryption process
@@ -648,15 +716,17 @@ const vector<unsigned char> AES::Decrypt_CBC(vector<unsigned char>& text, const 
         previousCipher = cipherBlock; //update previous cipher block with current cipher block
     }
     unsigned char padding = text.back(); //get the value of the last byte, which indicates the padding size
-    if (padding > 0 && padding <= BlockSize && padding < text.size()) //if true we have padding bytes to remove from text
-        text.resize(text.size() - padding); //remove the padding bytes from the text
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations 
+    if (padding > 0 && padding <= BlockSize && padding < text.size()) { //if true we have padding bytes to remove from text
+        if (all_of(text.end() - padding, text.end(), [&](unsigned char byte) { return byte == padding; })) //check if last bytes match padding value
+            text.resize(text.size() - padding); //remove the padding bytes from the text
+    }
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations 
     return text; //return deciphered text
 }
 
 
 /**
- * @brief • Function that performs AES encryption in CFB mode on given text using specified key and initialization vector. 
+ * @brief • Function that performs AES encryption in CFB mode on given text using specified key and initialization vector.
  * @brief • CFB mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports text in any size.
  * @param • vector<unsigned char> text
@@ -669,6 +739,8 @@ const vector<unsigned char> AES::Decrypt_CBC(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Encrypt_CFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES CFB requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES CFB requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -685,13 +757,13 @@ const vector<unsigned char> AES::Encrypt_CFB(vector<unsigned char>& text, const 
         temp[j] = text[i]; //update temp with the new ciphered text
         j++; //increase j index for previousCipher block
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations
     return text; //return ciphered text
 }
 
 
 /**
- * @brief • Function that performs AES decryption in CFB mode on given text using specified key and initialization vector. 
+ * @brief • Function that performs AES decryption in CFB mode on given text using specified key and initialization vector.
  * @brief • CFB mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports text in any size.
  * @param • vector<unsigned char> text
@@ -704,6 +776,8 @@ const vector<unsigned char> AES::Encrypt_CFB(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Decrypt_CFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES CFB requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES CFB requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -720,13 +794,13 @@ const vector<unsigned char> AES::Decrypt_CFB(vector<unsigned char>& text, const 
         text[i] ^= previousCipher[j]; //perform byte XOR between text and previousCipher block
         j++; //increase j index for previousCipher block
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations
     return text; //return deciphered text
 }
 
 
 /**
- * @brief • Function that performs AES encryption in OFB mode on given text using specified key and initialization vector. 
+ * @brief • Function that performs AES encryption in OFB mode on given text using specified key and initialization vector.
  * @brief • OFB mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports text in any size.
  * @param • vector<unsigned char> text
@@ -739,6 +813,8 @@ const vector<unsigned char> AES::Decrypt_CFB(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Encrypt_OFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES OFB requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES OFB requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -752,13 +828,13 @@ const vector<unsigned char> AES::Encrypt_OFB(vector<unsigned char>& text, const 
         text[i] ^= previousCipher[j]; //perform byte XOR between text and previousCipher block
         j++; //increase j index for previousCipher block
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations
     return text; //return ciphered text
 }
 
 
 /**
- * @brief • Function that performs AES decryption in OFB mode on given text using specified key and initialization vector. 
+ * @brief • Function that performs AES decryption in OFB mode on given text using specified key and initialization vector.
  * @brief • OFB mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports text in any size.
  * @param • vector<unsigned char> text
@@ -771,6 +847,8 @@ const vector<unsigned char> AES::Encrypt_OFB(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Decrypt_OFB(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES OFB requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES OFB requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -784,13 +862,13 @@ const vector<unsigned char> AES::Decrypt_OFB(vector<unsigned char>& text, const 
         text[i] ^= previousCipher[j]; //perform byte XOR between text and previousCipher block
         j++; //increase j index for previousCipher block
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations
     return text; //return deciphered text
 }
 
 
 /**
- * @brief • Function that performs AES encryption in CTR mode on given text using specified key and initialization vector. 
+ * @brief • Function that performs AES encryption in CTR mode on given text using specified key and initialization vector.
  * @brief • CTR mode supports AES-128, AES-192 and AES-256.
  * @brief • Supports text in any size.
  * @param • vector<unsigned char> text
@@ -803,6 +881,8 @@ const vector<unsigned char> AES::Decrypt_OFB(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Encrypt_CTR(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES CTR requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES CTR requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -819,11 +899,11 @@ const vector<unsigned char> AES::Encrypt_CTR(vector<unsigned char>& text, const 
         j++; //increase j index for IV vector
         //here we increase the counter for IV vector
         if (j == BlockSize) { //if j equals to block size (16 bytes)
-            for (int k = BlockSize - 1; k >= 0; k--) //iterate over tempIV from end to start
-                if (tempIV[k]++) break; //increment temp[k] and break if it's not zero
+            for (int k = BlockSize - 1; k >= BlockSize / 2; k--) //iterate over tempIV 
+                if (++tempIV[k]) break; //increment temp[k] and break if it's not zero
         }
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations
     return text; //return ciphered text
 }
 
@@ -842,6 +922,8 @@ const vector<unsigned char> AES::Encrypt_CTR(vector<unsigned char>& text, const 
  */
 const vector<unsigned char> AES::Decrypt_CTR(vector<unsigned char>& text, const vector<unsigned char>& key, const vector<unsigned char>& iv) {
     SetOperationMode(key.size()); //call our SetOperationMode function to check the key and set correct AES mode, throws runtime error if key invalid
+    if (text.empty()) //if plaintext is empty
+        throw runtime_error("Invalid mode of operation, please provide valid plaintext that matches AES CTR requirements."); //throw runtime error
     if (iv.size() != BlockSize) //if IV vector isn't in correct size
         throw runtime_error("Invalid mode of operation, please provide valid initialization vector that matches AES CTR requirements."); //throw runtime error
     vector<vector<unsigned char>> roundKeys = KeySchedule(key); //call our KeySchedule function for generating round keys
@@ -858,11 +940,11 @@ const vector<unsigned char> AES::Decrypt_CTR(vector<unsigned char>& text, const 
         j++; //increase j index for IV vector
         //here we increase the counter for IV vector
         if (j == BlockSize) { //if j equals to block size (16 bytes)
-            for (int k = BlockSize - 1; k >= 0; k--) //iterate over tempIV from end to start
-                if (tempIV[k]++) break; //increment temp[k] and break if it's not zero
+            for (int k = BlockSize - 1; k >= BlockSize / 2; k--) //iterate over tempIV 
+                if (++tempIV[k]) break; //increment temp[k] and break if it's not zero
         }
     }
-    roundKeys.clear(); //clear our roundKeys matrix for added security after we finish operations
+    ClearVector(roundKeys); //clear our roundKeys matrix for added security after we finish operations
     return text; //return deciphered text
 }
 
@@ -871,26 +953,24 @@ const vector<unsigned char> AES::Decrypt_CTR(vector<unsigned char>& text, const 
 //int main() {
 //    ///test key schedule///
 //    //vector<unsigned char> key1(16, 0x00);
-//    //AES::SetOperationMode(16, key.size());
+//    //AES::SetOperationMode(key1.size());
 //    //vector<vector<unsigned char>> keys = AES::KeySchedule(key1);
-//    //AES::PrintMatrix(keys);
+//    //AES::PrintVector(keys);
 //
 //    ///test AES encryption and decryption///
 //    string plaintext = "TheKingOfNewYork";
-//    string key = "PopSmokeTheWoo55";
-//    string iv = "PopSmokeTheWoo55";
 //    vector<unsigned char> plaintextVec(plaintext.begin(), plaintext.end());
-//    vector<unsigned char> keyVec(key.begin(), key.end());
-//    vector<unsigned char> ivVec(iv.begin(), iv.end());
-//    cout << "Plaintext:" << endl;
+//    vector<unsigned char> keyVec = AES::Create_Key(128);
+//    vector<unsigned char> ivVec = AES::Create_IV();
+//    cout << "Plain Text:" << endl;
 //    AES::PrintVector(plaintextVec);
 //    try {
+//        cout << "Cipher Text:" << endl;
 //        //plaintextVec = AES::Encrypt_ECB(plaintextVec, keyVec);
 //        //plaintextVec = AES::Encrypt_CBC(plaintextVec, keyVec, ivVec);
 //        //plaintextVec = AES::Encrypt_CFB(plaintextVec, keyVec, ivVec);
 //        //plaintextVec = AES::Encrypt_OFB(plaintextVec, keyVec, ivVec);
 //        plaintextVec = AES::Encrypt_CTR(plaintextVec, keyVec, ivVec);
-//        cout << "Cipher:" << endl;
 //        AES::PrintVector(plaintextVec);
 //        cout << "Original Text:" << endl;
 //        //plaintextVec = AES::Decrypt_ECB(plaintextVec, keyVec);
