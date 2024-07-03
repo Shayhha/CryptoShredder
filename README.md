@@ -1,6 +1,8 @@
 # CryptoShredder - Secure File Management Utility
 
-CryptoShredder is a powerful tool designed to securely erase files, making data recovery virtually impossible. This application utilizes multiple passes and employs the Mersenne Twister random number generator to overwrite file contents with secure and random bytes. Developed in C++ with Qt framework, it features multi-threading for wiping multiple files and smart memory management for efficiency.
+CryptoShredder is a powerful tool designed for securely erasing files and encrypting/decrypting data. This application utilizes multiple passes to ensure thorough file erasure and employs AES encryption with key lengths of 128, 192, and 256 bits for robust data security. 
+
+CryptoShredder has been developed using C++ in conjunction with the Qt framework, which provides a solid foundation for its functionality. It leverages multi-threading to efficiently wipe, encrypt and decrypt multiple files simultaneously, enhancing performance. Moreover, it incorporates smart memory management techniques to optimize resource utilization, ensuring efficient operation.
 
 ## Clone Repository:
 
@@ -10,20 +12,21 @@ git clone https://github.com/Shayhha/CryptoShredder
 
 ## Features
 
-- **Multiple Passes**: File Shredder allows you to perform multiple passes to ensure that files are thoroughly overwritten, making data recovery extremely challenging.
+- **Wipe Files Securely**: CryptoShredder allows you to securely wipe files by performing multiple passes, ensuring that file contents are thoroughly overwritten to prevent data recovery and enhance data security.
 
-- **Mersenne Twister RNG**: File Shredder uses the Mersenne Twister random number generator for generating secure and unpredictable bytes during the file wiping process.
+- **Encrypt and Decrypt Files**: CryptoShredder employs a custom AES library, developed by me, to encrypt and decrypt files using AES in CTR mode, it can encrypt and decrypt multiple files simultaneously, utilizing multi-threading for efficient processing.
 
-- **File Viewer**: File Shredder provides users with the flexibility to view files in various formats, including Hexadecimal, Binary, and UTF-8, enabling thorough inspection of file contents before making shredding decisions.
+- **File Viewer**: CryptoShredder provides users with the flexibility to view files in various formats, including Hexadecimal, Binary, and UTF-8, enabling thorough inspection of file contents before making shredding decisions.
 
-- **User-Friendly GUI**: With a modern and intuitive graphical user interface built using Qt, the File Shredder is easy to use, even for those new to data shredding.
+- **User-Friendly GUI**: CryptoShredder features a modern and intuitive graphical user interface built with the Qt framework. Designed for ease of use, it provides a seamless experience for securely shredding files and managing sensitive data.
 
 ## Usage
 
 1. Run CryptoShredder.exe file in x64/Release folder (for 64-bit Windows machines).
-2. Select the files you want to securely erase.
-3. Configure the number of passes you wish to perform (more passes mean greater security).
-4. Click the "Wipe Files" button to initiate the file shredding process.
+2. Select the files you want to securely erase or encrypt/decrypt.
+3. Configure the number of passes you wish to perform for secure file wiping or enter key for encryption/decryption.
+4. Click the appropriate action button ("Wipe Files" or "Encrypt/Decrypt Files") to initiate the process.
+
 
 ## Screenshots
 
@@ -31,6 +34,12 @@ git clone https://github.com/Shayhha/CryptoShredder
 *Wiping Files*
 
 ![Screenshot 2](CryptoShredder/images/CryptoShredderScreenshot2.png)
+*Encrypting Files*
+
+![Screenshot 3](CryptoShredder/images/CryptoShredderScreenshot3.png)
+*Decrypting Files*
+
+![Screenshot 4](CryptoShredder/images/CryptoShredderScreenshot4.png)
 *Viewing File*
 
 ## Requirements
@@ -50,6 +59,8 @@ For questions or feedback, please contact [shayhha@gmail.com](mailto:shayhha@gma
 
 ## License
 
-This File Shredder is released under the [MIT License](LICENSE.txt).
+CryptoShredder makes use of a custom [AES library](https://github.com/Shayhha/AES), all rights reserved to library's creator.
+
+CryptoShredder is released under the [MIT License](LICENSE.txt).
 
 © All rights reserved to Shayhha (Shay Hahiashvili).
