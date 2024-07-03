@@ -75,7 +75,15 @@ QListView::item:selected {
     color: black;
     border: 1px solid black;
 }
-</string>
+
+QToolTip { 
+   color: rgb(245,245,245);
+   background-color: rgba(46, 47, 56, 0.8);
+   border: 1px solid rgb(102,102,102);
+}</string>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QListView" name="FileListView">
@@ -99,12 +107,14 @@ QListView::item:selected {
      <enum>Qt::NoFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(198, 198, 198, 0.6);
-border-radius: 15px;
-border-style: outset;
-border-width: 2px;
-border-color: black;
-padding: 4px;</string>
+     <string notr="true">QListView {
+   background-color: rgba(198, 198, 198, 0.6);
+   border-radius: 15px;
+   border-style: outset;
+   border-width: 2px;
+   border-color: black;
+  padding: 4px;
+}</string>
     </property>
    </widget>
    <widget class="QFrame" name="OptionsFrame">
@@ -126,13 +136,13 @@ padding: 4px;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">#OptionsFrame {
-background-color: rgba(53,54,64,0.8);
-border-radius: 15px;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;
-border-color: black;
-padding: 4px;
+   background-color: rgba(46, 47, 56, 0.8);
+   border-radius: 15px;
+   border-style: outset;
+   border-width: 2px;
+   border-radius: 15px;
+   border-color: black;
+   padding: 4px;
 }
 </string>
     </property>
@@ -166,9 +176,11 @@ padding: 4px;
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: none;
-color: white;
-border: none</string>
+      <string notr="true">QCheckBox {
+   background-color: none;
+   color: rgb(245,245,245);
+   border: none;
+}</string>
      </property>
      <property name="text">
       <string>Remove Files </string>
@@ -210,7 +222,7 @@ border: none</string>
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Start secure wipe on selected files.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Start secure wipe on selected files.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -225,7 +237,7 @@ border: none</string>
 }
 
 QPushButton:hover {
-   background-color: #575965;
+   background-color: rgb(87, 89, 101);
 	color: white;
     border-radius: 15px;
 	border-style: outset;
@@ -236,10 +248,9 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-   background-color:#b1b9bb;
+   background-color: rgb(177, 185, 187);
 	color: white;
-}
-</string>
+}</string>
      </property>
      <property name="text">
       <string>Wipe Files</string>
@@ -281,7 +292,7 @@ QPushButton:pressed {
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Maximum 20 files.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Choose files, maximum 20 files.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -296,7 +307,7 @@ QPushButton:pressed {
 }
 
 QPushButton:hover {
-   background-color: #575965;
+   background-color: rgb(87, 89, 101);
 	color: white;
     border-radius: 15px;
 	border-style: outset;
@@ -307,11 +318,9 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-   background-color:#b1b9bb;
+   background-color: rgb(177, 185, 187);
 	color: white;
-}
-
-</string>
+}</string>
      </property>
      <property name="text">
       <string>Choose Files</string>
@@ -353,7 +362,7 @@ QPushButton:pressed {
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Clean screen contents.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Clear screen contents.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -368,7 +377,7 @@ QPushButton:pressed {
 }
 
 QPushButton:hover {
-   background-color: #575965;
+   background-color: rgb(87, 89, 101);
 	color: white;
     border-radius: 15px;
 	border-style: outset;
@@ -379,10 +388,9 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-   background-color:#b1b9bb;
+   background-color: rgb(177, 185, 187);
 	color: white;
-}
-</string>
+}</string>
      </property>
      <property name="text">
       <string>Clear Screen</string>
@@ -412,7 +420,7 @@ QPushButton:pressed {
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum 10 passes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Maximum 10 passes.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QSpinBox {
@@ -458,9 +466,11 @@ QPushButton:pressed {
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: none;
-color: rgb(245,245,245);
-border: none</string>
+      <string notr="true">QLabel {
+   background-color: none;
+   color: rgb(245,245,245);
+   border: none;
+}</string>
      </property>
      <property name="text">
       <string>Number Of Passes</string>
@@ -525,7 +535,7 @@ padding: 4px;</string>
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Cancel current operation.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Cancel current operation.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -540,7 +550,7 @@ padding: 4px;</string>
 }
 
 QPushButton:hover {
-   background-color: #575965;
+   background-color: rgb(87, 89, 101);
 	color: white;
     border-radius: 15px;
 	border-style: outset;
@@ -551,10 +561,9 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-   background-color:#b1b9bb;
+   background-color: rgb(177, 185, 187);
 	color: white;
-}
-</string>
+}</string>
      </property>
      <property name="text">
       <string>Cancel</string>
@@ -600,7 +609,7 @@ QPushButton:pressed {
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>AES key required, accepted key lengths include 16, 24 or 32 characters.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;AES key required, accepted&lt;br&gt;key lengths include 16, 24 or 32 characters.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QLineEdit {
@@ -647,8 +656,10 @@ QPushButton:pressed {
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: none;
-color: rgb(245,245,245);
+      <string notr="true">QLabel {
+   background-color: none;
+   color: rgb(245,245,245);
+}
 </string>
      </property>
      <property name="text">
@@ -679,9 +690,11 @@ color: rgb(245,245,245);
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: none;
-color: white;
-border: none</string>
+      <string notr="true">QCheckBox {
+   background-color: none;
+   color: rgb(245,245,245);
+   border: none;
+}</string>
      </property>
      <property name="text">
       <string>Decrypt Files</string>
@@ -711,19 +724,23 @@ border: none</string>
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(32,33,35,255);
-color: rgb(245,245,245);
-border-radius: 15px;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;
-border-color: black;
-padding: 4px;
-text-align: center;</string>
+     <string notr="true">QProgressBar {
+   background-color: rgba(32,33,35,255);
+   color: rgb(245,245,245);
+   border-radius: 15px;
+   border-style: outset;
+   border-width: 2px;
+   border-radius: 15px;
+   border-color: black;
+   padding: 4px;
+   text-align: center;
+}</string>
     </property>
     <property name="value">
      <number>0</number>
@@ -742,8 +759,10 @@ text-align: center;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(32,33,35,255);
-color: white;</string>
+     <string notr="true">QFrame {
+   background-color:  rgba(32,33,35,255);
+}
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -770,7 +789,9 @@ color: white;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(245,245,245);</string>
+      <string notr="true">QLabel {
+   color: rgb(245,245,245);
+}</string>
      </property>
      <property name="text">
       <string>CryptoShredder</string>
@@ -791,7 +812,9 @@ color: white;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: transparent;</string>
+      <string notr="true">QLabel {
+   background-color: none;
+}</string>
      </property>
      <property name="text">
       <string/>
@@ -821,8 +844,10 @@ color: white;</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: none;
-color: rgb(245,245,245);
+     <string notr="true">QLabel {
+   background-color: none;
+   color: rgb(245,245,245);
+}
 </string>
     </property>
     <property name="text">
