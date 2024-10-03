@@ -13,9 +13,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class for file viewing in various formats
-/// </summary>
+/**
+ * @brief Class for file viewing in various formats.
+ */
 class FileViewer : public QDialog {
     Q_OBJECT
 
@@ -39,4 +39,3 @@ public:
     void loadChunk();
 };
 #endif 
-

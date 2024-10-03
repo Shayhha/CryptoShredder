@@ -16,9 +16,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represent a File object
-/// </summary>
+/**
+ * @brief Class that represent a File object.
+ */
 class File : public Observable {
 private:
 	wstring name; //represents file name

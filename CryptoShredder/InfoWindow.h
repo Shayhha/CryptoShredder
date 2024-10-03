@@ -12,9 +12,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class for application general information
-/// </summary>
+/**
+ * @brief Class for application general information.
+ */
 class InfoWindow : public QDialog {
     Q_OBJECT
 
@@ -30,4 +30,3 @@ public:
     static InfoWindow* getInstance(QWidget* parent);
 };
 #endif
-
