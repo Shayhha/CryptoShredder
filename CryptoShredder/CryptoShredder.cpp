@@ -2,6 +2,7 @@
 
 
 bool CryptoShredder::wipe = true; //set wipe flag to true by default
+bool CryptoShredder::isClosing = false; //set isClosing flag to false by default
 
 
 /**
@@ -59,6 +60,26 @@ CryptoShredder::~CryptoShredder() {
 
 
 /**
+ * @brief Method for exiting program securely and managing threads correctly.
+ * @param QCloseEvent* event
+ */
+void CryptoShredder::closeEvent(QCloseEvent* event) {
+    if (this->fileHandler && this->isClosing) { //if user already chose to cancel the process
+        this->showMessageBox("Canceling Process", "Please wait for current process to cancel before closing the program.", "information"); //show messagebox
+        this->isClosing = false; //set isClosing flag back to false
+        event->ignore(); //ignore the closing event 
+    }
+    else if (this->fileHandler) { //if exiting and threads still running
+        this->cancelProcess(); //call cancelProcess method
+        this->isClosing = true; //set isClosing flag to true
+        event->ignore(); //ignore the closing event
+    }
+    else //else there are no threads running
+        event->accept(); //accept the closing event 
+}
+
+
+/**
  * @brief Method for adding elements to the FileListView in GUI.
  * @param QString item
  */
@@ -104,7 +125,11 @@ void CryptoShredder::checkThreads() {
             this->fileCounter = 0; //set the fileCounter back to zero
             delete this->fileHandler; //delete fileHandler object
             this->fileHandler = NULL; //set pointer of fileHandler to NULL for next operation
-            if (File::getIsCanceled()) { //if true user canceled the operation
+            if (File::getIsCanceled() && this->isClosing) { //if user canceled and also wants to close program
+                this->isClosing = false; //set isClosing flag to false
+                this->close(); //call close method to close program
+            }
+            else if (File::getIsCanceled()) { //if true user canceled the operation
                 File::setIsCanceled(false); //set the isCanceled flag back to false
                 if (this->wipe) //if we're wiping
                     this->showMessageBox("Wipe Canceled", "Secure wiping for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
