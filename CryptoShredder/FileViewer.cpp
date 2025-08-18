@@ -11,12 +11,10 @@ bool FileViewer::isInstance = false; //initialize the static instance flag
  * @param QString fileName
  */
 FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& fileName) : QDialog(parent) {
-    ui.setupUi(this); //set ui elements
+    this->ui.setupUi(this); //set ui elements
     this->file.setFileName(filePath); //set file name for QFile object
-    ui.FileNameLabel->setText(QString(QChar(0x200E)) + fileName); //set the file name in FileViewer
-    //set the tooltip for the window
-    this->setWhatsThis("This window serves as a viewer for the selected file in one of three formats: HEX, BINARY, or UTF-8. You can choose the format using the dropdown menu. The viewer allows you to inspect the file's contents in the selected format.");
-    ui.FileTextEdit->viewport()->setCursor(Qt::ArrowCursor); //set cursor for FileTextEdit
+    this->ui.FileNameLabel->setText(QString(QChar(0x200E)) + fileName); //set the file name in FileViewer
+    this->ui.FileTextEdit->viewport()->setCursor(Qt::ArrowCursor); //set cursor for FileTextEdit
     this->setAttribute(Qt::WA_DeleteOnClose); //ensure that object gets deleted when window closes
     this->setModal(true); //set the dialog model to block interactions with main GUI 
     
@@ -27,8 +25,8 @@ FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& 
     //doc->setDefaultTextOption(textOption);
     //ui.FileTextEdit->setDocument(doc);
     
-    connect(ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk); //connect signal for adding text when scrolling
-    connect(ui.FormatComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &FileViewer::updateFileContent); //connect signal for combo box index changed event
+    connect(this->ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk); //connect signal for adding text when scrolling
+    connect(this->ui.FormatComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &FileViewer::updateFileContent); //connect signal for combo box index changed event
 
     if (this->openFile(filePath)) { //if true we show the window
         this->show(); //show window
@@ -44,8 +42,8 @@ FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& 
  * @brief Destructor of class.
  */
 FileViewer::~FileViewer() {
-    if (isInstance)
-        isInstance = false; //ensure that we return the instance flag back to false when object deleted
+    if (FileViewer::isInstance)
+        FileViewer::isInstance = false; //ensure that we return the instance flag back to false when object deleted
 }
 
 
@@ -57,8 +55,8 @@ FileViewer::~FileViewer() {
  * @return FileViewer* viewer
  */
 FileViewer* FileViewer::getInstance(QWidget* parent, const QString& filePath, const QString& fileName) {
-    if (!isInstance) { //if true we can give the user an instance for FileViewer
-        isInstance = true; //indicating that we're creating an instance for class
+    if (!FileViewer::isInstance) { //if true we can give the user an instance for FileViewer
+        FileViewer::isInstance = true; //indicating that we're creating an instance for class
         return new FileViewer(parent, filePath, fileName); //return the new instance
     }
     return NULL; //else we return NULL indicating that there's a FileViewer already open
@@ -88,7 +86,7 @@ bool FileViewer::openFile(const QString& filePath) {
  */
 void FileViewer::showEvent(QShowEvent* event) {
     QDialog::showEvent(event); //call the base class implementation
-    ui.FileTextEdit->verticalScrollBar()->setValue(ui.FileTextEdit->verticalScrollBar()->minimum()); //set the scrollbar value to the minimum position
+    this->ui.FileTextEdit->verticalScrollBar()->setValue(this->ui.FileTextEdit->verticalScrollBar()->minimum()); //set the scrollbar value to the minimum position
 }
 
 
@@ -106,15 +104,15 @@ void FileViewer::updateFileContent(int index) {
         this->format = "UTF-8";
     if (oldFormat != this->format) { //means that format was changed
         //disconnect the scrollbar signal before changing format
-        disconnect(ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk);
+        disconnect(this->ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk);
         //we reset the file's reading progress to the beginning
         this->bytesRead = 0; //set bytesRead back to zero
-        ui.FileTextEdit->clear(); //clear the FileTextEdit
+        this->ui.FileTextEdit->clear(); //clear the FileTextEdit
         this->file.seek(0);  //reset file pointer to beginning
         this->loadChunk();  //load the initial chunk again with current format
-        ui.FileTextEdit->verticalScrollBar()->setValue(ui.FileTextEdit->verticalScrollBar()->minimum()); //ser the scroll bar back to the beginning
+        this->ui.FileTextEdit->verticalScrollBar()->setValue(this->ui.FileTextEdit->verticalScrollBar()->minimum()); //ser the scroll bar back to the beginning
         //reconnect the scrollbar signal after changing format
-        connect(ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk);
+        connect(this->ui.FileTextEdit->verticalScrollBar(), &QScrollBar::valueChanged, this, &FileViewer::loadChunk);
     }
 }
 
@@ -133,7 +131,7 @@ void FileViewer::loadChunk() {
     qint64 chunkSize = qMin(DefaultChunkSize, remainingBytes); //we set chunkSize to be the minimum between remaining bytes and a default parameter
 
     //read and append data only if the scrollbar position is near the bottom
-    QScrollBar* scrollbar = ui.FileTextEdit->verticalScrollBar(); //get a pointer to the scroll bar
+    QScrollBar* scrollbar = this->ui.FileTextEdit->verticalScrollBar(); //get a pointer to the scroll bar
     int triggerPoint = scrollbar->maximum() - 5 * scrollbar->pageStep(); //set the trigger point for scroll bar for the signal for next chunk to be loaded
 
     if (scrollbar->value() >= triggerPoint) { //if true we need to load more data to FileTextEdit
@@ -153,7 +151,7 @@ void FileViewer::loadChunk() {
         }
         //disconnect the scrollbar signal before appending text
         disconnect(scrollbar, &QScrollBar::valueChanged, this, &FileViewer::loadChunk);
-        ui.FileTextEdit->append(data); //append the data to FileTextEdit
+        this->ui.FileTextEdit->append(data); //append the data to FileTextEdit
         this->bytesRead += chunkSize; // add the appended amount of data to our bytesRead parameter
         //reconnect the scrollbar signal after appending text
         connect(scrollbar, &QScrollBar::valueChanged, this, &FileViewer::loadChunk);

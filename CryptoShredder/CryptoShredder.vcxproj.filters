@@ -82,7 +82,7 @@
     <QtMoc Include="FileViewer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="ImageLabel.h">
+    <QtMoc Include="IconLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="InfoWindow.h">

@@ -1,6 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <QtWidgets/QMainWindow>
+#include <QLocalServer>
+#include <QLocalSocket>
 #include <QMessageBox>
+#include <QStandardPaths>
 #include <QFileDialog>
 #include <QStringList>
 #include <QLineEdit>
@@ -9,7 +12,7 @@
 #include "ui_CryptoShredder.h"
 #include "FileHandler.h"
 #include "FileViewer.h"
-#include "ImageLabel.h"
+#include "IconLabel.h"
 #include "InfoWindow.h"
 
 using namespace std;
@@ -22,25 +25,30 @@ class CryptoShredder : public QMainWindow {
 
 private:
     Ui::CryptoShredder ui; //ui element for GUI
-    static bool wipe; //flag for indication operation mode, if true we wipe, else we encrypt/decrypt
+    static QLocalServer* server; //represents listening server for our app to make sure one instance is showing
+    static QString serverName; //represents our listening server name
+    static bool isWipe; //flag for indication operation mode, if true we wipe, else we encrypt/decrypt
     static bool isClosing; //flag for indicating that program is about to close
     QStringListModel* listViewModel = NULL; //model for listView
-    QRegExpValidator* keyValidator = NULL; //regular expression validator for KeyLineEdit
+    QRegularExpressionValidator* keyValidator = NULL; //regular expression validator for KeyLineEdit
     FileHandler* fileHandler = NULL; //shredder object for wipe
-    unordered_map<string, int> fileDictionary; //fileDictionary that represents each file with its corresponding index in listView
-    unordered_map<int, string> listViewFileDictionary; //listViewDictionary represents the current files that are showing in FileListView
+    unordered_map<string, size_t> fileDictionary; //fileDictionary that represents each file with its corresponding index in listView
+    unordered_map<size_t, string> listViewFileDictionary; //listViewDictionary represents the current files that are showing in FileListView
     vector<string> filePathList; //vector that represents all the files path
     SignalProxy* signal = NULL; //signal object for foreigner classes to communicate with GUI
     recursive_mutex GUIMutex; //mutex for thread-safe operations
     size_t listViewCounter = 0; //counter for number of items in listView
     size_t fileCounter = 0; //counter for number of files
     FileViewer* fileViewer = NULL; //FileViewer object for file viewer 
-    ImageLabel* infoImageLabel = NULL; //ImageLabel for info icon
-    ImageLabel* optionsImageLabel = NULL; //ImageLabel for options icon
+    IconLabel* infoIconLabel = NULL; //IconLabel for info icon
+    IconLabel* optionsIconLabel = NULL; //IconLabel for options icon
 
 public:
     CryptoShredder(QWidget* parent = nullptr);
     ~CryptoShredder();
+    static bool initServer();
+    static bool checkServer();
+    static void closeServer();
 
 private slots: //here we declare the slot methods
     void closeEvent(QCloseEvent* event) override;

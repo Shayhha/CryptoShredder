@@ -23,7 +23,7 @@ private:
 	wstring fullPath; //represents file path
 	size_t length; //represents file length
 	static bool isCanceled; //static flag for canceled wipe
-    static bool isFailed; //static flag for failed operation
+	static bool isFailed; //static flag for failed operation
 
 public:
 	File(const string& filePath, Observer& observer);
@@ -40,7 +40,7 @@ public:
 	size_t getLength() { return this->length; }
 	static bool getIsCanceled() { return isCanceled; }
 	static void setIsCanceled(bool state) { isCanceled = state; }
-    static bool getIsFailed() { return isFailed; }
-    static void setIsFailed(bool state) { isFailed = state; }
+	static bool getIsFailed() { return isFailed; }
+	static void setIsFailed(bool state) { isFailed = state; }
 };
 #endif
