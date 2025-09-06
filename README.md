@@ -44,7 +44,7 @@ git clone https://github.com/Shayhha/CryptoShredder
 
 ## Requirements
 
-- Qt Framework: Please ensure that you have Qt version 15.5.2 or later installed on your system in order to build and run this application (pre compiled version for 64-bit Windows is available in x64/Release folder).
+- Qt Framework: Please ensure that you have Qt 6.9.0 or later installed on your system in order to build and run this application (pre compiled version for 64-bit Windows is available in x64/Release folder).
 
 ## How to Build
 
