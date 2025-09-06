@@ -14,8 +14,17 @@ class Observable; //declaration for Observable class
  */
 class Observer {
 public:
+    /**
+	 * @brief Method that observers need to implement to get notified.
+	 * @param Observable* observable
+	 * @param bool state
+     */
     virtual void update(Observable* observable, bool state=true) = 0; //method for observers to implement
 
+
+    /**
+	 * @brief Destructor for Observer class.
+     */
     virtual ~Observer() {} //dtor for observer
 };
 
@@ -50,6 +59,7 @@ public:
 
     /**
      * @brief Method for notifying the observers when needed.
+	 * @param bool state
      */
     void notify(bool state=true) const {
         for (Observer* observer : observersList) {
@@ -58,7 +68,7 @@ public:
     }
 
     /**
-     * @brief destructor for observable class.
+     * @brief Destructor for observable class.
      */
     virtual ~Observable() {} 
 };
