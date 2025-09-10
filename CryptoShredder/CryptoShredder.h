@@ -14,9 +14,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represents the main GUi application of CryptoShredder
-/// </summary>
+/**
+ * @brief Class that represents the main GUi application of CryptoShredder.
+ */
 class CryptoShredder : public QMainWindow {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ private:
     ImageLabel* optionsImageLabel = NULL; //ImageLabel for options icon
 
 public:
-    CryptoShredder(QWidget *parent = nullptr);
+    CryptoShredder(QWidget* parent = nullptr);
     ~CryptoShredder();
 
 private slots: //here we declare the slot methods

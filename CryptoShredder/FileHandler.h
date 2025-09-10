@@ -2,7 +2,7 @@
 #define _FileHandler_H
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
 #include <filesystem>
 #include <unordered_map>
@@ -13,9 +13,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represent shredding multiple files
-/// </summary>
+/**
+ * Class that represent shredding multiple files.
+ */
 class FileHandler : public Observer {
 private:
 	unordered_map<wstring, File*> fileDictionary; //file dictionary for wipe
