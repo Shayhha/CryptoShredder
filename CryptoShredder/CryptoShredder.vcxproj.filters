@@ -57,6 +57,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="FileViewer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="InfoWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="File.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -83,13 +91,5 @@
     <QtMoc Include="SignalProxy.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="FileViewer.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="InfoWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
 </Project>

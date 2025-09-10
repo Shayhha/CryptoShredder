@@ -69,141 +69,284 @@ QListView::item:selected {
     color: black;
     border: 1px solid black;
 }
+
+QToolTip { 
+   color: rgb(245,245,245);
+   background-color: rgba(46, 47, 56, 0.8);
+   border: 1px solid rgb(102,102,102);
+}
 </string>
   </property>
-  <widget class="QTextEdit" name="FileTextEdit">
+  <widget class="QFrame" name="verticalFrame">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
-     <width>830</width>
-     <height>541</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>830</width>
-     <height>541</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>830</width>
-     <height>541</height>
-    </size>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::ClickFocus</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgba(198, 198, 198, 0.6);
-border-radius: 15px;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;
-border-color: black;
-padding: 4px;</string>
-   </property>
-   <property name="verticalScrollBarPolicy">
-    <enum>Qt::ScrollBarAsNeeded</enum>
-   </property>
-   <property name="horizontalScrollBarPolicy">
-    <enum>Qt::ScrollBarAsNeeded</enum>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QFrame" name="ComboBoxFrame">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
      <y>10</y>
-     <width>110</width>
-     <height>30</height>
+     <width>830</width>
+     <height>580</height>
     </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
    </property>
    <property name="minimumSize">
     <size>
-     <width>110</width>
-     <height>30</height>
+     <width>830</width>
+     <height>580</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>110</width>
-     <height>30</height>
+     <width>830</width>
+     <height>580</height>
     </size>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgba(32,33,35,255);
-color: rgb(245,245,245);
-border-radius: 15px;
-border-width: 2px;
-border-radius: 15px;
-padding: 4px;</string>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QComboBox" name="FormatComboBox">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>110</width>
-      <height>31</height>
-     </rect>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>9</number>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
+    <property name="leftMargin">
+     <number>0</number>
     </property>
-    <property name="minimumSize">
-     <size>
-      <width>110</width>
-      <height>31</height>
-     </size>
+    <property name="topMargin">
+     <number>0</number>
     </property>
-    <property name="maximumSize">
-     <size>
-      <width>110</width>
-      <height>31</height>
-     </size>
+    <property name="rightMargin">
+     <number>0</number>
     </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
+    <property name="bottomMargin">
+     <number>0</number>
     </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::WheelFocus</enum>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QComboBox {
+    <item>
+     <widget class="QFrame" name="horizontalFrame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>31</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>31</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <spacer name="horizontalSpacer1">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>25</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="FileNameLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>471</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>471</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>18</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+   background-color: none;
+   color: rgb(245,245,245);
+}
+</string>
+         </property>
+         <property name="text">
+          <string>FileName</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>140</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="FormatLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>77</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>77</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>16</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+   background-color: none;
+   color: rgb(245,245,245);
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Format</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="ComboBoxFrame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>110</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>110</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QFrame {
+   background-color: rgba(32,33,35,255);
+   color: rgb(245,245,245);
+   border-radius: 15px;
+   border-width: 2px;
+   border-radius: 15px;
+   padding: 4px;
+}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QComboBox" name="FormatComboBox">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>110</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Arial</family>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::WheelFocus</enum>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt&quot;&gt;Choose HEX, BINARY&lt;br&gt; or UTF-8 formats.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QComboBox {
     background-color: transparent;
 	color: rgb(245,245,245);
     border-radius: 15px;
@@ -215,7 +358,7 @@ padding: 4px;</string>
 }
 
 QComboBox:hover {
-    border: 2px solid black
+    border: 2px solid black;
 }
 
 QComboBox QAbstractItemView {
@@ -232,87 +375,96 @@ QComboBox QAbstractItemView {
 QComboBox QListView{
     outline: 0px;
 } </string>
-    </property>
-    <item>
-     <property name="text">
-      <string>HEX</string>
-     </property>
+          </property>
+          <item>
+           <property name="text">
+            <string>HEX</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>BINARY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>UTF-8</string>
+           </property>
+          </item>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>15</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
-     <property name="text">
-      <string>BINARY</string>
-     </property>
+     <widget class="QTextEdit" name="FileTextEdit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>830</width>
+        <height>541</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>830</width>
+        <height>541</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::ClickFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTextEdit {
+   background-color: rgba(198, 198, 198, 0.6);
+   border-radius: 15px;
+   border-style: outset;
+   border-width: 2px;
+   border-radius: 15px;
+   border-color: black;
+   padding: 4px;
+}</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
-    <item>
-     <property name="text">
-      <string>UTF-8</string>
-     </property>
-    </item>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="FormatLabel">
-   <property name="geometry">
-    <rect>
-     <x>641</x>
-     <y>15</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>16</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: none;
-color: rgb(245,245,245);
-</string>
-   </property>
-   <property name="text">
-    <string>Format</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="FileNameLabel">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>10</y>
-     <width>471</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>471</width>
-     <height>31</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>471</width>
-     <height>31</height>
-    </size>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>18</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: none;
-color: rgb(245,245,245);
-</string>
-   </property>
-   <property name="text">
-    <string>FileName</string>
-   </property>
+   </layout>
   </widget>
  </widget>
  <resources/>
