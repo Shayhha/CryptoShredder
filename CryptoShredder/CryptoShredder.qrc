@@ -1,4 +1,4 @@
 <RCC>
-    <qresource prefix="FileShredder">
+    <qresource prefix="CryptoShredder">
     </qresource>
 </RCC>
