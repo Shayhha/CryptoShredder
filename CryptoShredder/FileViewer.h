@@ -2,11 +2,11 @@
 #define _FileViewer_H
 #define _CRT_SECURE_NO_WARNINGS
 #include <QtWidgets/QMainWindow>
-#include <QMessageBox>
 #include <QScrollBar>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <QLoggingCategory>
 #include <QTextEdit>
 #include <QFile>
 #include "ui_FileViewer.h"  
@@ -21,6 +21,7 @@ class FileViewer : public QDialog {
 
 private:
     Ui::FileViewer ui; //ui element for window
+	static FileViewer* currentInstance; //FileViewer object for file viewer
     QFile file; //QFile object for opening file
     qint64 fileSize = 0; //qint64 for fileSize
     qint64 bytesRead = 0; //qint64 for amount of bytes read
@@ -29,13 +30,12 @@ private:
     ~FileViewer(); //destructor for class
     FileViewer(const FileViewer&) = delete; //prevent copy
     void operator=(const FileViewer&) = delete; //prevent assignment
-    static bool isInstance; //static bool instance flag for indication 
-
-public:
-    static FileViewer* getInstance(QWidget* parent, const QString& filePath, const QString& fileName);
     bool openFile(const QString& filePath);
     void showEvent(QShowEvent* event) override;
     void updateFileContent(int index);
     void loadChunk();
+
+public:
+    static FileViewer* getInstance(QWidget* parent, const QString& filePath, const QString& fileName);
 };
 #endif 
