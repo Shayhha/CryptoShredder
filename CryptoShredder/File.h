@@ -2,7 +2,7 @@
 #define _File_H
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
 #include <fstream>
 #include <cstdlib>
@@ -16,9 +16,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represent a File object
-/// </summary>
+/**
+ * @brief Class that represent a File object.
+ */
 class File : public Observable {
 private:
 	wstring name; //represents file name
