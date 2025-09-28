@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QScrollBar>
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
 #include <QTextEdit>
 #include <QFile>
@@ -13,9 +13,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class for file viewing in various formats
-/// </summary>
+/**
+ * @brief Class for file viewing in various formats.
+ */
 class FileViewer : public QDialog {
     Q_OBJECT
 
@@ -39,4 +39,3 @@ public:
     void loadChunk();
 };
 #endif 
-
