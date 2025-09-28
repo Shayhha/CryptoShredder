@@ -1,7 +1,8 @@
 #include "File.h"
 
 
-bool File::isCanceled = false; //initialization of static flag 
+bool File::isCanceled = false; //initialization of static isCanceled flag
+bool File::isFailed = false; //initialization of static isFailed flag
 
 
 /**
@@ -22,71 +23,175 @@ File::File(const string& filePath, Observer& observer) : Observable() {
 
 
 /**
- * @brief Function to remove a file from computer storage.
+ * @brief Function to convert from wstring to regular string.
+ * @param wstring wstr
+ */
+string File::ToString(const wstring& wstr) {
+    string result = "";
+    for (wchar_t wc : wstr) {
+        if (wc <= 0x7F) {
+            result.push_back((char)wc); //single-byte characters
+        }
+        else if (wc <= 0x7FF) {
+            result.push_back((char)(0xC0 | (wc >> 6))); //first byte for multi-byte characters
+            result.push_back((char)(0x80 | (wc & 0x3F))); //second byte for multi-byte characters
+        }
+        else if (wc <= 0xFFFF) {
+            result.push_back((char)(0xE0 | (wc >> 12))); //first byte for 3-byte characters
+            result.push_back((char)(0x80 | ((wc >> 6) & 0x3F))); //second byte
+            result.push_back((char)(0x80 | (wc & 0x3F))); //third byte
+        }
+        else if (wc <= 0x10FFFF) {
+            result.push_back((char)(0xF0 | (wc >> 18))); //first byte for 4-byte characters
+            result.push_back((char)(0x80 | ((wc >> 12) & 0x3F))); //second byte
+            result.push_back((char)(0x80 | ((wc >> 6) & 0x3F))); //third byte
+            result.push_back((char)(0x80 | (wc & 0x3F))); //fourth byte
+        }
+    }
+    return result;
+}
+
+
+/**
+ * @brief Function to convert from string to wstring.
+ * @param string str
+ */
+wstring File::ToWString(const string& str) {
+    wstring result = L"";
+    size_t i = 0;
+    while (i < str.size()) {
+        unsigned char c1 = str[i];
+        if (c1 <= 0x7F) {
+            result.push_back((wchar_t)c1); //single-byte characters
+            ++i;
+        }
+        else if ((c1 >> 5) == 0x6) {
+            unsigned char c2 = str[i + 1];
+            wchar_t wc = ((c1 & 0x1F) << 6) | (c2 & 0x3F); //2-byte character
+            result.push_back(wc);
+            i += 2;
+        }
+        else if ((c1 >> 4) == 0xE) {
+            unsigned char c2 = str[i + 1];
+            unsigned char c3 = str[i + 2];
+            wchar_t wc = ((c1 & 0xF) << 12) | ((c2 & 0x3F) << 6) | (c3 & 0x3F); //3-byte character
+            result.push_back(wc);
+            i += 3;
+        }
+        else if ((c1 >> 3) == 0x1E) {
+            unsigned char c2 = str[i + 1];
+            unsigned char c3 = str[i + 2];
+            unsigned char c4 = str[i + 3];
+            wchar_t wc = ((c1 & 0x7) << 18) | ((c2 & 0x3F) << 12) | ((c3 & 0x3F) << 6) | (c4 & 0x3F); //4-byte character
+            result.push_back(wc);
+            i += 4;
+        }
+    }
+    return result;
+}
+
+
+/**
+ * @brief Function that removes a file from computer storage.
  * @param File file
+ * @throws runtime_error if file does not exist or error occurs.
  */
 void File::removeFile(const File& file) {
-    if (_wremove(file.fullPath.c_str()) != 0) { //if true we failed removing file
-        throw runtime_error("Error trying to delete file: " + File::ToString(file.fullPath)); //throw exception with error
+    try {
+        if (!filesystem::remove(filesystem::path(file.fullPath))) //try to remove the file, if true then file does not exist
+            throw runtime_error("Thread: Failed deleting file, file does not exist."); //throw runtime error
+    }
+    catch (const filesystem::filesystem_error& e) { //catch filesystem error that may be thrown
+        throw runtime_error(string("Thread: Error deleting file: ") + e.what()); //throw runtime error
     }
 }
 
 
 /**
- * @brief Function that handles wiping the file contents securely using crypto methods.
+ * @brief Function that handles wiping the file contents securely using cryptographically secure random bytes.
  * @param File file
  * @param int passes
  * @param bool toRemove
  */
 void File::WipeFile(const File& file, int passes, bool toRemove) {
-    fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
+    fstream outputFile; //create fstream object for file operations
 
-    if (!outputFile.is_open() || outputFile.fail()) { //we check if we failed opening the file
-        throw runtime_error("Error opening file: " + File::ToString(file.fullName)); //throw runtime error exception if failed to open file
-        return; //stop the method
-    }
     try {
-        random_device randomDevice; //for random bytes generator
-        mt19937_64 generator(randomDevice()); //secure random byte generator 
+        if (file.length == 0) { //if true the file is empty
+            if (toRemove) //if true we need to remove the file
+                removeFile(file); //call removeFile function to remove the file
+            file.notify(true); //notify all observers that we finished the task
+            return; //finish the function if file is empty
+        }
+
+        outputFile.open(filesystem::path(file.fullPath), ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
+        if (!outputFile.is_open() || outputFile.fail()) { //we check if we failed opening the file
+            outputFile.close(); //close the file due to error
+            File::setIsFailed(true); //set isFailed to true to indicate of failure
+            file.notify(false); //notify all observers that we finished the task
+            return; //finish the function if error occured
+        }
+
+        random_device randomDevice; //create random device for generating random bytes
+        size_t fileSize = file.length; //set fileSize to be file size in bytes
+        size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of file
+        size_t chunkSize = 0; //set chunkSize to be zero and later calculate minimal chunk to read
+        const size_t maxBufferSize = 1024LL * 1024LL; //set maxBufferSize to be 1MB for efficiency
+        size_t bufferSize = min(fileSize, maxBufferSize); //set minimal bufferSize for memory efficiency
+        vector<unsigned char> buffer(bufferSize); //create buffer vector based on bufferSize
 
         //we iterate in a loop each pass and wipe the file's contents
         for (int pass = 0; pass < passes; pass++) {
-            outputFile.seekp(0); //we start from the beginning of the file each pass
-            size_t fileSize = file.length; //set the fileSize to be file size in bytes 
-            size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of file
-            const size_t bufferSize = fileSize / 4; //set a bufferSize to be a quarter of original file size for memory efficiency
-            vector<char> buffer(bufferSize); //create a vector that uses the bufferSize
+            outputFile.seekp(0, ios::beg); //we start from the beginning of the file each pass
+            currentSize = 0; //reset currentSize in each pass to start from beginning
 
             //wiping the file with random data with Mersenne Twister algorithm
-            while (currentSize != file.length) { //we write until we reach the original size of file
-                const size_t chunkSize = min(fileSize, bufferSize); //set chunkSize based on the minimum between the fileSize and bufferSize
-                outputFile.seekp(currentSize); //set the pointer for replacing bytes with the currentSize parameter to write in chunks
-                //generate random data
-                for (size_t i = 0; i < chunkSize; i++) {
-                    if (File::isCanceled) { //if true we stop the file wipe
-                        outputFile.close(); //after we finish we close the file
-                        file.notify(); //notify all observers that we finished the task
-                        return; //finish the function if we need to cancel
-                    }
-                    buffer[i] = (unsigned char)(generator() & 0xFF); //generate a random byte and insert it into the buffer
+            while (currentSize < fileSize) {
+                chunkSize = min(fileSize - currentSize, bufferSize); //set chunkSize based on the minimum between the fileSize - currentSize and bufferSize
+
+                if (File::isCanceled) { //if true we stop the file wipe
+                    if (outputFile.is_open()) //if true the file is open
+                        outputFile.close(); //close the file for cancelation
+                    file.notify(true); //notify all observers that we finished the task
+                    return; //finish the function if we need to cancel
                 }
-                outputFile.write(buffer.data(), chunkSize); //write buffer data to the file
-                outputFile.flush(); //flush the file 
-                currentSize += chunkSize; //add chunkSize to currentSize for indication and for the point where we need to write more data in next iteration
-                fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
+
+                //fill the buffer with random bytes using random device
+                for (size_t i = 0; i < chunkSize; i++)
+                    buffer[i] = (unsigned char)(randomDevice() & 0xFF); //insert random byte to buffer using random device
+
+                outputFile.seekp(currentSize, ios::beg); //set cursor in currentSize position for writing
+                outputFile.write(reinterpret_cast<const char*>(buffer.data()), chunkSize); //write buffer data to the file
+                if (outputFile.fail()) { //if true we failed to write data
+                    if (outputFile.is_open()) //if true the file is open
+                        outputFile.close(); //close the file due to error
+                    File::setIsFailed(true); //set isFailed to true to indicate of failure
+                    file.notify(false); //notify all observers that we finished the task
+                    return; //finish the function if error occured
+                }
+
+                currentSize += chunkSize; //add chunkSize to currentSize for indication to point where we need to write more data in next iteration
             }
         }
+
+        if (outputFile.is_open()) { //if true the file is open
+            outputFile.flush(); //flush the file 
+            outputFile.close(); //after we finish we close the file
+        }
+
+        if (toRemove) //if true we need to remove the file
+            removeFile(file); //call removeFile function to remove the file
+
+        file.notify(true); //notify all observers that we finished the task
     }
     catch (const exception& e) { //catch exceptions that may be thrown
-        outputFile.close(); //after we finish, we close the file
-        file.notify(); //notify all observers that we finished the task
-        throw runtime_error(e.what()); //throw runtime error
+        if (outputFile.is_open()) //if true the file is open
+            outputFile.close(); //close the file due to error
+        File::setIsFailed(true); //set isFailed to true to indicate of failure
+        file.notify(false); //notify all observers that we finished the task
+        cout << e.what() << endl; //print the error message
+        return; //finish the function if error occured
     }
-
-    outputFile.close(); //after we finish we close the file
-    if (toRemove) //if true we need to remove the file
-        removeFile(file); //call removeFile function to remove the file
-    file.notify(); //notify all observers that we finished the task
 }
 
 
@@ -97,69 +202,132 @@ void File::WipeFile(const File& file, int passes, bool toRemove) {
  * @param bool decrypt
  */
 void File::CipherFile(const File& file, const string& key, bool decrypt) {
-    fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
-
-    if (!outputFile.is_open() || outputFile.fail()) { //check if we failed opening the file
-        throw runtime_error("Error opening file: " + File::ToString(file.fullName)); //throw a runtime error exception if failed to open the file
-        return; //stop the method
-    }
+    fstream outputFile; //create fstream object for file operations
 
     try {
-        outputFile.seekp(0); //start from the beginning of the file each pass
-        size_t fileSize = file.length; //set the fileSize to be the file size in bytes 
-        size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of the file
-        const size_t bufferSize = fileSize / 4; //set a bufferSize to be a quarter of the original file size for memory efficiency
-        vector<char> buffer(bufferSize); //create a vector that uses the bufferSize
+        if (file.length == 0) { //if true the file is empty
+            file.notify(true); //notify all observers that we finished the task
+            return; //finish the function if file is empty
+        }
 
-        const vector<unsigned char> keyVec(key.begin(), key.end()); //save the given key in a vector
-        vector<unsigned char> ivVec(keyVec.begin(), keyVec.begin() + 16); //create a initialization vector with first 16 bytes of given keyVec
-        ivVec = AES::Encrypt_ECB(ivVec, keyVec); //we encrypt the initialization vector using AES ECB mode with given key
+        outputFile.open(filesystem::path(file.fullPath), ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
+        if (!outputFile.is_open() || outputFile.fail()) { //we check if we failed opening the file
+            outputFile.close(); //close the file due to error
+            File::setIsFailed(true); //set isFailed to true to indicate of failure
+            file.notify(false); //notify all observers that we finished the task
+            return; //finish the function if error occured
+        }
+
+        size_t fileSize = file.length; //set fileSize to be file size in bytes
+        size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of file
+        size_t chunkSize = 0; //set chunkSize to be zero and later calculate minimal chunk to read
+        size_t numOfBlocks = 0; //set number of blocks used for incrementing initialization vector
+        const size_t maxBufferSize = 1024LL * 1024LL; //set maxBufferSize to be 1MB for efficiency
+        size_t bufferSize = min(fileSize, maxBufferSize); //set minimal bufferSize for memory efficiency
+        vector<unsigned char> buffer(bufferSize); //create buffer vector based on bufferSize
+        vector<unsigned char> keyVec(key.begin(), key.end()); //create vector for given key
+        vector<unsigned char> ivVec(16); //create initialization vector for cipher operation
+
+        //derive the IV vector based on cipher mode
+        if (!decrypt) { //if true we encrypt file
+            ivVec = AES::Create_IV(16); //create a random IV vector for encryption
+
+            outputFile.seekp(0, ios::end); //set cursor to the end of the file for appending IV
+            outputFile.write(reinterpret_cast<const char*>(ivVec.data()), ivVec.size()); //append IV to the end of the file
+            if (outputFile.fail()) { //if true we failed to write data
+                if (outputFile.is_open()) //if true the file is open
+                    outputFile.close(); //close the file due to error
+                File::setIsFailed(true); //set isFailed to true to indicate of failure
+                file.notify(false); //notify all observers that we finished the task
+                return; //finish the function if error occured
+            }
+        }
+        else { //else we decrypt file
+            if (fileSize < ivVec.size()) { //if true the file is smaller than the IV size
+                if (outputFile.is_open()) //if true the file is open
+                    outputFile.close(); //close the file due to error
+                File::setIsFailed(true); //set isFailed to true to indicate of failure
+                file.notify(false); //notify all observers that we finished the task
+                return; //finish the function if error occured
+            }
+            outputFile.seekg(fileSize - ivVec.size(), ios::beg); //set cursor to read IV from the end of the file
+            outputFile.read(reinterpret_cast<char*>(ivVec.data()), ivVec.size()); //read IV into ivVec
+            fileSize -= ivVec.size(); //adjust fileSize to exclude IV
+        }
+
+        //transform the IV vecor using AES ECB mode and XOR with the key
+        ivVec = AES::Encrypt_ECB(ivVec, keyVec); //we encrypt IV using AES ECB mode with given key
         //apply XOR operation between encrypted ivVec and keyVec
         for (size_t i = 0; i < ivVec.size(); i++)
             ivVec[i] ^= keyVec[i]; //XOR between each byte
+        //set right half of ivVec to zero for counter
+        fill(ivVec.begin() + 8, ivVec.end(), 0x00); //set right half of ivVec to zero
 
-        while (currentSize != file.length) { //we write until we reach the original size of the file
-            const size_t chunkSize = min(fileSize, bufferSize); //set chunkSize based on the minimum between the fileSize and bufferSize
+        //encrypt or decrypt the file using AES algorithm in CTR mode
+        while (currentSize < fileSize) {
+            chunkSize = min(fileSize - currentSize, bufferSize); //set chunkSize based on the minimum between the fileSize - currentSize and bufferSize
+            numOfBlocks = (chunkSize + 15) / 16; //calculate number of blocks used for incrementing IV vector
 
-            //read asynchronously
-            future<void> readFuture = async(launch::async, [&]() {
-                outputFile.seekg(currentSize); //set the pointer with the currentSize parameter to read in chunks
-                vector<unsigned char> buffer(chunkSize); //set the vector for operation
-                outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize); //read file to buffer
+            if (File::isCanceled) { //if true we stop the file wipe
+                if (outputFile.is_open()) //if true the file is open
+                    outputFile.close(); //close the file for cancelation
+                file.notify(true); //notify all observers that we finished the task
+                return; //finish the function if we need to cancel
+            }
 
-                if (!decrypt) //if true we encrypt file
-                    buffer = AES::Encrypt_CTR(buffer, keyVec, ivVec); //we encrypt using AES CTR mode with given key and iv 
-                else //else we decrypt file
-                    buffer = AES::Decrypt_CTR(buffer, keyVec, ivVec); //we decrypt using AES CTR mode with given key and iv
+            outputFile.seekg(currentSize, ios::beg); //set cursor in currentSize position for reading
+            outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize); //read chunk into our buffer
+            if (outputFile.fail()) { //if true we failed to write data
+                if (outputFile.is_open()) //if true the file is open
+                    outputFile.close(); //close the file due to error
+                File::setIsFailed(true); //set isFailed to true to indicate of failure
+                file.notify(false); //notify all observers that we finished the task
+                return; //finish the function if error occured
+            }
 
-                if (File::isCanceled) { //if true we stop the file encryption/decryption
-                    outputFile.close(); //after we finish we close the file
-                    file.notify(); //notify all observers that we finished the task
-                    return; //finish the function if we need to cancel
-                }
+            if (!decrypt) //if true we encrypt file
+                buffer = AES::Encrypt_CTR(buffer, keyVec, ivVec); //we encrypt using AES CTR mode with given key and IV
+            else //else we decrypt file
+                buffer = AES::Decrypt_CTR(buffer, keyVec, ivVec); //we decrypt using AES CTR mode with given key and IV
 
-                //write asynchronously
-                future<void> writeFuture = async(launch::async, [&]() {
-                    outputFile.seekp(currentSize); //set the pointer with the currentSize parameter to write in chunks
-                    outputFile.write(reinterpret_cast<char*>(buffer.data()), chunkSize); //write buffer data to the file
-                    outputFile.flush(); //flush the file 
-                    });
+            //increment ivVec for next chunk
+            for (size_t i = ivVec.size(); numOfBlocks && i-- > ivVec.size() / 2;) { //iterate over ivVec from end to start
+                numOfBlocks += ivVec[i]; //add current byte to numOfBlocks
+                ivVec[i] = (unsigned char)(numOfBlocks & 0xFF); //set current byte to be the last byte of numOfBlocks
+                numOfBlocks >>= 8; //right shift numOfBlocks by 8 bits
+            }
 
-                writeFuture.get(); //wait for the write to finish
-                });
+            outputFile.seekp(currentSize, ios::beg); //set cursor in currentSize position for writing
+            outputFile.write(reinterpret_cast<const char*>(buffer.data()), chunkSize); //write buffer data to the file
+            if (outputFile.fail()) { //if true we failed to write data
+                if (outputFile.is_open()) //if true the file is open
+                    outputFile.close(); //close the file due to error
+                File::setIsFailed(true); //set isFailed to true to indicate of failure
+                file.notify(false); //notify all observers that we finished the task
+                return; //finish the function if error occured
+            }
 
-            readFuture.get(); //wait for the read and encryption/decryption to finish
-
-            currentSize += chunkSize; //add chunkSize to currentSize for indication and for the point where we need to write more data in next iteration
-            fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
+            currentSize += chunkSize; //add chunkSize to currentSize for indication to point where we need to write more data in next iteration
         }
+
+        if (outputFile.is_open()) { //if true the file is open
+            outputFile.flush(); //flush the file
+            outputFile.close(); //after we finish we close the file
+        }
+
+        if (decrypt) //if true we decrypt file and need to resize the file to exclude the IV at the end
+            filesystem::resize_file(filesystem::path(file.fullPath), fileSize); //resize the file to exclude the IV at the end
+
+        AES::ClearVector(keyVec); //clear keyVec for added security
+        AES::ClearVector(ivVec); //clear ivVec for added security
+        file.notify(true); //notify all observers that we finished the task
     }
     catch (const exception& e) { //catch exceptions that may be thrown
-        outputFile.close(); //after we finish, we close the file
-        file.notify(); //notify all observers that we finished the task
-        throw runtime_error(e.what()); //throw runtime error
+        if (outputFile.is_open()) //if true the file is open
+            outputFile.close(); //close the file due to error
+        File::setIsFailed(true); //set isFailed to true to indicate of failure
+        file.notify(false); //notify all observers that we finished the task
+        cout << e.what() << endl; //print the error message
+        return; //finish the function if error occured
     }
-
-    outputFile.close(); //after we finish, we close the file
-    file.notify(); //notify all observers that we finished the task
 }
