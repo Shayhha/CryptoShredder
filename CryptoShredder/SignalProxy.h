@@ -16,9 +16,9 @@ class SignalProxy : public QObject {
 	Q_OBJECT
 
 signals: //here we declare the signals for GUI
-	void signalUpdateListView(const QString& fileDictionaryName, const QString& fileName, const QString& tag); //signal to update GUI listView 
-	void signalMessageBox(const QString& title, const QString& text, const QString& type); //signal to show GUI messagebox
-	void signalSetListViewTags(const QString& tag, const QString& currentTag); //signal for set tags in GUI listView
+	void SignalUpdateListView(const QString& fileFullName, const QString& fileName, const QString& tag); //signal to update GUI listView 
+	void SignalMessageBox(const QString& title, const QString& message, const QString& type); //signal to show GUI messagebox
+	void SignalSetListViewTags(const QString& tag, const QString& currentTag); //signal for set tags in GUI listView
 
 public:
 	SignalProxy() {}; //ctor
@@ -27,22 +27,22 @@ public:
 public slots: //here we declare the slot methods
 	/**
 	 * @brief Method to emit a signal to GUI to update listView.
-	 * @param string fileDictionaryName
-	 * @param string fileName
+	 * @param u16string fileFullName
+	 * @param u16string fileName
 	 * @param string tag
 	 */
-	void sendSignalUpdateListView(const string& fileDictionaryName, const string& fileName, const string& tag) {
-		emit signalUpdateListView(QString::fromStdString(fileDictionaryName), QString::fromStdString(fileName), QString::fromStdString(tag));
+	void SendSignalUpdateListView(const u16string& fileFullName, const u16string& fileName, const string& tag) {
+		emit SignalUpdateListView(QString::fromStdU16String(fileFullName), QString::fromStdU16String(fileName), QString::fromStdString(tag));
 	}
 
 	/**
 	 * @brief Method to emit signal to GUI to show messagebox.
 	 * @param string title
-	 * @param string text
+	 * @param string message
 	 * @param string type
 	 */
-	void sendSignalMessageBox(const string& title, const string& text, const string& type) {
-		emit signalMessageBox(QString::fromStdString(title), QString::fromStdString(text), QString::fromStdString(type));
+	void SendSignalMessageBox(const string& title, const string& message, const string& type) {
+		emit SignalMessageBox(QString::fromStdString(title), QString::fromStdString(message), QString::fromStdString(type));
 	}
 
 	/**
@@ -50,8 +50,8 @@ public slots: //here we declare the slot methods
 	 * @param string tag
 	 * @param string currentTag
 	 */
-	void sendSignalSetListViewTags(const string& tag, const string& currentTag) {
-		emit signalSetListViewTags(QString::fromStdString(tag), QString::fromStdString(currentTag));
+	void SendSignalSetListViewTags(const string& tag, const string& currentTag) {
+		emit SignalSetListViewTags(QString::fromStdString(tag), QString::fromStdString(currentTag));
 	}
 };
 #endif
