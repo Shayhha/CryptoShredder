@@ -4,10 +4,10 @@
 bool InfoWindow::isInstance = false; //initialize the static isInstance flag 
 
 
-/// <summary>
-/// Constructor of class
-/// </summary>
-/// <param name="parent"></param>
+/**
+ * @brief Constructor of class.
+ * @param QWidget* parent
+ */
 InfoWindow::InfoWindow(QWidget* parent) : QDialog(parent) {
     ui.setupUi(this); //set ui elements
     this->setAttribute(Qt::WA_DeleteOnClose); //ensure that object gets deleted when window closes
@@ -18,20 +18,20 @@ InfoWindow::InfoWindow(QWidget* parent) : QDialog(parent) {
 }
 
 
-/// <summary>
-/// Destructor oc class
-/// </summary>
+/**
+ * @brief Destructor of class.
+ * @param QWidget* parent
+ */
 InfoWindow::~InfoWindow() {
     if (isInstance) //if true we set back isInstance flag to false
         isInstance = false; //set the isInstance flag to false
 }
 
 
-/// <summary>
-/// Method for getting instance for singleton class
-/// </summary>
-/// <param name="QWidget parent"></param>
-/// <returns></returns>
+/**
+ * @brief Method for getting instance for singleton class.
+ * @param QWidget* parent
+ */
 InfoWindow* InfoWindow::getInstance(QWidget* parent) {
     if (!isInstance) { //if true we can give the user an instance for InfoWindow
         isInstance = true; //indicating that we're creating an instance for class

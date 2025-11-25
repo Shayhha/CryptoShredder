@@ -2,7 +2,7 @@
 #define _File_H
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
 #include <fstream>
 #include <cstdlib>
@@ -16,9 +16,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represent a File object
-/// </summary>
+/**
+ * @brief Class that represent a File object.
+ */
 class File : public Observable {
 private:
 	wstring name; //represents file name
@@ -34,8 +34,8 @@ public:
 	static string ToString(const wstring& wstr) { return wstring_convert<codecvt_utf8<wchar_t>, wchar_t>{}.to_bytes(wstr); }
 	static wstring ToWString(const string& str) { return wstring_convert<codecvt_utf8<wchar_t>, wchar_t>{}.from_bytes(str); }
 	static void removeFile(const File& file);
-	static void WipeFile(const File& file, int passes=1, bool toRemove=false);
-	static void CipherFile(const File& file, const string& key, bool decrypt=false);
+	static void WipeFile(const File& file, int passes = 1, bool toRemove = false);
+	static void CipherFile(const File& file, const string& key, bool decrypt = false);
 	wstring getName() { return this->name; }
 	wstring getExtention() { return this->extention; }
 	wstring getFullName() { return this->fullName; }

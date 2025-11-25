@@ -4,27 +4,26 @@
 bool CryptoShredder::wipe = true; //set wipe flag to true by default
 
 
-/// <summary>
-/// Constructor of GUI
-/// </summary>
-/// <param name="QWidget parent"></param>
-CryptoShredder::CryptoShredder(QWidget *parent) : QMainWindow(parent) {
+/**
+ * @brief Constructor of GUI.
+ * @param QWidget* parent
+ */
+CryptoShredder::CryptoShredder(QWidget* parent) : QMainWindow(parent) {
     //setup ui elements
-    ui.setupUi(this); 
+    ui.setupUi(this);
 
     //setup GUI elements at start of program//
     ui.KeyLabel->setVisible(false); //hide KeyLabel
     ui.KeyLineEdit->setVisible(false); //hide KeyLineEdit
     ui.CipherCheckBox->setVisible(false); //hide CipherCheckBox
-    this->listViewModel = new QStringListModel(this); //initialize the model for listView in GUI
+    this->listViewModel = new QStringListModel(); //initialize the model for listView in GUI
     this->signal = new SignalProxy(); //initialize the signal proxy for the foreigner classes
     this->infoImageLabel = new ImageLabel("images/infoIcon.png", QPoint(1020, 10), QSize(40, 40), this); //set the info icon in GUI
-    this->infoImageLabel->setToolTip("General information\nabout app."); //set toolTip for info icon
+    this->infoImageLabel->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>General information<br>about CryptoShredder.</span></p></body></html>"); //set toolTip for info icon
     this->optionsImageLabel = new ImageLabel("images/cipherIcon.png", QPoint(955, 10), QSize(40, 40), this); //set the options icon in GUI
-    this->optionsImageLabel->setToolTip("Encrypt/Decrypt files."); //set toolTip for options icon
-    this->keyValidator = new QRegExpValidator(QRegExp("[a-zA-Z0-9\\W]{16}|[a-zA-Z0-9\\W]{24}|[a-zA-Z0-9\\W]{32}"), this); //regular expression for key 
+    this->optionsImageLabel->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Encrypt/Decrypt files.</span></p></body></html>"); //set toolTip for options icon
+    this->keyValidator = new QRegExpValidator(QRegExp("(^(?:[a-zA-Z0-9\\W]{16}|[a-zA-Z0-9\\W]{24}|[a-zA-Z0-9\\W]{32})$)")); //regular expression for key 
     ui.KeyLineEdit->setValidator(this->keyValidator); //set the key validator
-    ui.KeyLineEdit->setToolTip("AES key required, accepted key lengths\ninclude 16, 24 or 32 characters."); //set toolTip for KeyLineEdit
     ui.FileListView->setModel(listViewModel); //set the list model for listView in GUI to add elements
     ui.FileListView->setEditTriggers(QAbstractItemView::NoEditTriggers); //set the listView to be uneditable
     ui.PassesSpinBox->findChild<QLineEdit*>()->setReadOnly(true); //remove the lineEdit in spinBox
@@ -45,9 +44,9 @@ CryptoShredder::CryptoShredder(QWidget *parent) : QMainWindow(parent) {
 }
 
 
-/// <summary>
-/// Destructor of GUI
-/// </summary>
+/**
+ * @brief Destructor of GUI.
+ */
 CryptoShredder::~CryptoShredder() {
     if (this->fileHandler) //if there's an object of fileHandler initialized
         delete this->fileHandler; //delete the fileHandler object
@@ -59,10 +58,10 @@ CryptoShredder::~CryptoShredder() {
 }
 
 
-/// <summary>
-/// Method for adding elements to the FileListView in GUI
-/// </summary>
-/// <param name="QString item"></param>
+/**
+ * @brief Method for adding elements to the FileListView in GUI.
+ * @param QString item
+ */
 void CryptoShredder::addItemToListView(const QString& item) {
     QStringList itemList = this->listViewModel->stringList(); //get current item list in the listView
     itemList.append(item); //add the item to item list 
@@ -70,10 +69,10 @@ void CryptoShredder::addItemToListView(const QString& item) {
 }
 
 
-/// <summary>
-/// Method to update the listView when thread finishes its work
-/// </summary>
-/// <param name="QString item"></param>
+/**
+ * @brief Method to update the listView when thread finishes its work.
+ * @param "QString item
+ */
 void CryptoShredder::updateListView(const QString& fileDictionaryName, const QString& fileName, const QString& tag) {
     this->GUIMutex.lock(); //lock the GUI mutex to prevent race conditions with threads
     if (this->fileHandler) { //update only if fileHandler object is initialized
@@ -86,9 +85,9 @@ void CryptoShredder::updateListView(const QString& fileDictionaryName, const QSt
 }
 
 
-/// <summary>
-/// Method to check if threads finished their work so we can delete unnecessary memory
-/// </summary>
+/**
+ * @brief Method to check if threads finished their work so we can delete unnecessary memory.
+ */
 void CryptoShredder::checkThreads() {
     this->GUIMutex.lock();  //lock the GUI mutex to prevent race conditions with threads
     if (this->fileHandler) { //check only if fileHandler object is initialized
@@ -107,10 +106,10 @@ void CryptoShredder::checkThreads() {
             this->fileHandler = NULL; //set pointer of fileHandler to NULL for next operation
             if (File::getIsCanceled()) { //if true user canceled the operation
                 File::setIsCanceled(false); //set the isCanceled flag back to false
-                if(this->wipe) //if we're wiping
+                if (this->wipe) //if we're wiping
                     this->showMessageBox("Wipe Canceled", "Secure wiping for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
                 else { //else we encrypt/decrypt
-                    if(!ui.CipherCheckBox->isChecked()) //if true we show messagebox for encryption
+                    if (!ui.CipherCheckBox->isChecked()) //if true we show messagebox for encryption
                         this->showMessageBox("Encryption Canceled", "Secure encryption for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
                     else //else we show messagebox for decryption
                         this->showMessageBox("Decryption Canceled", "Secure decryption for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
@@ -138,11 +137,11 @@ void CryptoShredder::checkThreads() {
 }
 
 
-/// <summary>
-/// Method to set tags for files in the listView in GUI
-/// </summary>
-/// <param name="QString tag"></param>
-/// <param name="QString currentTag"></param>
+/**
+ * @brief Method to set tags for files in the listView in GUI.
+ * @param QString tag
+ * @param QString currentTag
+ */
 void CryptoShredder::setListViewTags(const QString& tag, const QString& currentTag) {
     QStringList items = this->listViewModel->stringList(); //get item list from the listView model
     if (!items.isEmpty()) { //check if the listView is not empty
@@ -163,12 +162,12 @@ void CryptoShredder::setListViewTags(const QString& tag, const QString& currentT
 }
 
 
-/// <summary>
-/// Method we use to show messagebox with given parameters, also for signals with proxy object
-/// </summary>
-/// <param name="QString title"></param>
-/// <param name="QString text"></param>
-/// <param name="QString type"></param>
+/**
+ * @brief Method we use to show messagebox with given parameters, also for signals with proxy object.
+ * @param QString title
+ * @param QString text
+ * @param type
+ */
 QMessageBox::StandardButton CryptoShredder::showMessageBox(const QString& title, const QString& text, const QString& type) {
     if (type == "critical")
         return QMessageBox::critical(nullptr, title, text);
@@ -178,14 +177,14 @@ QMessageBox::StandardButton CryptoShredder::showMessageBox(const QString& title,
         return QMessageBox::information(nullptr, title, text);
     else if (type == "question")
         return QMessageBox::question(nullptr, title, text);
-    else 
+    else
         return (QMessageBox::StandardButton)QMessageBox::NoIcon(nullptr, title, text);
 }
 
 
-/// <summary>
-/// Method for processing files for wiping or encryption/decryption 
-/// </summary>
+/**
+ * @brief Method for processing files for wiping or encryption/decryption.
+ */
 void CryptoShredder::processFiles() {
     if (this->fileHandler == NULL && !(this->fileDictionary.empty())) { //if true we can start the wipe
         QMessageBox::StandardButton choice;
@@ -237,7 +236,7 @@ void CryptoShredder::processFiles() {
                 this->showMessageBox("Failed Establishing Process", "Error, Couldn't establish process request. Please try again.", "critical");
         }
     }
-    else if (this->fileHandler == NULL && this->fileDictionary.empty()){ //if user didn't choose files we show messagebox with error
+    else if (this->fileHandler == NULL && this->fileDictionary.empty()) { //if user didn't choose files we show messagebox with error
         if (this->wipe) //if we're wiping
             this->showMessageBox("No Files Chosen Error", "Error, Please choose files before starting wipe.", "critical");
         else { //else we encrypt/decrypt
@@ -263,15 +262,15 @@ void CryptoShredder::processFiles() {
 }
 
 
-/// <summary>
-/// Method to open the file dialog for choosing files for wipe !!!!!!CheckHere!!!!!!!!
-/// </summary>
+/**
+ * @brief Method to open the file dialog for choosing files for wipe.
+ */
 void CryptoShredder::openFileDialog() {
     if (this->fileHandler == NULL) {
         QString desktopPath = QDir::homePath() + "/Desktop"; //we set a QString to point to the desktop directory 
         //set the file dialog with appropriate settings for our wiping
         QStringList selectedFiles = QFileDialog::getOpenFileNames(nullptr, "Select Files", desktopPath, "All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg);;PDF Files (*.pdf);;Word Files (*.docx *.doc);;PowerPoint Files (*.pptx *.ppt);;Excel Files (*.xlsx *.xls)");
-        
+
         //check if files were selected
         if (!selectedFiles.isEmpty()) {
             bool isMaxFiles = false; //flag for indicating that user added more then the maximum files allowed
@@ -343,9 +342,9 @@ void CryptoShredder::openFileDialog() {
 }
 
 
-/// <summary>
-/// Method to clear the listView items
-/// </summary>
+/**
+ * @brief Method to clear the listView items.
+ */
 void CryptoShredder::clearContents() {
     if (this->fileHandler == NULL) { //means there's no wipe in progress
         this->filePathList.clear(); //clear filePathList
@@ -368,9 +367,9 @@ void CryptoShredder::clearContents() {
 }
 
 
- // <summary>
- // Method to stop the wiping process
- // </summary>
+/**
+ * @brief Method to stop the wiping process.
+ */
 void CryptoShredder::cancelProcess() {
     if (this->fileHandler) {
         QMessageBox::StandardButton choice;
@@ -389,10 +388,10 @@ void CryptoShredder::cancelProcess() {
 }
 
 
-/// <summary>
-/// Method for double click events in file listView
-/// </summary>
-/// <param name="QModelIndex index"></param>
+/**
+ * @brief Method for double click events in file listView.
+ * @param QModelIndex index
+ */
 void CryptoShredder::doubleClickedFile(const QModelIndex& index) {
     if (this->fileHandler == NULL) { //if true we can open file for viewing
         int fileIndex = index.row(); //get fileIndex in integer
@@ -414,9 +413,9 @@ void CryptoShredder::doubleClickedFile(const QModelIndex& index) {
 }
 
 
-/// <summary>
-/// Method to check if key is valid AES key in GUI 
-/// </summary>
+/**
+ * @brief Method to check if key is valid AES key in GUI.
+ */
 void CryptoShredder::checkLineEditValidator() {
     QString text = ui.KeyLineEdit->text(); //get the text inside key line edit
     if (text.length() != 0 && text.length() != 16 && text.length() != 24 && text.length() != 32) { //if true the text isn't valid
@@ -446,75 +445,75 @@ void CryptoShredder::checkLineEditValidator() {
 }
 
 
-/// <summary>
-/// Method to open the general information window to display information about FileShredder
-/// </summary>
+/**
+ * @brief Method to open the general information window to display information about FileShredder.
+ */
 void CryptoShredder::infoLabelClicked() {
     InfoWindow* info = InfoWindow::getInstance(this); //create new instance of InfoWindow
 }
 
 
-/// <summary>
-/// Method for handling operation modes selection in GUI
-/// </summary>
+/**
+ * @brief Method for handling operation modes selection in GUI.
+ */
 void CryptoShredder::optionsLabelClicked() {
     if (this->fileHandler) { //if true there's a process in progress
-        this->showMessageBox("Unable To Change Mode", "Error, cannot change operation mode while current process in progress.", "warning");
+        this->showMessageBox("Unable To Change Mode", "Error, cannot change operation mode while current process in progress.", "warning"); //show error messagebox
     }
     else { //else we can change operation mode
-        if (!this->wipe) {
-            this->optionsImageLabel->setNewImage("images/cipherIcon.png", "Encrypt/Decrypt files.");
-            ui.TitleIconLabel->setPixmap(QPixmap("images/wipeIcon.png"));
-            ui.KeyLabel->setVisible(false);
-            ui.KeyLineEdit->setVisible(false);
-            ui.CipherCheckBox->setVisible(false);
-            ui.CipherCheckBox->setChecked(false);
-            ui.KeyLineEdit->clear();
-            ui.KeyLineEdit->clearFocus();
-            ui.NumberOfPassesLabel->setVisible(true);
-            ui.PassesSpinBox->setVisible(true);
-            ui.SpinBoxFrame->setVisible(true);
-            ui.RemoveFilesCheckBox->setVisible(true);
-            ui.TopLabel->setText("Files Scheduled For Wipe");
-            ui.ProcessButton->setText("Wipe Files");
-            ui.ChooseFilesButton->setToolTip("Maximum 20 files.");
-            ui.ProcessButton->setToolTip("Start secure wipe on selected files.");
-            this->clearContents();
-            this->wipe = true;
+        if (!this->wipe) { //if true we change to wipe mode
+            this->optionsImageLabel->setNewImage("images/cipherIcon.png", "Encrypt/Decrypt files."); //set optionsImageLabel
+            ui.TitleIconLabel->setPixmap(QPixmap("images/wipeIcon.png")); //set TitleIconLabel
+            ui.KeyLabel->setVisible(false); //set KeyLabel to be invisible
+            ui.KeyLineEdit->setVisible(false); //set KeyLineEdit to be invisible
+            ui.CipherCheckBox->setVisible(false); //set CipherCheckBox to be invisible
+            ui.CipherCheckBox->setChecked(false); //set CipherCheckBox to be invisible
+            ui.KeyLineEdit->clear(); //clear KeyLineEdit
+            ui.KeyLineEdit->clearFocus(); //clear KeyLineEdit focus
+            ui.NumberOfPassesLabel->setVisible(true); //set NumberOfPassesLabel to be visible
+            ui.PassesSpinBox->setVisible(true); //set PassesSpinBox to be visible
+            ui.SpinBoxFrame->setVisible(true); //set SpinBoxFrame to be visible
+            ui.RemoveFilesCheckBox->setVisible(true); //set RemoveFilesCheckBox to be visible
+            ui.TopLabel->setText("Files Scheduled For Wipe"); //set TopLabel
+            ui.ProcessButton->setText("Wipe Files"); //set ProcessButton
+            ui.ChooseFilesButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Choose files, maximum 20 files.</span></p></body></html>");
+            ui.ProcessButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Start secure wipe on selected files.</span></p></body></html>");
+            this->clearContents(); //clear current contents
+            this->wipe = true; //set wipe flag to indicate wipe mode 
         }
-        else {
+        else { //else we change to enryption/decryption mode
             this->optionsImageLabel->setNewImage("images/wipeIcon.png", "Wipe files.");
             ui.TitleIconLabel->setPixmap(QPixmap("images/cipherIcon.png"));
-            ui.NumberOfPassesLabel->setVisible(false);
-            ui.PassesSpinBox->setVisible(false);
-            ui.SpinBoxFrame->setVisible(false);
-            ui.PassesSpinBox->setValue(1);
-            ui.RemoveFilesCheckBox->setVisible(false);
-            ui.RemoveFilesCheckBox->setChecked(false);
-            ui.KeyLabel->setVisible(true);
-            ui.KeyLineEdit->setVisible(true);
-            ui.CipherCheckBox->setVisible(true);
-            this->cipherCheckBoxClicked();
-            ui.ChooseFilesButton->setToolTip("Maximum 10 files.");
-            this->clearContents();
-            this->wipe = false;
+            ui.NumberOfPassesLabel->setVisible(false); //set NumberOfPassesLabel to be invisible
+            ui.PassesSpinBox->setVisible(false); //set PassesSpinBox to be invisible
+            ui.SpinBoxFrame->setVisible(false); //set SpinBoxFrame to be invisible
+            ui.PassesSpinBox->setValue(1); //set PassesSpinBox value back to 1
+            ui.RemoveFilesCheckBox->setVisible(false); //set RemoveFileCheckBox to be invisible
+            ui.RemoveFilesCheckBox->setChecked(false);//set RemoveFileCheckBox to false 
+            ui.KeyLabel->setVisible(true); //set KeyLabel to be visible
+            ui.KeyLineEdit->setVisible(true); //set KeyLineEdit to be visible
+            ui.CipherCheckBox->setVisible(true); //set CipherCheckBox to be visible
+            this->cipherCheckBoxClicked(); //set GUI elements
+            ui.ChooseFilesButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Choose files, maximum 10 files.</span></p></body></html>");
+            this->clearContents(); //clear current contents
+            this->wipe = false; //set wipe flag to indicate wipe mode isn't active
         }
     }
 }
 
 
-/// <summary>
-/// Method that handles GUI state when cipher check box state changes
-/// </summary>
+/**
+ * @brief Method that handles GUI state when cipher check box state changes.
+ */
 void CryptoShredder::cipherCheckBoxClicked() {
-    if (ui.CipherCheckBox->isChecked()) {
-        ui.TopLabel->setText("Files Scheduled For Decryption");
-        ui.ProcessButton->setText("Decrypt Files");
-        ui.ProcessButton->setToolTip("Start decryption on selected files.");
+    if (ui.CipherCheckBox->isChecked()) { //if true we set GUI to decryption mode
+        ui.TopLabel->setText("Files Scheduled For Decryption"); //set TopLabel
+        ui.ProcessButton->setText("Decrypt Files"); //set ProcessButton
+        ui.ProcessButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Start decryption on selected files.</span></p></body></html>");
     }
-    else {
-        ui.TopLabel->setText("Files Scheduled For Encryption");
-        ui.ProcessButton->setText("Encrypt Files");
-        ui.ProcessButton->setToolTip("Start encryption on selected files.");
+    else { //else we set GUI to encryption mode
+        ui.TopLabel->setText("Files Scheduled For Encryption"); //set TopLabel
+        ui.ProcessButton->setText("Encrypt Files"); //set ProcessButton
+        ui.ProcessButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Start encryption on selected files.</span></p></body></html>");
     }
 }

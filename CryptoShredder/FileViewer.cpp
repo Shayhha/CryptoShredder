@@ -4,12 +4,12 @@
 bool FileViewer::isInstance = false; //initialize the static instance flag 
 
 
-/// <summary>
-/// Constructor of class
-/// </summary>
-/// <param name="QWidget parent"></param>
-/// <param name=" QString filePath"></param>
-/// <param name="QString fileName"></param>
+/**
+ * @brief Constructor of class.
+ * @param QWidget* parent
+ * @param QString filePath
+ * @param QString fileName
+ */
 FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& fileName) : QDialog(parent) {
     ui.setupUi(this); //set ui elements
     this->file.setFileName(filePath); //set file name for QFile object
@@ -40,22 +40,22 @@ FileViewer::FileViewer(QWidget* parent, const QString& filePath, const QString& 
 }
 
 
-/// <summary>
-/// Destructor for class
-/// </summary>
+/**
+ * @brief Destructor of class.
+ */
 FileViewer::~FileViewer() {
     if (isInstance)
         isInstance = false; //ensure that we return the instance flag back to false when object deleted
 }
 
 
-/// <summary>
-/// Method for getting instance for singleton class
-/// </summary>
-/// <param name="QWidget parent"></param>
-/// <param name="QString filePath"></param>
-/// <param name="QString fileName"></param>
-/// <returns></returns>
+/**
+ * @brief Method for getting instance for singleton class.
+ * @param QWidget* parent
+ * @param QString filePath
+ * @param QString fileName
+ * @return FileViewer* viewer
+ */
 FileViewer* FileViewer::getInstance(QWidget* parent, const QString& filePath, const QString& fileName) {
     if (!isInstance) { //if true we can give the user an instance for FileViewer
         isInstance = true; //indicating that we're creating an instance for class
@@ -65,11 +65,11 @@ FileViewer* FileViewer::getInstance(QWidget* parent, const QString& filePath, co
 }
 
 
-/// <summary>
-/// Method for opening a file, return true if opened file successfully
-/// </summary>
-/// <param name="QString filePath"></param>
-/// <returns></returns>
+/**
+ * @brief Method for opening a file, return true if opened file successfully.
+ * @param QString filePath
+ * @return FileViewer* viewer
+ */
 bool FileViewer::openFile(const QString& filePath) {
     if (this->file.open(QIODevice::ReadOnly)) { //if true we opened the file successfully
         this->fileSize = this->file.size(); //set size file 
@@ -82,20 +82,20 @@ bool FileViewer::openFile(const QString& filePath) {
 }
 
 
-/// <summary>
-/// Method to set the position of scroll bar to the start position when show() method is called
-/// </summary>
-/// <param name="QShowEvent event"></param>
+/**
+ * @brief Method to set the position of scroll bar to the start position when show() method is called.
+ * @param QShowEvent event
+ */
 void FileViewer::showEvent(QShowEvent* event) {
     QDialog::showEvent(event); //call the base class implementation
     ui.FileTextEdit->verticalScrollBar()->setValue(ui.FileTextEdit->verticalScrollBar()->minimum()); //set the scrollbar value to the minimum position
 }
 
 
-/// <summary>
-/// Method for updating file text edit content with chosen format
-/// </summary>
-/// <param name="int index"></param>
+/**
+ * @brief Method for updating file text edit content with chosen format.
+ * @param int index
+ */
 void FileViewer::updateFileContent(int index) {
     string oldFormat = this->format; //save old format for checking later if it has been changed
     if(index == 0)  //read and display the file as HEX
@@ -119,9 +119,9 @@ void FileViewer::updateFileContent(int index) {
 }
 
 
-/// <summary>
-/// Method to load chunks of data to the FileTextEdit when scroll bar emits signal for value change
-/// </summary>
+/**
+ * @brief Method to load chunks of data to the FileTextEdit when scroll bar emits signal for value change.
+ */
 void FileViewer::loadChunk() {
     const qint64 DefaultChunkSize = 2048 * 3;  //setting DefaultChuckSize that will add each time
 
@@ -159,5 +159,3 @@ void FileViewer::loadChunk() {
         connect(scrollbar, &QScrollBar::valueChanged, this, &FileViewer::loadChunk);
     }
 }
-
-

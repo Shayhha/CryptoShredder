@@ -14,9 +14,9 @@
 
 using namespace std;
 
-/// <summary>
-/// Class that represents the main GUi application of CryptoShredder
-/// </summary>
+/**
+ * @brief Class that represents the main GUi application of CryptoShredder.
+ */
 class CryptoShredder : public QMainWindow {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ private:
     ImageLabel* optionsImageLabel = NULL; //ImageLabel for options icon
 
 public:
-    CryptoShredder(QWidget *parent = nullptr);
+    CryptoShredder(QWidget* parent = nullptr);
     ~CryptoShredder();
 
 private slots: //here we declare the slot methods
@@ -49,7 +49,7 @@ private slots: //here we declare the slot methods
     void addItemToListView(const QString& item);
     void updateListView(const QString& fileDictionaryName, const QString& fileName, const QString& tag);
     void checkThreads();
-    void setListViewTags(const QString& tag, const QString& currentTag=NULL);
+    void setListViewTags(const QString& tag, const QString& currentTag = NULL);
     void doubleClickedFile(const QModelIndex& index);
     void checkLineEditValidator();
     QMessageBox::StandardButton showMessageBox(const QString& title, const QString& text, const QString& type);

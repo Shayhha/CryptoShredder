@@ -4,7 +4,10 @@
 bool File::isCanceled = false; //initialization of static flag 
 
 
-File::File(const string& filePath, Observer& observer): Observable() { 
+/**
+ * @brief Constructor of class.
+ */
+File::File(const string& filePath, Observer& observer) : Observable() {
     filesystem::path p(File::ToWString(filePath)); //create path object to get info from filePath
     if (!exists(p)) { //check if the path exists
         throw runtime_error("Error, the path: " + filePath + " does not exist."); //if not we throw runtime error
@@ -18,10 +21,10 @@ File::File(const string& filePath, Observer& observer): Observable() {
 }
 
 
-/// <summary>
-/// Function to remove a file from pc 
-/// </summary>
-/// <param name="File file"></param>
+/**
+ * @brief Function to remove a file from computer storage.
+ * @param File file
+ */
 void File::removeFile(const File& file) {
     if (_wremove(file.fullPath.c_str()) != 0) { //if true we failed removing file
         throw runtime_error("Error trying to delete file: " + File::ToString(file.fullPath)); //throw exception with error
@@ -29,12 +32,12 @@ void File::removeFile(const File& file) {
 }
 
 
-/// <summary>
-/// Function that handles wiping the file contents securely using crypto methods
-/// </summary>
-/// <param name="File file"></param>
-/// <param name="int passes"></param>
-/// <param name="bool toRemove"></param>
+/**
+ * @brief Function that handles wiping the file contents securely using crypto methods.
+ * @param File file
+ * @param int passes
+ * @param bool toRemove
+ */
 void File::WipeFile(const File& file, int passes, bool toRemove) {
     fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
 
@@ -42,37 +45,44 @@ void File::WipeFile(const File& file, int passes, bool toRemove) {
         throw runtime_error("Error opening file: " + File::ToString(file.fullName)); //throw runtime error exception if failed to open file
         return; //stop the method
     }
+    try {
+        random_device randomDevice; //for random bytes generator
+        mt19937_64 generator(randomDevice()); //secure random byte generator 
 
-    random_device rd; //for random bytes generator
-    mt19937_64 generator(rd()); //secure random byte generator using Mersenne Twister algorithm 
+        //we iterate in a loop each pass and wipe the file's contents
+        for (int pass = 0; pass < passes; pass++) {
+            outputFile.seekp(0); //we start from the beginning of the file each pass
+            size_t fileSize = file.length; //set the fileSize to be file size in bytes 
+            size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of file
+            const size_t bufferSize = fileSize / 4; //set a bufferSize to be a quarter of original file size for memory efficiency
+            vector<char> buffer(bufferSize); //create a vector that uses the bufferSize
 
-    //we iterate in a loop each pass and wipe the file's contents
-    for (int pass = 0; pass < passes; pass++) { 
-        outputFile.seekp(0); //we start from the beginning of the file each pass
-        size_t fileSize = file.length; //set the fileSize to be file size in bytes 
-        size_t currentSize = 0; //set currentSize to be zero to indicate the beginning of file
-        const size_t bufferSize = fileSize / 4; //set a bufferSize to be a quarter of original file size for memory efficiency
-        vector<char> buffer(bufferSize); //create a vector that uses the bufferSize
-
-        //wiping the file with random data with Mersenne Twister algorithm
-        while (currentSize != file.length) { //we write until we reach the original size of file
-            const size_t chunkSize = min(fileSize, bufferSize); //set chunkSize based on the minimum between the fileSize and bufferSize
-            outputFile.seekp(currentSize); //set the pointer for replacing bytes with the currentSize parameter to write in chunks
-            //generate random data
-            for (size_t i = 0; i < chunkSize; i++) {
-                if (File::isCanceled) { //if true we stop the file wipe
-                    outputFile.close(); //after we finish we close the file
-                    file.notify(); //notify all observers that we finished the task
-                    return; //finish the function if we need to cancel
+            //wiping the file with random data with Mersenne Twister algorithm
+            while (currentSize != file.length) { //we write until we reach the original size of file
+                const size_t chunkSize = min(fileSize, bufferSize); //set chunkSize based on the minimum between the fileSize and bufferSize
+                outputFile.seekp(currentSize); //set the pointer for replacing bytes with the currentSize parameter to write in chunks
+                //generate random data
+                for (size_t i = 0; i < chunkSize; i++) {
+                    if (File::isCanceled) { //if true we stop the file wipe
+                        outputFile.close(); //after we finish we close the file
+                        file.notify(); //notify all observers that we finished the task
+                        return; //finish the function if we need to cancel
+                    }
+                    buffer[i] = (unsigned char)(generator() & 0xFF); //generate a random byte and insert it into the buffer
                 }
-                buffer[i] = (unsigned char)(generator() & 0xFF); //generate a random byte and insert it into the buffer
+                outputFile.write(buffer.data(), chunkSize); //write buffer data to the file
+                outputFile.flush(); //flush the file 
+                currentSize += chunkSize; //add chunkSize to currentSize for indication and for the point where we need to write more data in next iteration
+                fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
             }
-            outputFile.write(buffer.data(), chunkSize); //write buffer data to the file
-            outputFile.flush(); //flush the file 
-            currentSize += chunkSize; //add chunkSize to currentSize for indication and for the point where we need to write more data in next iteration
-            fileSize -= chunkSize; //subtract chunkSize we wrote to file from the total fileSize
         }
     }
+    catch (const exception& e) { //catch exceptions that may be thrown
+        outputFile.close(); //after we finish, we close the file
+        file.notify(); //notify all observers that we finished the task
+        throw runtime_error(e.what()); //throw runtime error
+    }
+
     outputFile.close(); //after we finish we close the file
     if (toRemove) //if true we need to remove the file
         removeFile(file); //call removeFile function to remove the file
@@ -80,12 +90,12 @@ void File::WipeFile(const File& file, int passes, bool toRemove) {
 }
 
 
-/// <summary>
-/// Function that handles encryption/decryption on given file using custom AES library
-/// </summary>
-/// <param name="File file"></param>
-/// <param name="string key"></param>
-/// <param name="bool decrypt"></param>
+/**
+ * @brief Function that handles encryption/decryption on given file using custom AES library.
+ * @param File file
+ * @param string key
+ * @param bool decrypt
+ */
 void File::CipherFile(const File& file, const string& key, bool decrypt) {
     fstream outputFile(file.fullPath, ios::in | ios::out | ios::binary); //open the file in binary mode for reading and writing
 
@@ -108,14 +118,14 @@ void File::CipherFile(const File& file, const string& key, bool decrypt) {
         for (size_t i = 0; i < ivVec.size(); i++)
             ivVec[i] ^= keyVec[i]; //XOR between each byte
 
-        while (currentSize != file.length) { // Write until we reach the original size of the file
+        while (currentSize != file.length) { //we write until we reach the original size of the file
             const size_t chunkSize = min(fileSize, bufferSize); //set chunkSize based on the minimum between the fileSize and bufferSize
 
             //read asynchronously
             future<void> readFuture = async(launch::async, [&]() {
-                outputFile.seekg(currentSize);
-                vector<unsigned char> buffer(chunkSize);
-                outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize);
+                outputFile.seekg(currentSize); //set the pointer with the currentSize parameter to read in chunks
+                vector<unsigned char> buffer(chunkSize); //set the vector for operation
+                outputFile.read(reinterpret_cast<char*>(buffer.data()), chunkSize); //read file to buffer
 
                 if (!decrypt) //if true we encrypt file
                     buffer = AES::Encrypt_CTR(buffer, keyVec, ivVec); //we encrypt using AES CTR mode with given key and iv 
@@ -130,8 +140,8 @@ void File::CipherFile(const File& file, const string& key, bool decrypt) {
 
                 //write asynchronously
                 future<void> writeFuture = async(launch::async, [&]() {
-                    outputFile.seekp(currentSize);
-                    outputFile.write(reinterpret_cast<char*>(buffer.data()), chunkSize);
+                    outputFile.seekp(currentSize); //set the pointer with the currentSize parameter to write in chunks
+                    outputFile.write(reinterpret_cast<char*>(buffer.data()), chunkSize); //write buffer data to the file
                     outputFile.flush(); //flush the file 
                     });
 
@@ -153,4 +163,3 @@ void File::CipherFile(const File& file, const string& key, bool decrypt) {
     outputFile.close(); //after we finish, we close the file
     file.notify(); //notify all observers that we finished the task
 }
-

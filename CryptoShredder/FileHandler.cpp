@@ -1,6 +1,9 @@
 #include "FileHandler.h"
 
 
+/**
+ * @brief Constructor of class.
+ */
 FileHandler::FileHandler(const vector<string> filePathList, SignalProxy* signal) : Observer() {
 	this->fileDictionarySize = filePathList.size();; //set the size of the fileDictionaryList
 	this->signal = signal; //set the signal object for GUI update
@@ -17,6 +20,9 @@ FileHandler::FileHandler(const vector<string> filePathList, SignalProxy* signal)
 }
 
 
+/**
+ * @brief Destructor of class.
+ */
 FileHandler::~FileHandler() {
 	for (const auto& [fileName, file] : this->fileDictionary) { //we iterate over fileDictionary 
 		delete file; //delete each file that we finished wiping
@@ -24,9 +30,9 @@ FileHandler::~FileHandler() {
 }
 
 
-/// <summary>
-/// Method to initiate the file threads and start wipe process on given files
-/// </summary>
+/**
+ * @brief Method to initiate the file threads and start wipe process on given files.
+ */
 void FileHandler::initWipe(int passes, bool toRemove) {
 	this->wipe = true; //set the wipe flag to true
 	this->numOfThreads = this->fileDictionarySize; //set the numOfThreads value to size of dictionary
@@ -43,9 +49,9 @@ void FileHandler::initWipe(int passes, bool toRemove) {
 }
 
 
-/// <summary>
-/// Method to initiate the file threads and start cipher process on given files
-/// </summary>
+/**
+ * @brief Method to initiate the file threads and start cipher process on given files.
+ */
 void FileHandler::initCipher(const string& key, bool decrypt) {
 	this->decrypt = decrypt; //set decrypt flag 
 	this->numOfThreads = this->fileDictionarySize; //set the numOfThreads value to size of dictionary
@@ -62,10 +68,10 @@ void FileHandler::initCipher(const string& key, bool decrypt) {
 }
 
 
-/// <summary>
-/// Method of observer, responsible to notify the GUI when thread is finished it work
-/// </summary>
-/// <param name="observable"></param>
+/**
+ * @brief Method of observer, responsible to notify the GUI when thread is finished it work.
+ * @param Observable* observable
+ */
 void FileHandler::update(Observable* observable) {
 	this->threadMutex.lock(); //lock the mutex to prevent race conditions with threads
 	File* file = dynamic_cast<File*>(observable); //casting the Observable object to File object with dynamic_cast
@@ -91,9 +97,10 @@ void FileHandler::update(Observable* observable) {
 }
 
 
-/// <summary>
-/// Method to notify threads that user wants to stop process
-/// </summary>
+/**
+ * @brief Method to notify threads that user wants to stop process.
+ * @param Observable* observable
+ */
 void FileHandler::cancelProcess() {
 	if (!File::getIsCanceled())
 		File::setIsCanceled(true); //set the isCanceled flag to true
