@@ -28,7 +28,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>CryptoShredder General Information</string>
+   <string>General Information</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
@@ -88,12 +88,12 @@ QListView::item:selected {
      <number>4</number>
     </property>
     <property name="sizeConstraint">
-     <enum>QLayout::SetFixedSize</enum>
+     <enum>QLayout::SizeConstraint::SetFixedSize</enum>
     </property>
     <item>
      <spacer name="verticalSpacer">
       <property name="orientation">
-       <enum>Qt::Vertical</enum>
+       <enum>Qt::Orientation::Vertical</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
@@ -130,7 +130,7 @@ QListView::item:selected {
        </font>
       </property>
       <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
+       <enum>Qt::FocusPolicy::NoFocus</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">QTextBrowser {
@@ -141,8 +141,11 @@ QListView::item:selected {
       </property>
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;Introducing &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt;CryptoShredder&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;, a powerful tool designed with efficiency and user-friendliness in mind. &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt;CryptoShredder&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt; offers the capability to securely erase files, making data recovery virtually impossible. Additionally, it offers the capability to encrypt and decrypt files using&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt; AES-128&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt;AES-192&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;, and&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt; AES-256&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt;CryptoShredder&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt; has the ability to display each file in a separate window in &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt;Hexadecimal&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt;Binary&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;, and &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#f5f5f5;&quot;&gt;UTF-8&lt;/span&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt; formats. This allows you to inspect the contents of your files in detail before processing them.&lt;/span&gt;&lt;/p&gt;
@@ -150,14 +153,14 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#f5f5f5;&quot;&gt;For questions or feedback, &lt;/span&gt;&lt;a href=&quot;https://github.com/Shayhha/CryptoShredder&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0074d9;&quot;&gt;visit CryptoShredder on GitHub&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textInteractionFlags">
-       <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+       <set>Qt::TextInteractionFlag::LinksAccessibleByKeyboard|Qt::TextInteractionFlag::LinksAccessibleByMouse</set>
       </property>
       <property name="openExternalLinks">
        <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item alignment="Qt::AlignHCenter">
+    <item alignment="Qt::AlignmentFlag::AlignHCenter">
      <widget class="QPushButton" name="OKButton">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -181,7 +184,6 @@ p, li { white-space: pre-wrap; }
        <font>
         <family>Arial</family>
         <pointsize>12</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -189,10 +191,10 @@ p, li { white-space: pre-wrap; }
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="focusPolicy">
-       <enum>Qt::ClickFocus</enum>
+       <enum>Qt::FocusPolicy::ClickFocus</enum>
       </property>
       <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
+       <enum>Qt::LayoutDirection::LeftToRight</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
@@ -206,8 +208,8 @@ p, li { white-space: pre-wrap; }
 	padding: 4px;
 }
 
-QPushButton:hover {
-   background-color: #575965;
+QPushButton::hover {
+    background-color: #575965;
 	color: white;
     border-radius: 15px;
 	border-style: outset;
@@ -217,8 +219,8 @@ QPushButton:hover {
 	padding: 4px;
 }
 
-QPushButton:pressed {
-   background-color:#b1b9bb;
+QPushButton::pressed {
+    background-color:#b1b9bb;
 	color: white;
 }
 </string>

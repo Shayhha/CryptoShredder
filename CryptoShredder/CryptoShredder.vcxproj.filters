@@ -55,6 +55,9 @@
     <ClCompile Include="AES\AES.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CustomMessageBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="FileViewer.ui">
@@ -82,13 +85,13 @@
     <QtMoc Include="FileViewer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="ImageLabel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="InfoWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="SignalProxy.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CustomMessageBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

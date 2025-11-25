@@ -14,8 +14,17 @@ class Observable; //declaration for Observable class
  */
 class Observer {
 public:
-    virtual void update(Observable* observable, bool state = true) = 0; //method for observers to implement
+    /**
+	 * @brief Method that observers need to implement to get notified.
+	 * @param Observable* observable
+	 * @param bool state
+     */
+    virtual void Update(Observable* observable, bool state = true) = 0; //method for observers to implement
 
+
+    /**
+	 * @brief Destructor for Observer class.
+     */
     virtual ~Observer() {} //dtor for observer
 };
 
@@ -32,7 +41,7 @@ public:
      * @brief Method to add observers to observers list.
      * @param Observer* observer
      */
-    void addObserver(Observer* observer) { 
+    void AddObserver(Observer* observer) { 
         observersList.push_back(observer); //add the observer to the end of the vector 
     }
 
@@ -40,7 +49,7 @@ public:
      * @brief Method to remove observer from observers list.
      * @param Observer* observer
      */
-    void removeObserver(Observer* observer) {
+    void RemoveObserver(Observer* observer) {
         auto observerIt = find(observersList.begin(), observersList.end(), observer); //find the index of the object in vector and get its iterator 
         // If the observer was found, remove it from observers list
         if (observerIt != observersList.end()) {
@@ -50,15 +59,16 @@ public:
 
     /**
      * @brief Method for notifying the observers when needed.
+	 * @param bool state
      */
-    void notify(bool state = true) const {
+    void Notify(bool state = true) const {
         for (Observer* observer : observersList) {
-            observer->update(const_cast<Observable*>(this), state); //call update method for each observer
+            observer->Update(const_cast<Observable*>(this), state); //call update method for each observer
         }
     }
 
     /**
-     * @brief destructor for observable class.
+     * @brief Destructor for observable class.
      */
     virtual ~Observable() {} 
 };

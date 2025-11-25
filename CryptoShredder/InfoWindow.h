@@ -2,7 +2,6 @@
 #define _InfoWindow_H
 #define _CRT_SECURE_NO_WARNINGS
 #include <QtWidgets/QMainWindow>
-#include <QMessageBox>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -20,13 +19,14 @@ class InfoWindow : public QDialog {
 
 private:
     Ui::InfoWindow ui; //ui element for window
+	static InfoWindow* currentInstance; //InfoWindow object for info window
     InfoWindow(QWidget* parent); //constructor
     ~InfoWindow(); //destructor
     InfoWindow(const InfoWindow&) = delete; //prevent copy
+	void initUI(); //method for initializing the InfoWindow elements and slots
     void operator=(const InfoWindow&) = delete; //prevent assignment
-    static bool isInstance; //static bool instance flag for indication 
 
 public:
-    static InfoWindow* getInstance(QWidget* parent);
+    static InfoWindow* GetInstance(QWidget* parent);
 };
 #endif
