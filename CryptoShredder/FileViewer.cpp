@@ -148,8 +148,8 @@ void FileViewer::loadChunk() {
             //we use transform method to generate byte format for each value in buffer using lambda function
             transform(buffer.begin(), buffer.end(), binaryData.begin(), [](char c) { 
                 return QString::number(static_cast<unsigned char>(c), 2).rightJustified(8, '0'); });
-            QStringList binaryDataList = QStringList::fromVector(QVector<QString>::fromStdVector(binaryData)); //we creat a QStringList for saving the binary data 
-            data = binaryDataList.join(" ").trimmed();  //join the strings with spaces and remove the trailing space
+            QStringList binaryDataList = QStringList::fromVector(QVector<QString>(binaryData.begin(), binaryData.end())); //we create QStringList for saving the binary data 
+            data = binaryDataList.join(" ").trimmed(); //join the strings with spaces and remove the trailing space
         }
         //disconnect the scrollbar signal before appending text
         disconnect(scrollbar, &QScrollBar::valueChanged, this, &FileViewer::loadChunk);

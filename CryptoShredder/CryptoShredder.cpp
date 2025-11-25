@@ -2,6 +2,7 @@
 
 
 bool CryptoShredder::wipe = true; //set wipe flag to true by default
+bool CryptoShredder::isClosing = false; //set isClosing flag to false by default
 
 
 /**
@@ -13,9 +14,8 @@ CryptoShredder::CryptoShredder(QWidget* parent) : QMainWindow(parent) {
     ui.setupUi(this);
 
     //setup GUI elements at start of program//
-    ui.KeyLabel->setVisible(false); //hide KeyLabel
-    ui.KeyLineEdit->setVisible(false); //hide KeyLineEdit
-    ui.CipherCheckBox->setVisible(false); //hide CipherCheckBox
+    ui.cipherFrame->setVisible(false); //hide cipherFrame and contents
+    ui.wipeFrame->setVisible(true); //show wipeFrame and contents
     this->listViewModel = new QStringListModel(); //initialize the model for listView in GUI
     this->signal = new SignalProxy(); //initialize the signal proxy for the foreigner classes
     this->infoImageLabel = new ImageLabel("images/infoIcon.png", QPoint(1020, 10), QSize(40, 40), this); //set the info icon in GUI
@@ -55,6 +55,26 @@ CryptoShredder::~CryptoShredder() {
     delete this->signal; //delete the signal object
     delete this->infoImageLabel; //delete the infoImageLabel object
     delete this->optionsImageLabel; //delete the optionsImageLabel object
+}
+
+
+/**
+ * @brief Method for exiting program securely and managing threads correctly.
+ * @param QCloseEvent* event
+ */
+void CryptoShredder::closeEvent(QCloseEvent* event) {
+    if (this->fileHandler && this->isClosing) { //if user already chose to cancel the process
+        this->showMessageBox("Canceling Process", "Please wait for current process to cancel before closing the program.", "information"); //show messagebox
+        this->isClosing = false; //set isClosing flag back to false
+        event->ignore(); //ignore the closing event 
+    }
+    else if (this->fileHandler) { //if exiting and threads still running
+        this->cancelProcess(); //call cancelProcess method
+        this->isClosing = true; //set isClosing flag to true
+        event->ignore(); //ignore the closing event
+    }
+    else //else there are no threads running
+        event->accept(); //accept the closing event 
 }
 
 
@@ -104,18 +124,35 @@ void CryptoShredder::checkThreads() {
             this->fileCounter = 0; //set the fileCounter back to zero
             delete this->fileHandler; //delete fileHandler object
             this->fileHandler = NULL; //set pointer of fileHandler to NULL for next operation
-            if (File::getIsCanceled()) { //if true user canceled the operation
-                File::setIsCanceled(false); //set the isCanceled flag back to false
-                if (this->wipe) //if we're wiping
-                    this->showMessageBox("Wipe Canceled", "Secure wiping for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
-                else { //else we encrypt/decrypt
-                    if (!ui.CipherCheckBox->isChecked()) //if true we show messagebox for encryption
-                        this->showMessageBox("Encryption Canceled", "Secure encryption for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
-                    else //else we show messagebox for decryption
-                        this->showMessageBox("Decryption Canceled", "Secure decryption for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
+            if (File::getIsCanceled()) { //if user canceled the operation
+                if (this->isClosing) { // if user wants to close program
+                    this->isClosing = false; //set isClosing flag to false
+                    this->close(); //call close method to close program
+                }
+                else { //else user didn't want to close program, we show messagebox and continue
+                    File::setIsCanceled(false); //set the isCanceled flag back to false
+                    if (this->wipe) //if we're wiping
+                        this->showMessageBox("Wipe Canceled", "Secure wiping for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
+                    else { //else we encrypt/decrypt
+                        if (!ui.CipherCheckBox->isChecked()) //if true we show messagebox for encryption
+                            this->showMessageBox("Encryption Canceled", "Secure encryption for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
+                        else //else we show messagebox for decryption
+                            this->showMessageBox("Decryption Canceled", "Secure decryption for selected files has been canceled, files that were in process were canceled.", "information"); //show messagebox
+                    }
                 }
             }
-            else { //else we finished the operation
+            else if (File::getIsFailed()) { //else if one of threads failed operation
+                File::setIsFailed(false); //set the isFailed flag back to false
+                if (this->wipe) //if we're wiping
+                    this->showMessageBox("Wipe Failed", "Secure wiping has failed for one or more selected files.", "critical"); //show messagebox
+                else { //else we encrypt/decrypt
+                    if (!ui.CipherCheckBox->isChecked()) //if true we show messagebox for encryption
+                        this->showMessageBox("Encryption Failed", "Secure encryption has failed for one or more selected files.", "critical"); //show messagebox
+                    else //else we show messagebox for decryption
+                        this->showMessageBox("Decryption Failed", "Secure decryption has failed for one or more selected files.", "critical"); //show messagebox
+                }
+            }
+            else { //else we finished the operation successfully
                 if (this->wipe) //if we're wiping
                     this->showMessageBox("Wipe Finished", "Secure wiping for selected files completed successfully.", "information"); //show messagebox with success message
                 else { //else we encrypt/decrypt
@@ -188,18 +225,12 @@ QMessageBox::StandardButton CryptoShredder::showMessageBox(const QString& title,
 void CryptoShredder::processFiles() {
     if (this->fileHandler == NULL && !(this->fileDictionary.empty())) { //if true we can start the wipe
         QMessageBox::StandardButton choice;
-        if (this->wipe) //if we're wiping
-            choice = showMessageBox("Starting File Wiping", "Please be aware that all data in the selected files will be permanently erased and cannot be recovered. Are you sure you want to proceed?", "question");
-        else { //else we encrypt/decrypt
-            if (!ui.CipherCheckBox->isChecked()) //if true we show messagebox for encryption
-                choice = showMessageBox("Starting File Encryption", "Please be aware that all data in the selected files will be encrypted with the specified key, this means the original data will be transformed and can only be accessed with the correct key. Are you sure you want to proceed?", "question");
-            else //else we show messagebox for decryption
-                choice = showMessageBox("Starting File Decryption", "Please be aware that all data in the selected files will be decrypted with the specified key, if given key isn't correct key used to encrypt files then the recovered data might not represent the original data. Are you sure you want to proceed?", "question");
-        }
-        if (choice == QMessageBox::No) //if user chose "No" we do not start the wiping process
-            return; //finish the method's work
-
         if (this->wipe) { //if wipe flag is set we're wiping the files
+            choice = showMessageBox("Starting File Wiping", "Please be aware that all data in the selected files will be permanently erased and cannot be recovered. Are you sure you want to proceed?", "question");
+            if (choice == QMessageBox::No) //if user chose "No" we do not start the wiping process
+                return; //finish the method's work
+
+            //initialize fileHandler and start wiping process
             this->fileHandler = new FileHandler(this->filePathList, this->signal); //initialize the fileHandler with the required parameters
             if (this->fileHandler) { //check if we successfully initialized the fileHandler
                 int numOfPasses = ui.PassesSpinBox->value(); //get number of passes from GUI
@@ -215,14 +246,24 @@ void CryptoShredder::processFiles() {
         }
         else { //else we encrypt/decrypt the files
             string key = ui.KeyLineEdit->text().toStdString(); //get the key from GUI
+            //check if given key is valid and show an error message if not
             if (key.length() == 0) {
-                this->showMessageBox("Invalid key", "Error, The key field must not be left empty. Please provide a key that matches AES requirements, accepted key lengths include 16, 24 or 32 characters.", "critical");
+                this->showMessageBox("Invalid key", "Error, The key field cannot be empty. Please provide vaild key that matches AES requirements, accepted key lengths include 16, 24 or 32 characters.", "critical");
                 return; //stop the method
             }
-            else if (key.length() != 16 && key.length() != 24 && key.length() != 32) { //if true the key is invalid so we show error
-                this->showMessageBox("Invalid key", "Error, Please provide a key that matches AES requirements, accepted key lengths include 16, 24 or 32 characters.", "critical");
+            else if (key.length() != 16 && key.length() != 24 && key.length() != 32) {
+                this->showMessageBox("Invalid key", "Error, Please provide valid key that matches AES requirements, accepted key lengths include 16, 24 or 32 characters.", "critical");
                 return; //stop the method
             }
+
+            if (!ui.CipherCheckBox->isChecked()) //if true we show messagebox for encryption
+                choice = showMessageBox("Starting File Encryption", "Please be aware that all data in the selected files will be encrypted with the specified key, this means the original data will be transformed and can only be accessed with the correct key. Are you sure you want to proceed?", "question");
+            else //else we show messagebox for decryption
+                choice = showMessageBox("Starting File Decryption", "Please be aware that all data in the selected files will be decrypted with the specified key, if given key isn't correct key used to encrypt files then the recovered data might not represent the original data. Are you sure you want to proceed?", "question");
+            if (choice == QMessageBox::No) //if user chose "No" we do not start theencryption/decryption process
+                return; //finish the method's work
+
+            //initialize fileHandler and start encryption/decryption process
             this->fileHandler = new FileHandler(this->filePathList, this->signal); //initialize the fileHandler with the required parameters
             if (this->fileHandler) { //check if we successfully initialized the fileHandler
                 bool decrypt = ui.CipherCheckBox->isChecked(); //get state of decrypt checkbox from GUI
@@ -286,7 +327,7 @@ void CryptoShredder::openFileDialog() {
                 this->setListViewTags(" - Finished", " - Encrypted Successfully"); //set previous files tags that were encrypted to finished 
                 this->setListViewTags(" - Finished", " - Decrypted Successfully"); //set previous files tags that were decrypted to finished 
                 MaxNumOfFiles = 10; //set max number of files to 10
-                MaxFileSize = 6LL * 1024LL * 1024LL; // set max file size to 6MB
+                MaxFileSize = 20LL * 1024LL * 1024LL; // set max file size to 20MB
             }
             for (const QString& filePath : selectedFiles) { //we process the selected file paths
                 QFileInfo fileInfo(filePath); //get info about the file
@@ -464,35 +505,25 @@ void CryptoShredder::optionsLabelClicked() {
         if (!this->wipe) { //if true we change to wipe mode
             this->optionsImageLabel->setNewImage("images/cipherIcon.png", "Encrypt/Decrypt files."); //set optionsImageLabel
             ui.TitleIconLabel->setPixmap(QPixmap("images/wipeIcon.png")); //set TitleIconLabel
-            ui.KeyLabel->setVisible(false); //set KeyLabel to be invisible
-            ui.KeyLineEdit->setVisible(false); //set KeyLineEdit to be invisible
-            ui.CipherCheckBox->setVisible(false); //set CipherCheckBox to be invisible
-            ui.CipherCheckBox->setChecked(false); //set CipherCheckBox to be invisible
+            ui.CipherCheckBox->setChecked(false); //reset CipherCheckBox state
             ui.KeyLineEdit->clear(); //clear KeyLineEdit
             ui.KeyLineEdit->clearFocus(); //clear KeyLineEdit focus
-            ui.NumberOfPassesLabel->setVisible(true); //set NumberOfPassesLabel to be visible
-            ui.PassesSpinBox->setVisible(true); //set PassesSpinBox to be visible
-            ui.SpinBoxFrame->setVisible(true); //set SpinBoxFrame to be visible
-            ui.RemoveFilesCheckBox->setVisible(true); //set RemoveFilesCheckBox to be visible
+            ui.cipherFrame->setVisible(false); //hide cipherFrame and its contents
+            ui.wipeFrame->setVisible(true); //show wipeFrame and its contents
             ui.TopLabel->setText("Files Scheduled For Wipe"); //set TopLabel
             ui.ProcessButton->setText("Wipe Files"); //set ProcessButton
             ui.ChooseFilesButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Choose files, maximum 20 files.</span></p></body></html>");
             ui.ProcessButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Start secure wipe on selected files.</span></p></body></html>");
             this->clearContents(); //clear current contents
-            this->wipe = true; //set wipe flag to indicate wipe mode 
+            this->wipe = true; //set wipe flag to indicate wipe mode
         }
         else { //else we change to enryption/decryption mode
             this->optionsImageLabel->setNewImage("images/wipeIcon.png", "Wipe files.");
             ui.TitleIconLabel->setPixmap(QPixmap("images/cipherIcon.png"));
-            ui.NumberOfPassesLabel->setVisible(false); //set NumberOfPassesLabel to be invisible
-            ui.PassesSpinBox->setVisible(false); //set PassesSpinBox to be invisible
-            ui.SpinBoxFrame->setVisible(false); //set SpinBoxFrame to be invisible
-            ui.PassesSpinBox->setValue(1); //set PassesSpinBox value back to 1
-            ui.RemoveFilesCheckBox->setVisible(false); //set RemoveFileCheckBox to be invisible
-            ui.RemoveFilesCheckBox->setChecked(false);//set RemoveFileCheckBox to false 
-            ui.KeyLabel->setVisible(true); //set KeyLabel to be visible
-            ui.KeyLineEdit->setVisible(true); //set KeyLineEdit to be visible
-            ui.CipherCheckBox->setVisible(true); //set CipherCheckBox to be visible
+            ui.PassesSpinBox->setValue(1); //reset PassesSpinBox state
+            ui.RemoveFilesCheckBox->setChecked(false);//reset RemoveFileCheckBox state
+            ui.wipeFrame->setVisible(false); //hide wipeFrame and contents
+            ui.cipherFrame->setVisible(true); //show cipherFrame and its contents
             this->cipherCheckBoxClicked(); //set GUI elements
             ui.ChooseFilesButton->setToolTip("<html><head/><body><p><span style='font-size:10pt;'>Choose files, maximum 10 files.</span></p></body></html>");
             this->clearContents(); //clear current contents

@@ -5,7 +5,7 @@
  * @brief Constructor of class.
  */
 FileHandler::FileHandler(const vector<string> filePathList, SignalProxy* signal) : Observer() {
-	this->fileDictionarySize = filePathList.size();; //set the size of the fileDictionaryList
+	this->fileDictionarySize = filePathList.size(); //set the size of the fileDictionaryList
 	this->signal = signal; //set the signal object for GUI update
 	try {
 		for (int i = 0; i < this->fileDictionarySize; i++) { //iterate over filePathList and file Dictionary
@@ -72,24 +72,28 @@ void FileHandler::initCipher(const string& key, bool decrypt) {
  * @brief Method of observer, responsible to notify the GUI when thread is finished it work.
  * @param Observable* observable
  */
-void FileHandler::update(Observable* observable) {
+void FileHandler::update(Observable* observable, bool state) {
 	this->threadMutex.lock(); //lock the mutex to prevent race conditions with threads
 	File* file = dynamic_cast<File*>(observable); //casting the Observable object to File object with dynamic_cast
 	if (file) { //if cast was successful we emit the signal
 		string fileName = File::ToString(file->getFullName()); //get file name from file object
 		fileName = (fileName.size() > 34) ? File::ToString(file->getName()).substr(0, 30) + "..." + File::ToString(file->getExtention()) : fileName; //we check fileName length and adjust its length accordingly
-		if (!File::getIsCanceled()) { //if true we emit success message
-			if(this->wipe) //if wipe flag is true we emit a signal that wipe has finished
-				this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Wiped Successfully"); //emit a signal to GUI to indicate that file has been wiped
-			else { //else we're encrypting/decrypting
-				if(!this->decrypt) //if true we emit a signal that encryption has finished
-					this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Encrypted Successfully"); //emit a signal to GUI to indicate that file has been encrypted
-				else //else we emit a signal that decryption has finished
-					this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Decrypted Successfully"); //emit a signal to GUI to indicate that file has been decrypted
+		if (state) { //if operation was successful
+			if (!File::getIsCanceled()) { //if true we emit success message
+				if (this->wipe) //if wipe flag is true we emit a signal that wipe has finished
+					this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Wiped Successfully"); //emit a signal to GUI to indicate that file has been wiped
+				else { //else we're encrypting/decrypting
+					if (!this->decrypt) //if true we emit a signal that encryption has finished
+						this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Encrypted Successfully"); //emit a signal to GUI to indicate that file has been encrypted
+					else //else we emit a signal that decryption has finished
+						this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Decrypted Successfully"); //emit a signal to GUI to indicate that file has been decrypted
+				}
 			}
+			else //else we emit cancel message
+				this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Canceled"); //emit a signal to GUI to indicate that wipe canceled on file
 		}
-		else //else we emit cancel message
-			this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Canceled"); //emit a signal to GUI to indicate that wipe canceled on file
+		else //else operation failed
+			this->signal->sendSignalUpdateListView(File::ToString(file->getFullName()), fileName, " - Failed"); //emit a signal to GUI to indicate that we failed perofrming operation
 	}
 	else //else cast failed 
 		this->signal->sendSignalMessageBox("Error", "Thread: Failed to update GUI", "critical"); //we emit signal to show messagebox with error

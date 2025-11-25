@@ -32,7 +32,7 @@ public:
 	virtual ~FileHandler();
 	void initWipe(int passes = 1, bool toRemove = false);
 	void initCipher(const string& key, bool decrypt = false);
-	void update(Observable* observable) override;
+	void update(Observable* observable, bool state = true) override;
 	void cancelProcess();
 	bool areThreadsRunning() { return this->threadsRunning; }
 	int getNumOfThreads() { return this->numOfThreads; }

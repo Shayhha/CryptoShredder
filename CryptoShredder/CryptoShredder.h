@@ -23,6 +23,7 @@ class CryptoShredder : public QMainWindow {
 private:
     Ui::CryptoShredder ui; //ui element for GUI
     static bool wipe; //flag for indication operation mode, if true we wipe, else we encrypt/decrypt
+    static bool isClosing; //flag for indicating that program is about to close
     QStringListModel* listViewModel = NULL; //model for listView
     QRegExpValidator* keyValidator = NULL; //regular expression validator for KeyLineEdit
     FileHandler* fileHandler = NULL; //shredder object for wipe
@@ -42,6 +43,7 @@ public:
     ~CryptoShredder();
 
 private slots: //here we declare the slot methods
+    void closeEvent(QCloseEvent* event) override;
     void processFiles();
     void cancelProcess();
     void openFileDialog();

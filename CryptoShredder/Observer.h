@@ -14,7 +14,7 @@ class Observable; //declaration for Observable class
  */
 class Observer {
 public:
-    virtual void update(Observable* observable) = 0; //method for observers to implement
+    virtual void update(Observable* observable, bool state = true) = 0; //method for observers to implement
 
     virtual ~Observer() {} //dtor for observer
 };
@@ -51,9 +51,9 @@ public:
     /**
      * @brief Method for notifying the observers when needed.
      */
-    void notify() const {
+    void notify(bool state = true) const {
         for (Observer* observer : observersList) {
-            observer->update(const_cast<Observable*>(this)); //call update method for each observer
+            observer->update(const_cast<Observable*>(this), state); //call update method for each observer
         }
     }
 
